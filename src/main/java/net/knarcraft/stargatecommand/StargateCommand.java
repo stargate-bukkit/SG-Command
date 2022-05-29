@@ -21,9 +21,9 @@ public class StargateCommand extends JavaPlugin {
         RegisteredServiceProvider<StargateAPI> stargateProvider = servicesManager.getRegistration(StargateAPI.class);
         if (stargateProvider != null) {
             StargateAPI stargateAPI = stargateProvider.getProvider();
-            
+
             //Register commands
-            PluginCommand stargateCommand = this.getCommand("stargatecommand");
+            PluginCommand stargateCommand = this.getCommand("stargateCommand");
             if (stargateCommand != null) {
                 stargateCommand.setExecutor(new CommandStarGateCommand(stargateAPI));
                 stargateCommand.setTabCompleter(new StargateCommandTabCompleter());
@@ -38,5 +38,5 @@ public class StargateCommand extends JavaPlugin {
     public void onDisable() {
         //Currently, nothing needs to be disabled
     }
-    
+
 }

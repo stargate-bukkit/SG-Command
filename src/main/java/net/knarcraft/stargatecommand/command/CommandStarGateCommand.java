@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
  * This command represents any command which starts with stargate-command (sgc)
  */
 public class CommandStarGateCommand implements CommandExecutor {
-    
-    private StargateAPI stargateAPI;
-    
+
+    private final StargateAPI stargateAPI;
+
     public CommandStarGateCommand(StargateAPI stargateAPI) {
         this.stargateAPI = stargateAPI;
     }

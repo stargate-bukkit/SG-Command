@@ -46,5 +46,5 @@ public class StargateCommandTabCompleter implements TabCompleter {
         }
         return commands;
     }
-    
+
 }

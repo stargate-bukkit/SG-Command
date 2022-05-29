@@ -17,17 +17,17 @@ import java.util.Arrays;
  * This command represents the config command for changing config values
  */
 public class CommandConfig implements CommandExecutor {
-    
+
     private final ConfigurationAPI configurationAPI;
 
     /**
      * Instantiates a new instance of the config command
-     * 
+     *
      * @param configurationAPI <p>A reference to the Stargate API</p>
      */
     public CommandConfig(ConfigurationAPI configurationAPI) {
         super();
-        
+
         this.configurationAPI = configurationAPI;
     }
 
@@ -95,10 +95,10 @@ public class CommandConfig implements CommandExecutor {
                 }
             }
         }
-        
-        /* Test any option data type with a defined set of values. 
+
+        /* Test any option data type with a defined set of values.
          * Color is excluded as it has a near-infinite number of valid values. */
-        if (optionDataType != OptionDataType.COLOR && optionDataType.getValues() != null && 
+        if (optionDataType != OptionDataType.COLOR && optionDataType.getValues() != null &&
                 optionDataType.getValues().length > 0) {
             if (!checkIfValueMatchesDatatype(optionDataType, value, commandSender)) {
                 return;
@@ -111,15 +111,15 @@ public class CommandConfig implements CommandExecutor {
 
     /**
      * Checks if the given value is valid for the given option data type and warns if it isn't
-     * 
-     * @param dataType <p>The expected type for the value</p>
-     * @param value <p>The value to check</p>
+     *
+     * @param dataType      <p>The expected type for the value</p>
+     * @param value         <p>The value to check</p>
      * @param commandSender <p>The command sender to warn about invalid values</p>
      * @return <p>True if the given value is valid for the option data type</p>
      */
     private boolean checkIfValueMatchesDatatype(OptionDataType dataType, String value, CommandSender commandSender) {
         if (!matchesOptionDataType(dataType, value)) {
-            commandSender.sendMessage(String.format("Invalid %s given", 
+            commandSender.sendMessage(String.format("Invalid %s given",
                     dataType.name().toLowerCase().replace('_', ' ')));
             return false;
         } else {
@@ -129,9 +129,9 @@ public class CommandConfig implements CommandExecutor {
 
     /**
      * Checks if the given value is valid for the given option data type
-     * 
+     *
      * @param dataType <p>The expected type for the value</p>
-     * @param value <p>The value to check</p>
+     * @param value    <p>The value to check</p>
      * @return <p>True if the given value is valid for the option data type</p>
      */
     private boolean matchesOptionDataType(OptionDataType dataType, String value) {
@@ -141,7 +141,7 @@ public class CommandConfig implements CommandExecutor {
     /**
      * Saves the configuration file and reloads
      *
-     * @param commandSender  <p>The command sender that executed the config command</p>
+     * @param commandSender <p>The command sender that executed the config command</p>
      */
     private void saveAndReload(CommandSender commandSender) {
         configurationAPI.saveConfiguration();
@@ -216,7 +216,7 @@ public class CommandConfig implements CommandExecutor {
      */
     private void displayConfigValues(CommandSender sender) {
         sender.sendMessage(ChatColor.GREEN + "Stargate" + ChatColor.GOLD + "Config values:");
-        
+
         for (ConfigurationOption option : ConfigurationOption.values()) {
             sender.sendMessage(getOptionDescription(option));
         }

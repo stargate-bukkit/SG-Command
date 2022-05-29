@@ -82,7 +82,7 @@ public class ConfigTabCompleter implements TabCompleter {
                     return new ArrayList<>();
                 }
         }
-        
+
         if (selectedOption.getDataType() == OptionDataType.COLOR) {
             return filterMatching(chatColors, typedText);
         }
