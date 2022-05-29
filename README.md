@@ -1,47 +1,24 @@
-> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
->  THIS ADDON IS A **WORK IN PROGRESS**.<br>DO __**NOT**__ USE IT ON PRODUCTION INSTANCES<br><br>
->                              No stable releases are available at this time.<br>
-> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
-
-
 > Please visit [our discord](https://discord.gg/mTaHuK6BVa) for all updates and support!
 
 # Description
-StargateCommand is an addon for Stargate that allows users to interact with Stargate with commands.
+Stargate-Command is an addon for Stargate which adds additional useful commands to the vanilla Stargate experience.
 
 #### Features:
-[Still being determined](https://github.com/stargate-rewritten/SG-Command/issues)
-- sg dial
-  - Specifies your destination for networked gates.
-- sg visualiser
-  - Maps a network in a text-based tree format or possibly a gui
-- sg config
-  - Modify various config values in-game
-- sg api
-  - Perform a function from the stargate API in-game.
+* The ability to edit the config file through commands, and automated reloading of changed values
 
 ## Dependencies
-[The most recent version of Stargate](https://www.spigotmc.org/resources/stargate.87978/)
+[The most recent version of Stargate (> 1.0.0.4)](https://www.spigotmc.org/resources/stargate.87978/)
 
 # Permissions
 
 ### Nodes
 ```
-sg.command.node [NOT IMPLEMENTED
-  sg.command.node.subnode
+stargate.command.config - Gives access to the `/sgc config` command
 ```
-### Defaults  
-```
-sg.command.node -- OP
-```
-
-## Instructions
-Not yet available.
-
-## Configuration
-Not yet available.
 
 # Changes
+[Version 0.1.0]
+- Full takeover removing old functionality, and, for now, replacing it with config editing
 [Version 0.0.4]
  - Fix for Bukkit's direction fix
 [Version 0.0.3]

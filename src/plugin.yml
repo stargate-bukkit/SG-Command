@@ -1,37 +1,18 @@
 name: StargateCommand
-main: net.TheDgtl.StargateCommand.StargateCommand
-version: 0.0.4
+main: net.knarcraft.stargatecommand.StargateCommand
+version: 0.1.0
 description: Command addon for the Stargate plugin for Bukkit
-author: Drakia
+author: EpicKnarvik97
 depend: [Stargate]
-website: https://discord.gg/mTaHuK6BVa
 commands:
-  sgc:
-    description: StargateCommand import/export/owner commands.
+  stargatecommand:
+    aliases: 
+      - sgc
+    description: The root command for all added commands
     usage: |
-      /<command> <import/export/cancel> <gate> [force]
-      Type: "/<command> import" for help with import
-      Type: "/<command> export" for help with export
-      Type: "/<command> cancel" to cancel any pending SGC action
-      /<command> owner <player>
-  dial:
-    description: Dial a stargate
-    usage: |
-      /<command> <destination>
-      /<command> <source> <destination> [network]
+    /<command> <config/?>
+    /<command> config <config option> <new value>
 permissions:
-  stargate.command.owner:
-    description: Allow the user of /sgc owner
-    default: op
-  stargate.command.import:
-    description: Allow the use of /sgc import
-    default: op
-  stargate.command.export:
-    description: Allow the use of /sgc export
-    default: op
-  stargate.command.dial:
-    description: Allow the use of /dial
-    default: true
-    children:
-      stargate.command.dial.interactive: true
-      stargate.command.dial.direct: false
+  stargate.command.config:
+    description: Allow the user of /sgc config
+    default: false
