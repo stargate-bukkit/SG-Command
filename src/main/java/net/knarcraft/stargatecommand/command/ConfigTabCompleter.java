@@ -16,10 +16,20 @@ import java.util.List;
  */
 public class ConfigTabCompleter implements TabCompleter {
 
+    private final List<ConfigurationOption> bannedConfigOptions;
     private List<String> booleans;
     private List<String> integers;
     private List<String> chatColors;
     private List<String> doubles;
+
+    /**
+     * Instantiates a new config tab completer
+     *
+     * @param bannedConfigOptions <p>A list of config options that shouldn't be available</p>
+     */
+    public ConfigTabCompleter(List<ConfigurationOption> bannedConfigOptions) {
+        this.bannedConfigOptions = bannedConfigOptions;
+    }
 
     @Nullable
     @Override
@@ -32,6 +42,9 @@ public class ConfigTabCompleter implements TabCompleter {
             ConfigurationOption selectedOption;
             try {
                 selectedOption = ConfigurationOption.valueOf(args[0].toUpperCase());
+                if (bannedConfigOptions.contains(selectedOption)) {
+                    return new ArrayList<>();
+                }
             } catch (IllegalArgumentException exception) {
                 return new ArrayList<>();
             }
@@ -39,7 +52,9 @@ public class ConfigTabCompleter implements TabCompleter {
         } else {
             List<String> configOptionNames = new ArrayList<>();
             for (ConfigurationOption option : ConfigurationOption.values()) {
-                configOptionNames.add(option.name());
+                if (!bannedConfigOptions.contains(option)) {
+                    configOptionNames.add(option.name());
+                }
             }
             return filterMatching(configOptionNames, args[0]);
         }

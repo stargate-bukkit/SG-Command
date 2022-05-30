@@ -3,11 +3,11 @@ main: net.knarcraft.stargatecommand.StargateCommand
 version: 0.1.0
 description: Command addon for the Stargate plugin for Bukkit
 author: EpicKnarvik97
-depend: [Stargate]
+depend: [ Stargate ]
 api-version: 1.18
 commands:
   stargatecommand:
-    aliases: 
+    aliases:
       - sgc
     description: The root command for all added commands
     usage: |

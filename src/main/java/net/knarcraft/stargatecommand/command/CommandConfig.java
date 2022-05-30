@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This command represents the config command for changing config values
@@ -19,16 +20,19 @@ import java.util.Arrays;
 public class CommandConfig implements CommandExecutor {
 
     private final ConfigurationAPI configurationAPI;
+    private final List<ConfigurationOption> bannedConfigOptions;
 
     /**
      * Instantiates a new instance of the config command
      *
-     * @param configurationAPI <p>A reference to the Stargate API</p>
+     * @param configurationAPI    <p>A reference to the Stargate API</p>
+     * @param bannedConfigOptions <p>A list of config options that shouldn't be available</p>
      */
-    public CommandConfig(ConfigurationAPI configurationAPI) {
+    public CommandConfig(ConfigurationAPI configurationAPI, List<ConfigurationOption> bannedConfigOptions) {
         super();
 
         this.configurationAPI = configurationAPI;
+        this.bannedConfigOptions = bannedConfigOptions;
     }
 
     @Override
@@ -45,6 +49,9 @@ public class CommandConfig implements CommandExecutor {
             ConfigurationOption selectedOption;
             try {
                 selectedOption = ConfigurationOption.valueOf(args[0].toUpperCase());
+                if (bannedConfigOptions.contains(selectedOption)) {
+                    return true;
+                }
             } catch (IllegalArgumentException exception) {
                 commandSender.sendMessage("Invalid configuration option specified");
                 return true;
@@ -215,10 +222,12 @@ public class CommandConfig implements CommandExecutor {
      * @param sender <p>The command sender to display the config list to</p>
      */
     private void displayConfigValues(CommandSender sender) {
-        sender.sendMessage(ChatColor.GREEN + "Stargate" + ChatColor.GOLD + "Config values:");
+        sender.sendMessage(ChatColor.GREEN + "Stargate " + ChatColor.GOLD + "Config values:");
 
         for (ConfigurationOption option : ConfigurationOption.values()) {
-            sender.sendMessage(getOptionDescription(option));
+            if (!bannedConfigOptions.contains(option)) {
+                sender.sendMessage(getOptionDescription(option));
+            }
         }
     }
 
