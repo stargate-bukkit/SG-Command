@@ -85,17 +85,18 @@ public class ConfigTabCompleter implements TabCompleter {
      * @return <p>Some or all of the valid values for the option</p>
      */
     private List<String> getPossibleOptionValues(ConfigurationOption selectedOption, String typedText) {
-        switch (selectedOption) {
-            case LANGUAGE:
-                //Return available languages
-                return filterMatching(List.of(OptionDataType.LANGUAGE.getValues()), typedText);
-            case DEFAULT_NETWORK:
-                //Just return the default value as most values should be possible
-                if (typedText.trim().isEmpty()) {
-                    return putStringInList((String) selectedOption.getDefaultValue());
-                } else {
-                    return new ArrayList<>();
-                }
+        String[] availableValues = selectedOption.getDataType().getValues();
+        if (availableValues != null && availableValues.length > 0) {
+            return filterMatching(List.of(availableValues), typedText);
+        }
+
+        //Just return the default value as most values should be possible
+        if (selectedOption == ConfigurationOption.DEFAULT_NETWORK) {
+            if (typedText.trim().isEmpty()) {
+                return putStringInList((String) selectedOption.getDefaultValue());
+            } else {
+                return new ArrayList<>();
+            }
         }
 
         if (selectedOption.getDataType() == OptionDataType.COLOR) {

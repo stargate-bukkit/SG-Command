@@ -88,19 +88,28 @@ public class CommandConfig implements CommandExecutor {
             }
         }
         OptionDataType optionDataType = selectedOption.getDataType();
+        Object typeCastedValue;
 
         //Validate the input based on the data type
         switch (optionDataType) {
             case INTEGER -> {
-                if (getInteger(commandSender, selectedOption, value) == null) {
+                Integer intValue = getInteger(commandSender, selectedOption, value);
+                if (intValue == null) {
                     return;
+                } else {
+                    typeCastedValue = intValue;
                 }
             }
             case DOUBLE -> {
-                if (getDouble(commandSender, selectedOption, value) == null) {
+                Double doubleValue = getDouble(commandSender, selectedOption, value);
+                if (doubleValue == null) {
                     return;
+                } else {
+                    typeCastedValue = doubleValue;
                 }
             }
+            case BOOLEAN -> typeCastedValue = Boolean.parseBoolean(value);
+            default -> typeCastedValue = value;
         }
 
         /* Test any option data type with a defined set of values.
@@ -112,7 +121,7 @@ public class CommandConfig implements CommandExecutor {
             }
         }
 
-        configurationAPI.setConfigurationOptionValue(selectedOption, value);
+        configurationAPI.setConfigurationOptionValue(selectedOption, typeCastedValue);
         saveAndReload(commandSender);
     }
 
