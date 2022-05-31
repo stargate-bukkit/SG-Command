@@ -20,6 +20,7 @@ Stargate-Command is an addon for Stargate which adds additional useful commands 
 ```
 stargate.command.config - Gives access to the `/sgc config` command
 stargate.command.dial - Gives access to the `/sgc dial` command
+stargate.command.visualizer- Gives access to the `/sgc visualizer` command
 ```
 
 # Changes

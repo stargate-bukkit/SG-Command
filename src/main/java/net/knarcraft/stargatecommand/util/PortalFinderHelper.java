@@ -10,7 +10,11 @@ import org.bukkit.util.Vector;
 /**
  * A helper class for helping with finding portals in the world
  */
-public class PortalFinderHelper {
+public final class PortalFinderHelper {
+
+    private PortalFinderHelper() {
+
+    }
 
     /**
      * Find the portal a living entity is looking at using a single traced ray

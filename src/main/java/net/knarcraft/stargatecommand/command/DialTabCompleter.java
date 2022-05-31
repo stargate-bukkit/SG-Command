@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatching;
+
 /**
  * A tab completer for the /sgc dial command
  */
@@ -56,12 +58,12 @@ public class DialTabCompleter implements TabCompleter {
         if (args.length > 1) {
             Network network = registryAPI.getNetwork(args[0], false);
             if (network != null && availablePortals.containsKey(network)) {
-                return availablePortals.get(network);
+                return filterMatching(availablePortals.get(network), args[1]);
             } else {
                 return new ArrayList<>();
             }
         } else {
-            return availableNetworks;
+            return filterMatching(availableNetworks, args[0]);
         }
     }
 

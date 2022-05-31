@@ -37,6 +37,10 @@ public class CommandDial implements CommandExecutor {
             commandSender.sendMessage("This command can only be used by players");
             return true;
         }
+        if (!player.hasPermission("stargate.command.dial")) {
+            player.sendMessage("Permission Denied");
+            return true;
+        }
 
         if (args.length < 2) {
             player.sendMessage("You need to provide a network name and a portal name to dial");

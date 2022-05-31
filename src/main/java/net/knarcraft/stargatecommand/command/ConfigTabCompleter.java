@@ -11,8 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatching;
+
 /**
- * This is the completer for stargates config sub-command (/sg config)
+ * This is the completer for stargates config sub-command (/sgc config)
  */
 public class ConfigTabCompleter implements TabCompleter {
 
@@ -58,23 +60,6 @@ public class ConfigTabCompleter implements TabCompleter {
             }
             return filterMatching(configOptionNames, args[0]);
         }
-    }
-
-    /**
-     * Find completable strings which match the text typed by the command's sender
-     *
-     * @param values    <p>The values to filter</p>
-     * @param typedText <p>The text the player has started typing</p>
-     * @return <p>The given string values which start with the player's typed text</p>
-     */
-    private List<String> filterMatching(List<String> values, String typedText) {
-        List<String> configValues = new ArrayList<>();
-        for (String value : values) {
-            if (value.toLowerCase().startsWith(typedText.toLowerCase())) {
-                configValues.add(value);
-            }
-        }
-        return configValues;
     }
 
     /**

@@ -14,10 +14,14 @@ commands:
       /<command> <config/dial>
       /<command> config <config option> <new value>
       /<command> dial <network name> <portal name>
+      /<command> visualizer <network name>
 permissions:
   stargate.command.config:
     description: Allows the use of /sgc config
     default: false
   stargate.command.dial:
     description: Allows the use of /sgc dial
+    default: op
+  stargate.command.visualizer:
+    description: Allows the use of /sgc visualizer
     default: op
