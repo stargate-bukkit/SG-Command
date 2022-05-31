@@ -3,6 +3,7 @@ package net.knarcraft.stargatecommand.util;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
@@ -29,7 +30,8 @@ public class PortalFinderHelper {
             entityLocation.add(entityDirection);
             foundPortal = registryAPI.getPortal(entityLocation);
             //Stop if a portal is found. Also, don't trace through solid blocks.
-            if (foundPortal != null || !entityLocation.getBlock().getType().isAir()) {
+            Material traceMaterial = entityLocation.getBlock().getType();
+            if (foundPortal != null || (!traceMaterial.isAir() && traceMaterial != Material.WATER)) {
                 break;
             }
         }
