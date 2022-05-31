@@ -54,6 +54,8 @@ public class StargateCommandTabCompleter implements TabCompleter {
                 return new DialTabCompleter(stargateAPI).onTabComplete(commandSender, command, s, subArgs);
             } else if (args[0].equalsIgnoreCase("visualizer")) {
                 return new VisualizerTabCompleter(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
+            } else if (args[0].equalsIgnoreCase("info")) {
+                return new TabCommandInfo(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
             }
         }
         return new ArrayList<>();
@@ -75,6 +77,9 @@ public class StargateCommandTabCompleter implements TabCompleter {
         }
         if (commandSender instanceof Player player && player.hasPermission("stargate.command.visualizer")) {
             commands.add("visualizer");
+        }
+        if (commandSender instanceof Player player && player.hasPermission("stargate.command.info")) {
+            commands.add("info");
         }
         return commands;
     }

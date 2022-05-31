@@ -15,6 +15,7 @@ commands:
       /<command> config <config option> <new value>
       /<command> dial <network name> <portal name>
       /<command> visualizer <network name>
+      /<command> info
 permissions:
   stargate.command.config:
     description: Allows the use of /sgc config
@@ -24,4 +25,7 @@ permissions:
     default: op
   stargate.command.visualizer:
     description: Allows the use of /sgc visualizer
+    default: op
+  stargate.command.info:
+    description: Allows the use of /sgc info
     default: op

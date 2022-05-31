@@ -41,6 +41,8 @@ public class CommandStarGateCommand implements CommandExecutor {
                 return new CommandDial(stargateAPI).onCommand(commandSender, command, s, subArgs);
             } else if (args[0].equalsIgnoreCase("visualizer")) {
                 return new CommandVisualizer(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
+            } else if (args[0].equalsIgnoreCase("info")) {
+                return new TabCommandInfo(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
             }
         }
         return false;

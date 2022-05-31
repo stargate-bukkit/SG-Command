@@ -9,7 +9,7 @@ import java.util.List;
 public final class TabCompleterHelper {
 
     private TabCompleterHelper() {
-        
+
     }
 
     /**
