@@ -33,10 +33,12 @@ public class CommandStarGateCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (args.length > 0) {
+            String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
             if (args[0].equalsIgnoreCase("config")) {
-                String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
                 return new CommandConfig(stargateAPI.getConfigurationAPI(), bannedConfigOptions).onCommand(
                         commandSender, command, s, subArgs);
+            } else if (args[0].equalsIgnoreCase("dial")) {
+                return new CommandDial(stargateAPI).onCommand(commandSender, command, s, subArgs);
             }
         }
         return false;

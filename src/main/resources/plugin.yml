@@ -11,9 +11,13 @@ commands:
       - sgc
     description: The root command for all added commands
     usage: |
-      /<command> <config/?>
+      /<command> <config/dial>
       /<command> config <config option> <new value>
+      /<command> dial <network name> <portal name>
 permissions:
   stargate.command.config:
-    description: Allow the user of /sgc config
+    description: Allows the use of /sgc config
     default: false
+  stargate.command.dial:
+    description: Allows the use of /sgc dial
+    default: op

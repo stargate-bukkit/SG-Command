@@ -36,7 +36,7 @@ public class StargateCommand extends JavaPlugin {
             PluginCommand stargateCommand = this.getCommand("stargateCommand");
             if (stargateCommand != null) {
                 stargateCommand.setExecutor(new CommandStarGateCommand(stargateAPI, bannedConfigOptions));
-                stargateCommand.setTabCompleter(new StargateCommandTabCompleter(bannedConfigOptions));
+                stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions));
             }
         } else {
             throw new IllegalStateException("Unable to hook into Stargate. Make sure the Stargate plugin is installed " +

@@ -1,0 +1,89 @@
+package net.knarcraft.stargatecommand.command;
+
+import net.TheDgtl.Stargate.api.StargateAPI;
+import net.TheDgtl.Stargate.manager.PermissionManager;
+import net.TheDgtl.Stargate.network.Network;
+import net.TheDgtl.Stargate.network.RegistryAPI;
+import net.TheDgtl.Stargate.network.portal.RealPortal;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * This command represents the dial command for dialing any available Stargate
+ */
+public class CommandDial implements CommandExecutor {
+
+    private final StargateAPI stargateAPI;
+    private final RegistryAPI registryAPI;
+
+    /**
+     * Instantiates a new dial command
+     *
+     * @param stargateAPI <p>A reference to the Stargate API</p>
+     */
+    public CommandDial(StargateAPI stargateAPI) {
+        this.stargateAPI = stargateAPI;
+        this.registryAPI = stargateAPI.getRegistry();
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
+                             @NotNull String[] args) {
+        if (!(commandSender instanceof Player player)) {
+            commandSender.sendMessage("This command can only be used by players");
+            return true;
+        }
+
+        if (args.length < 2) {
+            player.sendMessage("You need to provide a network name and a portal name to dial");
+            return true;
+        }
+
+        PermissionManager permissionManager = stargateAPI.getPermissionManager(player);
+        String networkName = args[0];
+        String portalName = args[1];
+        Network network = registryAPI.getNetwork(networkName, false);
+        if (network == null) {
+            commandSender.sendMessage("Invalid network selected");
+            return true;
+        }
+
+        RealPortal targetPortal = (RealPortal) network.getPortal(portalName);
+        if (targetPortal == null) {
+            commandSender.sendMessage("Invalid portal selected");
+            return true;
+        }
+
+        if (!permissionManager.hasAccessPermission(targetPortal)) {
+            commandSender.sendMessage("You don't have access to the selected portal");
+            return true;
+        }
+
+        //Find any Stargate block in the player's line of sight
+        RealPortal originPortal = null;
+        Location playerLocation = player.getLocation().add(0, player.getEyeHeight(), 0);
+        Vector playerDirection = player.getLocation().getDirection();
+        for (int i = 0; i < 10; i++) {
+            playerLocation.add(playerDirection);
+            originPortal = registryAPI.getPortal(playerLocation);
+            if (originPortal != null) {
+                break;
+            }
+        }
+        if (originPortal == null) {
+            player.sendMessage("You need to look at a portal to dial");
+            return true;
+        }
+        originPortal.overrideDestination(targetPortal);
+        originPortal.open(player);
+
+        player.sendMessage("Your Stargate has been prepared");
+        return true;
+    }
+
+}

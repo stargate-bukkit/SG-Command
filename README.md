@@ -7,6 +7,7 @@ Stargate-Command is an addon for Stargate which adds additional useful commands 
 #### Features:
 
 * The ability to edit the config file through commands, and automated reloading of changed values
+* The ability to dial any Stargate accessible to the Player
 
 ## Dependencies
 
@@ -18,6 +19,7 @@ Stargate-Command is an addon for Stargate which adds additional useful commands 
 
 ```
 stargate.command.config - Gives access to the `/sgc config` command
+stargate.command.dial - Gives access to the `/sgc dial` command
 ```
 
 # Changes
@@ -25,6 +27,7 @@ stargate.command.config - Gives access to the `/sgc config` command
 [Version 0.1.0]
 
 - Full takeover removing old functionality, and, for now, replacing it with config editing
+- Adds /sgc dial for dialing any wanted Stargate
   [Version 0.0.4]
 - Fix for Bukkit's direction fix
   [Version 0.0.3]
