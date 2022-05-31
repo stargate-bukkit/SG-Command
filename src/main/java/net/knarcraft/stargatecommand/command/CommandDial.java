@@ -5,12 +5,11 @@ import net.TheDgtl.Stargate.manager.PermissionManager;
 import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
-import org.bukkit.Location;
+import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -65,16 +64,7 @@ public class CommandDial implements CommandExecutor {
         }
 
         //Find any Stargate block in the player's line of sight
-        RealPortal originPortal = null;
-        Location playerLocation = player.getLocation().add(0, player.getEyeHeight(), 0);
-        Vector playerDirection = player.getLocation().getDirection();
-        for (int i = 0; i < 10; i++) {
-            playerLocation.add(playerDirection);
-            originPortal = registryAPI.getPortal(playerLocation);
-            if (originPortal != null) {
-                break;
-            }
-        }
+        RealPortal originPortal = (RealPortal) PortalFinderHelper.findPortalByRaytrace(registryAPI, player, 10);
         if (originPortal == null) {
             player.sendMessage("You need to look at a portal to dial");
             return true;
