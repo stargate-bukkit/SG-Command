@@ -40,6 +40,11 @@ public class TabCommandInfo implements TabExecutor {
             commandSender.sendMessage("This command can only be used by a player");
             return true;
         }
+        if (!player.hasPermission("stargate.command.info")) {
+            player.sendMessage("Permission Denied");
+            return true;
+        }
+
         Portal portal = PortalFinderHelper.findPortalByRaytrace(registryAPI, player, 15);
         if (portal == null) {
             commandSender.sendMessage("You need to look directly at a portal to get information about it");

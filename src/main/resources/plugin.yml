@@ -11,7 +11,7 @@ commands:
       - sgc
     description: The root command for all added commands
     usage: |
-      /<command> <config/dial>
+      /<command> <config/dial/visualizer/info>
       /<command> config <config option> <new value>
       /<command> dial <network name> <portal name>
       /<command> visualizer <network name>
