@@ -63,6 +63,7 @@ public class StargateCommand extends JavaPlugin {
      * @return <p>The character used to replace spaces</p>
      */
     public static char getSpaceReplacementCharacter() {
+        //TODO: Make this configurable
         return '⚊';
     }
 

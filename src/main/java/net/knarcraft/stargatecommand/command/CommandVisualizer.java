@@ -49,10 +49,12 @@ public class CommandVisualizer implements CommandExecutor {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("All portals in network: ").append(network.getName()).append("\n");
         stringBuilder.append("Symbol explanation: ").append("\n");
         stringBuilder.append("⇒ = hidden, ⇄ = not hidden").append("\n");
-        stringBuilder.append("⬛ = always on, ⬜ = not always on").append("\n");
+        stringBuilder.append("⬛ = always open, ⬜ = not always open").append("\n");
+        stringBuilder.append("↯ = random destination, ↠ = non-random destination").append("\n");
+        stringBuilder.append("-> = fixed portal going to the specified portal").append("\n").append('|').append("\n");
+        stringBuilder.append("All portals in network ").append(network.getName()).append(":");
 
         //Print info about all portals in the network
         for (Portal portal : network.getAllPortals()) {
@@ -66,6 +68,11 @@ public class CommandVisualizer implements CommandExecutor {
                 stringBuilder.append('⬛');
             } else {
                 stringBuilder.append('⬜');
+            }
+            if (portal.hasFlag(PortalFlag.RANDOM)) {
+                stringBuilder.append('↯');
+            } else {
+                stringBuilder.append('↠');
             }
             //TODO: Look for the fixed flag instead of FixedPortal once it's fixed
             stringBuilder.append(" ").append(portal.getName());
