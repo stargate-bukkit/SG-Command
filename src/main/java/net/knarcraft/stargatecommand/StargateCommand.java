@@ -4,7 +4,10 @@ import net.TheDgtl.Stargate.api.StargateAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
 import net.knarcraft.stargatecommand.command.CommandStarGateCommand;
 import net.knarcraft.stargatecommand.command.StargateCommandTabCompleter;
+import net.knarcraft.stargatecommand.formatting.Translator;
+import net.knarcraft.stargatecommand.listener.StargateListener;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +21,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class StargateCommand extends JavaPlugin {
 
+    private static StargateCommand instance;
     private List<ConfigurationOption> bannedConfigOptions;
 
     @Override
@@ -26,6 +30,8 @@ public class StargateCommand extends JavaPlugin {
         if (bannedConfigOptions == null) {
             initializeBannedConfigOptions();
         }
+        instance = this;
+        Translator.loadLanguages("en");
         //Get the Stargate API
         ServicesManager servicesManager = this.getServer().getServicesManager();
         RegisteredServiceProvider<StargateAPI> stargateProvider = servicesManager.getRegistration(StargateAPI.class);
@@ -38,6 +44,8 @@ public class StargateCommand extends JavaPlugin {
                 stargateCommand.setExecutor(new CommandStarGateCommand(stargateAPI, bannedConfigOptions));
                 stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions));
             }
+            PluginManager pluginManager = getServer().getPluginManager();
+            pluginManager.registerEvents(new StargateListener(), this);
         } else {
             throw new IllegalStateException("Unable to hook into Stargate. Make sure the Stargate plugin is installed " +
                     "and enabled.");
@@ -47,6 +55,15 @@ public class StargateCommand extends JavaPlugin {
     @Override
     public void onDisable() {
         //Currently, nothing needs to be disabled
+    }
+
+    /**
+     * Gets an instance of this plugin
+     *
+     * @return <p>An instance of this plugin</p>
+     */
+    public static StargateCommand getInstance() {
+        return instance;
     }
 
     /**

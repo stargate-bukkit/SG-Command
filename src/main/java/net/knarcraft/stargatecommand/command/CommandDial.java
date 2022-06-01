@@ -5,6 +5,7 @@ import net.TheDgtl.Stargate.manager.PermissionManager;
 import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
+import net.knarcraft.stargatecommand.manager.OverrideManager;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -74,6 +75,7 @@ public class CommandDial implements CommandExecutor {
             return true;
         }
         originPortal.overrideDestination(targetPortal);
+        OverrideManager.storeOverriddenDestination(originPortal);
         originPortal.open(player);
 
         player.sendMessage("Your Stargate has been prepared");

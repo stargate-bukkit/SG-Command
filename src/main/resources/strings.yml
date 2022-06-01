@@ -1,0 +1,11 @@
+en:
+  PREFIX: "[StargateCommand]"
+  PERMISSION_DENIED: "Permission Denied"
+  INVALID_CONFIGURATION_OPTION: "Invalid configuration option specified"
+  INVALID_DATATYPE_GIVEN: "Invalid {datatype} given"
+  CONFIG_UPDATED: "Configuration updated"
+  POSITIVE_NUMBER_REQUIRED: "This config option cannot be negative"
+  INVALID_NUMBER_GIVEN: "Invalid number given"
+  CONFIG_OPTION_CURRENT_VALUE: "&aCurrent value: &6{value}"
+  CONFIG_VALUES_HEADER: "&aStargate &6Config values:"
+  CONFIG_OPTION_DESCRIPTION: "&6{name}&f - &a{description}&8 (Default: &7{value}&8)"

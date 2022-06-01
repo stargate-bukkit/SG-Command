@@ -3,6 +3,9 @@ package net.knarcraft.stargatecommand.command;
 import net.TheDgtl.Stargate.config.ConfigurationAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
 import net.TheDgtl.Stargate.config.OptionDataType;
+import net.knarcraft.stargatecommand.formatting.StringFormatter;
+import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
+import net.knarcraft.stargatecommand.formatting.Translator;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
@@ -13,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
+import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedInfoMessage;
 
 /**
  * This command represents the config command for changing config values
@@ -40,7 +46,7 @@ public class CommandConfig implements CommandExecutor {
                              @NotNull String[] args) {
         if (commandSender instanceof Player player) {
             if (!player.hasPermission("stargate.command.config")) {
-                player.sendMessage("Permission Denied");
+                player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
                 return true;
             }
         }
@@ -53,7 +59,7 @@ public class CommandConfig implements CommandExecutor {
                     return true;
                 }
             } catch (IllegalArgumentException exception) {
-                commandSender.sendMessage("Invalid configuration option specified");
+                commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_CONFIGURATION_OPTION));
                 return true;
             }
             if (args.length > 1) {
@@ -83,7 +89,8 @@ public class CommandConfig implements CommandExecutor {
             try {
                 ChatColor.of(value.toUpperCase());
             } catch (IllegalArgumentException | NullPointerException ignored) {
-                commandSender.sendMessage(ChatColor.RED + "Invalid color given");
+                commandSender.sendMessage(StringFormatter.replacePlaceholder(getTranslatedErrorMessage(
+                        TranslatableMessage.INVALID_DATATYPE_GIVEN), "{datatype}", "color"));
                 return;
             }
         }
@@ -135,7 +142,8 @@ public class CommandConfig implements CommandExecutor {
      */
     private boolean checkIfValueMatchesDatatype(OptionDataType dataType, String value, CommandSender commandSender) {
         if (!matchesOptionDataType(dataType, value)) {
-            commandSender.sendMessage(String.format("Invalid %s given",
+            commandSender.sendMessage(StringFormatter.replacePlaceholder(getTranslatedErrorMessage(
+                            TranslatableMessage.INVALID_DATATYPE_GIVEN), "{datatype}",
                     dataType.name().toLowerCase().replace('_', ' ')));
             return false;
         } else {
@@ -162,7 +170,7 @@ public class CommandConfig implements CommandExecutor {
     private void saveAndReload(CommandSender commandSender) {
         configurationAPI.saveConfiguration();
         configurationAPI.reload();
-        commandSender.sendMessage("Config updated");
+        commandSender.sendMessage(getTranslatedInfoMessage(TranslatableMessage.CONFIG_UPDATED));
     }
 
     /**
@@ -178,13 +186,13 @@ public class CommandConfig implements CommandExecutor {
             int intValue = Integer.parseInt(value);
 
             if ((selectedOption == ConfigurationOption.USE_COST || selectedOption == ConfigurationOption.CREATION_COST) && intValue < 0) {
-                commandSender.sendMessage(ChatColor.RED + "This config option cannot be negative.");
+                commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.POSITIVE_NUMBER_REQUIRED));
                 return null;
             }
 
             return intValue;
         } catch (NumberFormatException exception) {
-            commandSender.sendMessage(ChatColor.RED + "Invalid number given");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_NUMBER_GIVEN));
             return null;
         }
     }
@@ -202,13 +210,13 @@ public class CommandConfig implements CommandExecutor {
             double doubleValue = Double.parseDouble(value);
 
             if (selectedOption == ConfigurationOption.GATE_EXIT_SPEED_MULTIPLIER && doubleValue < 0) {
-                commandSender.sendMessage(ChatColor.RED + "This config option cannot be negative.");
+                commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.POSITIVE_NUMBER_REQUIRED));
                 return null;
             }
 
             return doubleValue;
         } catch (NumberFormatException exception) {
-            commandSender.sendMessage(ChatColor.RED + "Invalid number given");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_NUMBER_GIVEN));
             return null;
         }
     }
@@ -222,7 +230,8 @@ public class CommandConfig implements CommandExecutor {
     private void printConfigOptionValue(CommandSender sender, ConfigurationOption option) {
         Object value = configurationAPI.getConfigurationOptionValue(option);
         sender.sendMessage(getOptionDescription(option));
-        sender.sendMessage(ChatColor.GREEN + "Current value: " + ChatColor.GOLD + value);
+        sender.sendMessage(StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
+                TranslatableMessage.CONFIG_OPTION_CURRENT_VALUE), "{value}", String.valueOf(value)));
     }
 
     /**
@@ -231,7 +240,7 @@ public class CommandConfig implements CommandExecutor {
      * @param sender <p>The command sender to display the config list to</p>
      */
     private void displayConfigValues(CommandSender sender) {
-        sender.sendMessage(ChatColor.GREEN + "Stargate " + ChatColor.GOLD + "Config values:");
+        sender.sendMessage(Translator.getTranslatedMessage(TranslatableMessage.CONFIG_VALUES_HEADER));
 
         for (ConfigurationOption option : ConfigurationOption.values()) {
             if (!bannedConfigOptions.contains(option)) {
@@ -252,8 +261,9 @@ public class CommandConfig implements CommandExecutor {
         if (option.getDataType() == OptionDataType.STRING_LIST) {
             stringValue = "[" + StringUtils.join((String[]) defaultValue, ",") + "]";
         }
-        return ChatColor.GOLD + option.name() + ChatColor.WHITE + " - " + ChatColor.GREEN + option.getDescription() +
-                ChatColor.DARK_GRAY + " (Default: " + ChatColor.GRAY + stringValue + ChatColor.DARK_GRAY + ")";
+        return StringFormatter.replacePlaceholders(Translator.getTranslatedMessage(
+                        TranslatableMessage.CONFIG_OPTION_DESCRIPTION), new String[]{"{name}", "{description}", "{value}"},
+                new String[]{option.name(), option.getDescription(), stringValue});
     }
 
 }
