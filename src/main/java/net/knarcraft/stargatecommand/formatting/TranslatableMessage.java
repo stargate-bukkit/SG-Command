@@ -55,4 +55,59 @@ public enum TranslatableMessage {
      */
     CONFIG_OPTION_DESCRIPTION,
 
+    /**
+     * The message to display when a command is used from the console, but requires a player
+     */
+    COMMAND_PLAYER_ONLY,
+
+    /**
+     * The message to display for explaining expected arguments for the dial command
+     */
+    COMMAND_DIAL_ARGUMENTS,
+
+    /**
+     * The message to display when the user provides an invalid network name
+     */
+    INVALID_NETWORK_GIVEN,
+
+    /**
+     * The message to display when the user provides an invalid portal name
+     */
+    INVALID_PORTAL_GIVEN,
+
+    /**
+     * The message to display when the user provides a portal they cannot access
+     */
+    PORTAL_NO_ACCESS,
+
+    /**
+     * The message to display when a command cannot find a portal in the player's line of sight
+     */
+    NO_PORTAL_IN_SIGHT,
+
+    /**
+     * The message to display when a Stargate has been successfully dialed
+     */
+    DIAL_SUCCESSFUL,
+
+    /**
+     * The message to display for explaining expected arguments for the visualizer command
+     */
+    COMMAND_VISUALIZER_ARGUMENTS,
+
+    /**
+     * The format used to display the visualization of a Stargate network
+     */
+    COMMAND_VISUALIZER_FORMAT,
+
+    /**
+     * The format used to display one portal int the visualized network
+     */
+    COMMAND_VISUALIZER_PORTAL_FORMAT,
+
+    /**
+     * The format used to display info about a portal's fixed destination
+     */
+    COMMAND_VISUALIZER_FIXED_FORMAT,
+
 }

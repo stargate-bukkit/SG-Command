@@ -5,19 +5,25 @@ import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.FixedPortal;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
-import net.knarcraft.stargatecommand.StargateCommand;
+import net.knarcraft.stargatecommand.formatting.StringFormatter;
+import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
+import net.knarcraft.stargatecommand.formatting.Translator;
+import net.knarcraft.stargatecommand.manager.IconManager;
+import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
+
 /**
  * This command represents the command for visualizing a Stargate network
  */
 public class CommandVisualizer implements CommandExecutor {
 
-    private final char spaceReplacement = StargateCommand.getSpaceReplacementCharacter();
+    private final String spaceReplacement = IconManager.getIconString(Icon.SPACE_REPLACEMENT);
     private final RegistryAPI registryAPI;
 
     /**
@@ -33,57 +39,60 @@ public class CommandVisualizer implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (!commandSender.hasPermission(StargateCommandCommand.VISUALIZER.getPermissionNode())) {
-            commandSender.sendMessage("Permission Denied");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
             return true;
         }
 
         if (args.length < 1) {
-            commandSender.sendMessage("A network must be provided");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.COMMAND_VISUALIZER_ARGUMENTS));
             return true;
         }
 
-        Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, ' '), false);
+        Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, " "), false);
         if (network == null) {
-            commandSender.sendMessage("You must provide a valid network to visualize");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_NETWORK_GIVEN));
             return true;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("Symbol explanation: ").append("\n");
-        stringBuilder.append("⇒ = hidden, ⇄ = not hidden").append("\n");
-        stringBuilder.append("⬛ = always open, ⬜ = not always open").append("\n");
-        stringBuilder.append("↯ = random destination, ↠ = non-random destination").append("\n");
-        stringBuilder.append("-> = fixed portal going to the specified portal").append("\n").append('|').append("\n");
-        stringBuilder.append("All portals in network ").append(network.getName()).append(":");
+        stringBuilder.append(Translator.getTranslatedMessage(TranslatableMessage.COMMAND_VISUALIZER_FORMAT));
 
         //Print info about all portals in the network
         for (Portal portal : network.getAllPortals()) {
             stringBuilder.append("\n");
+            StringBuilder iconBuilder = new StringBuilder();
             if (portal.hasFlag(PortalFlag.HIDDEN)) {
-                stringBuilder.append('⇒');
+                iconBuilder.append(Icon.HIDDEN.getPlaceholder());
             } else {
-                stringBuilder.append('⇄');
+                iconBuilder.append(Icon.NOT_HIDDEN.getPlaceholder());
             }
             if (portal.hasFlag(PortalFlag.ALWAYS_ON)) {
-                stringBuilder.append('⬛');
+                iconBuilder.append(Icon.ALWAYS_ON.getPlaceholder());
             } else {
-                stringBuilder.append('⬜');
+                iconBuilder.append(Icon.NOT_ALWAYS_ON.getPlaceholder());
             }
             if (portal.hasFlag(PortalFlag.RANDOM)) {
-                stringBuilder.append('↯');
+                iconBuilder.append(Icon.RANDOM.getPlaceholder());
             } else {
-                stringBuilder.append('↠');
+                iconBuilder.append(Icon.NOT_RANDOM.getPlaceholder());
             }
+            String fixedString = "";
             //TODO: Look for the fixed flag instead of FixedPortal once it's fixed
-            stringBuilder.append(" ").append(portal.getName());
             if (portal instanceof FixedPortal) {
-                stringBuilder.append(" -> ");
-                stringBuilder.append(portal.getDestinationName());
+                fixedString = StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
+                                TranslatableMessage.COMMAND_VISUALIZER_FIXED_FORMAT), "{portal}",
+                        portal.getDestinationName());
             }
+
+            stringBuilder.append(StringFormatter.replacePlaceholders(
+                    Translator.getTranslatedMessage(TranslatableMessage.COMMAND_VISUALIZER_PORTAL_FORMAT),
+                    new String[]{"{icons}", "{portal}", "{fixed}"}, new String[]{iconBuilder.toString(),
+                            portal.getName(), fixedString}));
+
         }
 
-        commandSender.sendMessage(stringBuilder.toString());
+        commandSender.sendMessage(IconManager.replaceIconsInString(
+                StringFormatter.replacePlaceholder(stringBuilder.toString(), "{network}", network.getName())));
         return true;
     }
 
