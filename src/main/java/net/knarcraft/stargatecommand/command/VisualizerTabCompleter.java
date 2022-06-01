@@ -1,6 +1,7 @@
 package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.network.RegistryAPI;
+import net.knarcraft.stargatecommand.StargateCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -34,7 +35,8 @@ public class VisualizerTabCompleter implements TabCompleter {
                                       @NotNull String[] args) {
         if (args.length < 2) {
             List<String> networkNames = new ArrayList<>();
-            registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName()));
+            registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName().replace(' ',
+                    StargateCommand.getSpaceReplacementCharacter())));
             return filterMatching(networkNames, args[0]);
         } else {
             return new ArrayList<>();

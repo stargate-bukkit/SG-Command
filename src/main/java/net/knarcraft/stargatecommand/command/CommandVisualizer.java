@@ -5,6 +5,7 @@ import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.FixedPortal;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import net.knarcraft.stargatecommand.StargateCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CommandVisualizer implements CommandExecutor {
 
+    private final char spaceReplacement = StargateCommand.getSpaceReplacementCharacter();
     private final RegistryAPI registryAPI;
 
     /**
@@ -39,7 +41,7 @@ public class CommandVisualizer implements CommandExecutor {
             return true;
         }
 
-        Network network = registryAPI.getNetwork(args[0], false);
+        Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, ' '), false);
         if (network == null) {
             commandSender.sendMessage("You must provide a valid network to visualize");
             return true;
@@ -49,29 +51,23 @@ public class CommandVisualizer implements CommandExecutor {
 
         stringBuilder.append("All portals in network: ").append(network.getName()).append("\n");
         stringBuilder.append("Symbol explanation: ").append("\n");
-        stringBuilder.append("# = hidden, ¤ = not hidden").append("\n");
-        stringBuilder.append("O = always on, - = not always on").append("\n");
-        stringBuilder.append("| = fixed, > = destination choose-able");
+        stringBuilder.append("⇒ = hidden, ⇄ = not hidden").append("\n");
+        stringBuilder.append("⬛ = always on, ⬜ = not always on").append("\n");
 
         //Print info about all portals in the network
         for (Portal portal : network.getAllPortals()) {
             stringBuilder.append("\n");
             if (portal.hasFlag(PortalFlag.HIDDEN)) {
-                stringBuilder.append('#');
+                stringBuilder.append('⇒');
             } else {
-                stringBuilder.append('¤');
+                stringBuilder.append('⇄');
             }
             if (portal.hasFlag(PortalFlag.ALWAYS_ON)) {
-                stringBuilder.append('O');
+                stringBuilder.append('⬛');
             } else {
-                stringBuilder.append('-');
+                stringBuilder.append('⬜');
             }
             //TODO: Look for the fixed flag instead of FixedPortal once it's fixed
-            if (portal instanceof FixedPortal) {
-                stringBuilder.append('|');
-            } else {
-                stringBuilder.append('>');
-            }
             stringBuilder.append(" ").append(portal.getName());
             if (portal instanceof FixedPortal) {
                 stringBuilder.append(" -> ");

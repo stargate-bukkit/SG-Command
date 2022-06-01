@@ -5,6 +5,7 @@ import net.TheDgtl.Stargate.manager.PermissionManager;
 import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
+import net.knarcraft.stargatecommand.StargateCommand;
 import net.knarcraft.stargatecommand.manager.OverrideManager;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.bukkit.command.Command;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CommandDial implements CommandExecutor {
 
+    private final char spaceReplacement = StargateCommand.getSpaceReplacementCharacter();
     private final StargateAPI stargateAPI;
     private final RegistryAPI registryAPI;
 
@@ -49,8 +51,8 @@ public class CommandDial implements CommandExecutor {
         }
 
         PermissionManager permissionManager = stargateAPI.getPermissionManager(player);
-        String networkName = args[0];
-        String portalName = args[1];
+        String networkName = args[0].replace(spaceReplacement, ' ');
+        String portalName = args[1].replace(spaceReplacement, ' ');
         Network network = registryAPI.getNetwork(networkName, false);
         if (network == null) {
             commandSender.sendMessage("Invalid network selected");

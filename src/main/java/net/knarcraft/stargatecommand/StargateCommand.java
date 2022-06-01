@@ -58,6 +58,15 @@ public class StargateCommand extends JavaPlugin {
     }
 
     /**
+     * Gets the character used to replace spaces in portal and network names
+     *
+     * @return <p>The character used to replace spaces</p>
+     */
+    public static char getSpaceReplacementCharacter() {
+        return '⚊';
+    }
+
+    /**
      * Gets an instance of this plugin
      *
      * @return <p>An instance of this plugin</p>

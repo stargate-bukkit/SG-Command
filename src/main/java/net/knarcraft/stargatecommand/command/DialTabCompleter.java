@@ -6,6 +6,7 @@ import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
+import net.knarcraft.stargatecommand.StargateCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -27,6 +28,7 @@ import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatchi
  */
 public class DialTabCompleter implements TabCompleter {
 
+    private final char spaceReplacement = StargateCommand.getSpaceReplacementCharacter();
     private final StargateAPI stargateAPI;
 
     /**
@@ -56,14 +58,14 @@ public class DialTabCompleter implements TabCompleter {
         populateNetworksAndPortals(permissionManager, availableNetworks, availablePortals);
 
         if (args.length > 1) {
-            Network network = registryAPI.getNetwork(args[0], false);
+            Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, ' '), false);
             if (network != null && availablePortals.containsKey(network)) {
-                return filterMatching(availablePortals.get(network), args[1]);
+                return filterMatching(availablePortals.get(network), args[1].replace(spaceReplacement, ' '));
             } else {
                 return new ArrayList<>();
             }
         } else {
-            return filterMatching(availableNetworks, args[0]);
+            return filterMatching(availableNetworks, args[0].replace(spaceReplacement, ' '));
         }
     }
 
@@ -86,12 +88,13 @@ public class DialTabCompleter implements TabCompleter {
                     if (!availablePortals.containsKey(network)) {
                         availablePortals.put(network, new LinkedList<>());
                     }
-                    availablePortals.get(network).add(portal.getName());
+                    availablePortals.get(network).add(portal.getName().replace(' ', spaceReplacement));
                 }
             }
         }
         //Add only the network names with portals available to the player
-        availablePortals.keySet().forEach((item) -> availableNetworks.add(item.getName()));
+        availablePortals.keySet().forEach((item) -> availableNetworks.add(item.getName().replace(' ',
+                spaceReplacement)));
     }
 
 }
