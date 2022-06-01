@@ -2,6 +2,7 @@ package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.api.StargateAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,13 +49,13 @@ public class StargateCommandTabCompleter implements TabCompleter {
             //Get the actual arguments for the specified sub-command
             String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
 
-            if (args[0].equalsIgnoreCase("config")) {
+            if (args[0].equalsIgnoreCase(StargateCommandCommand.CONFIG.getName())) {
                 return new ConfigTabCompleter(bannedConfigOptions).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("dial")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.DIAL.getName())) {
                 return new DialTabCompleter(stargateAPI).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("visualizer")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.VISUALIZER.getName())) {
                 return new VisualizerTabCompleter(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("info")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.INFO.getName())) {
                 return new TabCommandInfo(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
             }
         }
@@ -69,17 +70,11 @@ public class StargateCommandTabCompleter implements TabCompleter {
      */
     private List<String> getAvailableCommands(CommandSender commandSender) {
         List<String> commands = new ArrayList<>();
-        if (!(commandSender instanceof Player player) || player.hasPermission("stargate.command.config")) {
-            commands.add("config");
-        }
-        if (commandSender instanceof Player player && player.hasPermission("stargate.command.dial")) {
-            commands.add("dial");
-        }
-        if (commandSender instanceof Player player && player.hasPermission("stargate.command.visualizer")) {
-            commands.add("visualizer");
-        }
-        if (commandSender instanceof Player player && player.hasPermission("stargate.command.info")) {
-            commands.add("info");
+        for (StargateCommandCommand command : StargateCommandCommand.values()) {
+            if ((!command.requiresPlayer() || commandSender instanceof Player) &&
+                    commandSender.hasPermission(command.getPermissionNode())) {
+                commands.add(command.getName());
+            }
         }
         return commands;
     }

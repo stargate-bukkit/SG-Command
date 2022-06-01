@@ -2,6 +2,7 @@ package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.knarcraft.stargatecommand.StargateCommand;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -33,6 +34,11 @@ public class VisualizerTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
+        //Don't display any info to non-authorized users
+        if (!commandSender.hasPermission(StargateCommandCommand.VISUALIZER.getPermissionNode())) {
+            return new ArrayList<>();
+        }
+
         if (args.length < 2) {
             List<String> networkNames = new ArrayList<>();
             registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName().replace(' ',

@@ -6,6 +6,7 @@ import net.TheDgtl.Stargate.config.OptionDataType;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
 import net.knarcraft.stargatecommand.formatting.Translator;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
@@ -45,7 +46,7 @@ public class CommandConfig implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (commandSender instanceof Player player) {
-            if (!player.hasPermission("stargate.command.config")) {
+            if (!player.hasPermission(StargateCommandCommand.CONFIG.getPermissionNode())) {
                 player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
                 return true;
             }
@@ -262,8 +263,8 @@ public class CommandConfig implements CommandExecutor {
             stringValue = "[" + StringUtils.join((String[]) defaultValue, ",") + "]";
         }
         return StringFormatter.replacePlaceholders(Translator.getTranslatedMessage(
-                        TranslatableMessage.CONFIG_OPTION_DESCRIPTION), new String[]{"{name}", "{description}", "{value}"},
-                new String[]{option.name(), option.getDescription(), stringValue});
+                TranslatableMessage.CONFIG_OPTION_DESCRIPTION), new String[]{"{name}", "{description}",
+                "{value}"}, new String[]{option.name(), option.getDescription(), stringValue});
     }
 
 }

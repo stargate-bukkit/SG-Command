@@ -6,6 +6,7 @@ import net.TheDgtl.Stargate.network.portal.FixedPortal;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
 import net.knarcraft.stargatecommand.StargateCommand;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,7 @@ public class CommandVisualizer implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
-        if (!commandSender.hasPermission("stargate.command.visualizer")) {
+        if (!commandSender.hasPermission(StargateCommandCommand.VISUALIZER.getPermissionNode())) {
             commandSender.sendMessage("Permission Denied");
             return true;
         }

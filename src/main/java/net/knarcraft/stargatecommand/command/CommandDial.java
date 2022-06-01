@@ -7,6 +7,7 @@ import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
 import net.knarcraft.stargatecommand.StargateCommand;
 import net.knarcraft.stargatecommand.manager.OverrideManager;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,7 +41,7 @@ public class CommandDial implements CommandExecutor {
             commandSender.sendMessage("This command can only be used by players");
             return true;
         }
-        if (!player.hasPermission("stargate.command.dial")) {
+        if (!player.hasPermission(StargateCommandCommand.DIAL.getPermissionNode())) {
             player.sendMessage("Permission Denied");
             return true;
         }

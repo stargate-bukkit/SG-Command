@@ -7,6 +7,7 @@ import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
 import net.knarcraft.stargatecommand.StargateCommand;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -44,8 +45,12 @@ public class DialTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
+        //Don't display any info to non-authorized users
+        if (!commandSender.hasPermission(StargateCommandCommand.DIAL.getPermissionNode())) {
+            return new ArrayList<>();
+        }
+
         if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage("This command can only be used by players");
             return new ArrayList<>();
         }
 
@@ -57,7 +62,9 @@ public class DialTabCompleter implements TabCompleter {
         //Populate the collections with available networks and portals
         populateNetworksAndPortals(permissionManager, availableNetworks, availablePortals);
 
-        if (args.length > 1) {
+        if (args.length > 2) {
+            return new ArrayList<>();
+        } else if (args.length > 1) {
             Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, ' '), false);
             if (network != null && availablePortals.containsKey(network)) {
                 return filterMatching(availablePortals.get(network), args[1].replace(spaceReplacement, ' '));

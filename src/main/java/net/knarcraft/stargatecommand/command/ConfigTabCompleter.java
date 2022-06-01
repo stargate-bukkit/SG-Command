@@ -2,6 +2,7 @@ package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.config.ConfigurationOption;
 import net.TheDgtl.Stargate.config.OptionDataType;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -37,10 +38,18 @@ public class ConfigTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
+        //Don't display any info to non-authorized users
+        if (!commandSender.hasPermission(StargateCommandCommand.CONFIG.getPermissionNode())) {
+            return new ArrayList<>();
+        }
+
         if (booleans == null || integers == null || chatColors == null) {
             initializeAutoCompleteLists();
         }
-        if (args.length > 1) {
+
+        if (args.length > 2) {
+            return new ArrayList<>();
+        } else if (args.length > 1) {
             ConfigurationOption selectedOption;
             try {
                 selectedOption = ConfigurationOption.valueOf(args[0].toUpperCase());
@@ -145,7 +154,6 @@ public class ConfigTabCompleter implements TabCompleter {
         doubles.add("0.5");
         doubles.add("0.1");
     }
-
 
     /**
      * Initializes the list of chat colors

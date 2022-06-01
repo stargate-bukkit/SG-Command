@@ -2,6 +2,7 @@ package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.api.StargateAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,14 +35,14 @@ public class CommandStarGateCommand implements CommandExecutor {
                              @NotNull String[] args) {
         if (args.length > 0) {
             String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
-            if (args[0].equalsIgnoreCase("config")) {
+            if (args[0].equalsIgnoreCase(StargateCommandCommand.CONFIG.getName())) {
                 return new CommandConfig(stargateAPI.getConfigurationAPI(), bannedConfigOptions).onCommand(
                         commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("dial")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.DIAL.getName())) {
                 return new CommandDial(stargateAPI).onCommand(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("visualizer")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.VISUALIZER.getName())) {
                 return new CommandVisualizer(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase("info")) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.INFO.getName())) {
                 return new TabCommandInfo(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
             }
         }

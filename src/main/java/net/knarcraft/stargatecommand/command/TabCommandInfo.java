@@ -3,6 +3,7 @@ package net.knarcraft.stargatecommand.command;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -40,7 +41,7 @@ public class TabCommandInfo implements TabExecutor {
             commandSender.sendMessage("This command can only be used by a player");
             return true;
         }
-        if (!player.hasPermission("stargate.command.info")) {
+        if (!player.hasPermission(StargateCommandCommand.INFO.getPermissionNode())) {
             player.sendMessage("Permission Denied");
             return true;
         }
