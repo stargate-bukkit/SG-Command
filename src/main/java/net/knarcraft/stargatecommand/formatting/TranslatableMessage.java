@@ -110,4 +110,9 @@ public enum TranslatableMessage {
      */
     COMMAND_VISUALIZER_FIXED_FORMAT,
 
+    /**
+     * The format used to display information about a Stargate
+     */
+    COMMAND_INFO_FORMAT,
+
 }

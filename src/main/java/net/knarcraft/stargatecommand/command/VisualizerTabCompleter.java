@@ -1,7 +1,8 @@
 package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.network.RegistryAPI;
-import net.knarcraft.stargatecommand.StargateCommand;
+import net.knarcraft.stargatecommand.manager.IconManager;
+import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,8 +42,8 @@ public class VisualizerTabCompleter implements TabCompleter {
 
         if (args.length < 2) {
             List<String> networkNames = new ArrayList<>();
-            registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName().replace(' ',
-                    StargateCommand.getSpaceReplacementCharacter())));
+            registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName().replace(" ",
+                    IconManager.getIconString(Icon.SPACE_REPLACEMENT))));
             return filterMatching(networkNames, args[0]);
         } else {
             return new ArrayList<>();

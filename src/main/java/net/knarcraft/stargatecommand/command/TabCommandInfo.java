@@ -3,6 +3,9 @@ package net.knarcraft.stargatecommand.command;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import net.knarcraft.stargatecommand.formatting.StringFormatter;
+import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
+import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
 
 /**
  * This tab-command represents the command for getting information about a seen portal
@@ -38,36 +43,33 @@ public class TabCommandInfo implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage("This command can only be used by a player");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.COMMAND_PLAYER_ONLY));
             return true;
         }
         if (!player.hasPermission(StargateCommandCommand.INFO.getPermissionNode())) {
-            player.sendMessage("Permission Denied");
+            player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
             return true;
         }
 
         Portal portal = PortalFinderHelper.findPortalByRaytrace(registryAPI, player, 15);
         if (portal == null) {
-            commandSender.sendMessage("You need to look directly at a portal to get information about it");
+            commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.NO_PORTAL_IN_SIGHT));
             return true;
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Information about the Stargate you are currently looking at:").append("\n");
-        stringBuilder.append("|- ").append("Name: ").append(portal.getName()).append("\n");
-        String destination = portal.getDestinationName();
-        if (destination != null && !destination.equalsIgnoreCase("null")) {
-            stringBuilder.append("|- ").append("Destination: ").append(portal.getDestinationName()).append("\n");
-        }
-        stringBuilder.append("|- ").append("Network: ").append(portal.getNetwork().getName()).append("\n");
+
         Player owner = Bukkit.getPlayer(portal.getOwnerUUID());
-        if (owner != null) {
-            stringBuilder.append("|- ").append("Owner: ").append(owner.getName()).append("\n");
-        } else {
-            stringBuilder.append("|- ").append("Owner: ").append(portal.getOwnerUUID()).append("\n");
-        }
+        String name = portal.getName();
+        String destination = portal.getDestinationName() == null ? "" : portal.getDestinationName();
+        String network = portal.getNetwork().getName();
+        String ownerName = owner != null ? owner.getName() : portal.getOwnerUUID().toString();
         Set<PortalFlag> portalFlags = PortalFlag.parseFlags(portal.getAllFlagsString());
-        stringBuilder.append("|- ").append("Flags: ").append(StringUtils.join(portalFlags, ", ")).append("\n");
-        player.sendMessage(stringBuilder.toString());
+        String flags = StringUtils.join(portalFlags, ", ");
+
+        String infoMessage = StringFormatter.replacePlaceholders(Translator.getTranslatedMessage(
+                TranslatableMessage.COMMAND_INFO_FORMAT), new String[]{"{portal}", "{destination}", "{network}",
+                "{owner}", "{flags}"}, new String[]{name, destination, network, ownerName, flags});
+
+        player.sendMessage(StringFormatter.formatInfoMessage(infoMessage));
         return true;
     }
 

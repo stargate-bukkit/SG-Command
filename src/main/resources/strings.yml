@@ -20,3 +20,4 @@ en:
   COMMAND_VISUALIZER_FORMAT: "Symbol explanation: \n&6{icon_h}&r = hidden, &6{icon_nh}&r = not hidden\n&6{icon_a}&r = always open, &6{icon_na}&r = not always open\n&6{icon_r}&r = random destination, &6{icon_nr}&r = non-random destination\n&6{icon_arrow_right}&r = fixed portal going to the specified portal\n|\nAll portals in network &a{network}&r:"
   COMMAND_VISUALIZER_PORTAL_FORMAT: "&6{icons} &a{portal}&r{fixed}"
   COMMAND_VISUALIZER_FIXED_FORMAT: " {icon_arrow_right} &a{portal}"
+  COMMAND_INFO_FORMAT: "Stargate info:\n|- &6Name&r: &a{portal}&r\n|- &6Destination&r: &a{destination}&r\n|- &6Network&r: &a{network}&r\n|- &6Owner&r: &a{owner}&r\n|- &6Flags&r: &a{flags}&r"

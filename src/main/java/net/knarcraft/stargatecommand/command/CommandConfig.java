@@ -230,9 +230,10 @@ public class CommandConfig implements CommandExecutor {
      */
     private void printConfigOptionValue(CommandSender sender, ConfigurationOption option) {
         Object value = configurationAPI.getConfigurationOptionValue(option);
-        sender.sendMessage(getOptionDescription(option));
-        sender.sendMessage(StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
-                TranslatableMessage.CONFIG_OPTION_CURRENT_VALUE), "{value}", String.valueOf(value)));
+        String description = getOptionDescription(option);
+        String currentValue = StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
+                TranslatableMessage.CONFIG_OPTION_CURRENT_VALUE), "{value}", String.valueOf(value));
+        sender.sendMessage(StringFormatter.formatInfoMessage(description + "\n" + currentValue));
     }
 
     /**
@@ -241,13 +242,15 @@ public class CommandConfig implements CommandExecutor {
      * @param sender <p>The command sender to display the config list to</p>
      */
     private void displayConfigValues(CommandSender sender) {
-        sender.sendMessage(Translator.getTranslatedMessage(TranslatableMessage.CONFIG_VALUES_HEADER));
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(StringFormatter.getTranslatedInfoMessage(TranslatableMessage.CONFIG_VALUES_HEADER));
 
         for (ConfigurationOption option : ConfigurationOption.values()) {
             if (!bannedConfigOptions.contains(option)) {
-                sender.sendMessage(getOptionDescription(option));
+                stringBuilder.append("\n").append(getOptionDescription(option));
             }
         }
+        sender.sendMessage(stringBuilder.toString());
     }
 
     /**
