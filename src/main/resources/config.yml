@@ -1,0 +1,17 @@
+icon:
+  # The "icon" used to mark a Stargate as hidden when visualizing the network
+  hiddenIcon: "⇒"
+  # The "icon" used to mark a Stargate as not hidden when visualizing the network
+  notHiddenIcon: "⇄"
+  # The "icon" used to mark a Stargate as always open when visualizing the network
+  alwaysOpenIcon: "⬛"
+  # The "icon" used to mark a Stargate as not always open when visualizing the network
+  notAlwaysOpenIcon: "⬜"
+  # The "icon" used to mark a Stargate as random open when visualizing the network
+  randomIcon: "↯"
+  # The "icon" used to mark a Stargate as not random open when visualizing the network
+  notRandomIcon: "↠"
+  # The "icon" used for a right arrow. Used to display a Stargate's destination during visualization
+  arrowRightIcon: "->"
+  # The "icon" used to replace any spaces in Stargate or network names
+  spaceReplacementIcon: "⚊"

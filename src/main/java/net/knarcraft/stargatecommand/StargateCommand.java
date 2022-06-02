@@ -6,7 +6,10 @@ import net.knarcraft.stargatecommand.command.CommandStarGateCommand;
 import net.knarcraft.stargatecommand.command.StargateCommandTabCompleter;
 import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.listener.StargateListener;
+import net.knarcraft.stargatecommand.manager.IconManager;
+import net.knarcraft.stargatecommand.property.Icon;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
@@ -31,6 +34,12 @@ public class StargateCommand extends JavaPlugin {
             initializeBannedConfigOptions();
         }
         instance = this;
+
+        FileConfiguration configuration = this.getConfig();
+        this.saveDefaultConfig();
+        configuration.options().copyDefaults(true);
+        loadConfiguration(configuration);
+
         Translator.loadLanguages("en");
         //Get the Stargate API
         ServicesManager servicesManager = this.getServer().getServicesManager();
@@ -64,6 +73,21 @@ public class StargateCommand extends JavaPlugin {
      */
     public static StargateCommand getInstance() {
         return instance;
+    }
+
+    /**
+     * Loads all configuration values from the given configuration
+     *
+     * @param fileConfiguration <p>The configuration to load</p>
+     */
+    private void loadConfiguration(FileConfiguration fileConfiguration) {
+        //Load all icons from config
+        for (Icon icon : Icon.values()) {
+            String iconString = fileConfiguration.getString(icon.getConfigNode());
+            if (iconString != null) {
+                IconManager.registerIconString(icon, iconString);
+            }
+        }
     }
 
     /**
