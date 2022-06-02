@@ -39,8 +39,8 @@ public class StargateCommand extends JavaPlugin {
         this.saveDefaultConfig();
         configuration.options().copyDefaults(true);
         loadConfiguration(configuration);
+        saveConfig();
 
-        Translator.loadLanguages("en");
         //Get the Stargate API
         ServicesManager servicesManager = this.getServer().getServicesManager();
         RegisteredServiceProvider<StargateAPI> stargateProvider = servicesManager.getRegistration(StargateAPI.class);
@@ -81,6 +81,7 @@ public class StargateCommand extends JavaPlugin {
      * @param fileConfiguration <p>The configuration to load</p>
      */
     private void loadConfiguration(FileConfiguration fileConfiguration) {
+        Translator.loadLanguages(fileConfiguration.getString("language"));
         //Load all icons from config
         for (Icon icon : Icon.values()) {
             String iconString = fileConfiguration.getString(icon.getConfigNode());

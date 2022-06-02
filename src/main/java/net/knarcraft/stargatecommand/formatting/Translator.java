@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
  */
 public final class Translator {
 
+    private static final String translationsFolder = "translations";
     private static Map<TranslatableMessage, String> translatedMessages;
     private static Map<TranslatableMessage, String> backupTranslatedMessages;
 
@@ -29,7 +31,7 @@ public final class Translator {
      * Loads the languages used by this translator
      */
     public static void loadLanguages(String selectedLanguage) {
-        backupTranslatedMessages = loadTranslatedMessages("en");
+        backupTranslatedMessages = loadTranslatedMessages("en-US");
         translatedMessages = loadCustomTranslatedMessages(selectedLanguage);
         if (translatedMessages == null) {
             translatedMessages = loadTranslatedMessages(selectedLanguage);
@@ -43,16 +45,13 @@ public final class Translator {
      * @return <p>The translated message</p>
      */
     public static String getTranslatedMessage(TranslatableMessage translatableMessage) {
-        if (translatedMessages == null) {
-            return "Translated strings not loaded";
-        }
         String translatedMessage;
-        if (translatedMessages.containsKey(translatableMessage)) {
+        if (translatedMessages != null && translatedMessages.containsKey(translatableMessage)) {
             translatedMessage = translatedMessages.get(translatableMessage);
-        } else if (backupTranslatedMessages.containsKey(translatableMessage)) {
+        } else if (backupTranslatedMessages != null && backupTranslatedMessages.containsKey(translatableMessage)) {
             translatedMessage = backupTranslatedMessages.get(translatableMessage);
         } else {
-            translatedMessage = translatableMessage.toString();
+            return "Translated strings not loaded";
         }
         return StringFormatter.translateAllColorCodes(translatedMessage);
     }
@@ -65,32 +64,37 @@ public final class Translator {
      */
     public static Map<TranslatableMessage, String> loadTranslatedMessages(String language) {
         try {
-            BufferedReader reader = FileHelper.getBufferedReaderForInternalFile("/strings.yml");
-            return loadTranslatableMessages(language, reader);
+            BufferedReader reader = FileHelper.getBufferedReaderForInternalFile("/" + translationsFolder + "/" +
+                    language + ".yml");
+            return loadTranslatableMessages(reader);
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.SEVERE, "Unable to load translated messages");
+            StargateCommand.getInstance().getLogger().log(Level.SEVERE,
+                    String.format("Unable to load translated messages from %s.yml", language));
             return null;
         }
     }
 
     /**
-     * Tries to load translated messages from a custom strings.yml file
+     * Tries to load translated messages from a custom en-US.yml file
      *
      * @param language <p>The selected language</p>
      * @return <p>The loaded translated strings, or null if no custom language file exists</p>
      */
     public static Map<TranslatableMessage, String> loadCustomTranslatedMessages(String language) {
-        File strings = new File(StargateCommand.getInstance().getDataFolder(), "strings.yml");
-        if (!strings.exists()) {
-            StargateCommand.getInstance().getLogger().log(Level.FINEST, "Strings file not found");
+        File translationsFolderFile = new File(StargateCommand.getInstance().getDataFolder(), translationsFolder);
+        File languageFile = new File(translationsFolderFile, language + ".yml");
+        if (!languageFile.exists()) {
             return null;
         }
 
         try {
-            StargateCommand.getInstance().getLogger().log(Level.WARNING, "Loading custom strings...");
-            return loadTranslatableMessages(language, new BufferedReader(new InputStreamReader(new FileInputStream(strings))));
+            StargateCommand.getInstance().getLogger().log(Level.INFO,
+                    String.format("Loading custom strings from %s.yml", language));
+            return loadTranslatableMessages(new BufferedReader(new InputStreamReader(new FileInputStream(languageFile),
+                    StandardCharsets.UTF_8)));
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.WARNING, "Unable to load custom messages");
+            StargateCommand.getInstance().getLogger().log(Level.WARNING,
+                    String.format("Unable to load custom messages from %s.yml", language));
             return null;
         }
     }
@@ -98,16 +102,15 @@ public final class Translator {
     /**
      * Loads translatable messages from the given reader
      *
-     * @param language <p>The selected language</p>
-     * @param reader   <p>The buffered reader to read from</p>
+     * @param reader <p>The buffered reader to read from</p>
      * @return <p>The loaded translated strings</p>
      */
-    private static Map<TranslatableMessage, String> loadTranslatableMessages(String language, BufferedReader reader) {
+    private static Map<TranslatableMessage, String> loadTranslatableMessages(BufferedReader reader) {
         Map<TranslatableMessage, String> translatedMessages = new HashMap<>();
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(reader);
 
         for (TranslatableMessage message : TranslatableMessage.values()) {
-            String translated = configuration.getString(language + "." + message.toString());
+            String translated = configuration.getString(message.toString());
             if (translated != null) {
                 translatedMessages.put(message, translated);
             }
