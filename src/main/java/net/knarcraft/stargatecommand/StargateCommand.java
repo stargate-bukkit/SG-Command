@@ -115,7 +115,7 @@ public class StargateCommand extends JavaPlugin {
         bannedConfigOptions.add(ConfigurationOption.SHOW_HIKARI_CONFIG);
         for (ConfigurationOption option : ConfigurationOption.values()) {
             //Configuration options with a null description are unimplemented and should not be used
-            if (option.getDescription() == null) {
+            if (option.getDescription() == null || option.isHidden()) {
                 bannedConfigOptions.add(option);
             }
         }
