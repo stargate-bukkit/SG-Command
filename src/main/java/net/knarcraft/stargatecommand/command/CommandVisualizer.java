@@ -55,7 +55,8 @@ public class CommandVisualizer implements CommandExecutor {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(StringFormatter.getStringFormat(StringFormat.COMMAND_VISUALIZER_FORMAT));
+        stringBuilder.append(StringFormatter.formatInfoMessage(StringFormatter.getStringFormat(
+                StringFormat.COMMAND_VISUALIZER_FORMAT)));
 
         //Print info about all portals in the network
         for (Portal portal : network.getAllPortals()) {
