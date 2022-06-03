@@ -1,0 +1,27 @@
+# The format for visualizing a network
+COMMAND_VISUALIZER_FORMAT: |
+  {VISUALIZER_SYMBOL_EXPLANATION}:
+  &6{icon_h}&r = {VISUALIZER_HIDDEN}, &6{icon_nh}&r = {VISUALIZER_NOT_HIDDEN}
+  &6{icon_a}&r = {VISUALIZER_ALWAYS_OPEN}, &6{icon_na}&r = {VISUALIZER_NOT_ALWAYS_OPEN}
+  &6{icon_r}&r = {VISUALIZER_RANDOM}, &6{icon_nr}&r = {VISUALIZER_NOT_RANDOM}
+  &6{icon_arrow_right}&r = {VISUALIZER_LIST_HEADER}
+  |
+  {VISUALIZER_LIST_HEADER} &a{network}&r:
+# The format for visualizing a single portal on a network
+COMMAND_VISUALIZER_PORTAL_FORMAT: "\n&6{icons} &a{portal}&r{fixed}"
+# The format for displaying a fixed Stargate's destination during visualization
+COMMAND_VISUALIZER_FIXED_FORMAT: " &6{icon_arrow_right}&r &a{portal}"
+# The format for displaying information about a Stargate
+COMMAND_INFO_FORMAT: |
+  {STARGATE} {COMMAND_INFO_HEADER}:
+  |- &6{NAME_PROMPT}&r: &a{portal}&r
+  |- &6{DESTINATION_PROMPT}&r: &a{destination}&r
+  |- &6{NETWORK_PROMPT}&r: &a{network}&r
+  |- &6{OWNER_PROMPT}&r: &a{owner}&r
+  |- &6{FLAGS_PROMPT}&r: &a{flags}&r
+# The format for displaying a configuration option's description
+CONFIG_OPTION_DESCRIPTION_FORMAT: "\n&6{name}&r - &a{description}&8 (&r{DEFAULT_PROMPT}}: &7{value}&8)"
+# The format for displaying a configuration option's current value
+CONFIG_OPTION_CURRENT_VALUE_FORMAT: "\n&a{CURRENT_VALUE_PROMPT}: &6{value}"
+# The format for the header displayed before the list of configuration options
+CONFIG_VALUES_HEADER_FORMAT: "&a{STARGATE} &6{CONFIGURATION_VALUES_PROMPT}:"

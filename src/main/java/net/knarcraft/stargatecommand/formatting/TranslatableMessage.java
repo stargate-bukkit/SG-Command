@@ -41,21 +41,6 @@ public enum TranslatableMessage {
     INVALID_NUMBER_GIVEN,
 
     /**
-     * The message to display when displaying the current value of a configuration option
-     */
-    CONFIG_OPTION_CURRENT_VALUE,
-
-    /**
-     * The header to display when showing all configuration options and their values
-     */
-    CONFIG_VALUES_HEADER,
-
-    /**
-     * The message to display when showing a full description of a configuration option
-     */
-    CONFIG_OPTION_DESCRIPTION,
-
-    /**
      * The message to display when a command is used from the console, but requires a player
      */
     COMMAND_PLAYER_ONLY,
@@ -96,23 +81,98 @@ public enum TranslatableMessage {
     COMMAND_VISUALIZER_ARGUMENTS,
 
     /**
-     * The format used to display the visualization of a Stargate network
+     * The message to use when displaying that something is Stargate related
      */
-    COMMAND_VISUALIZER_FORMAT,
+    STARGATE,
 
     /**
-     * The format used to display one portal int the visualized network
+     * The configuration values text displayed when displaying all configuration values
      */
-    COMMAND_VISUALIZER_PORTAL_FORMAT,
+    CONFIGURATION_VALUES_PROMPT,
 
     /**
-     * The format used to display info about a portal's fixed destination
+     * The current value text displayed when displaying a configuration option's current value
      */
-    COMMAND_VISUALIZER_FIXED_FORMAT,
+    CURRENT_VALUE_PROMPT,
 
     /**
-     * The format used to display information about a Stargate
+     * The default text displayed when displaying a configuration option's default value
      */
-    COMMAND_INFO_FORMAT,
+    DEFAULT_PROMPT,
+
+    /**
+     * The header displayed at the beginning of the info command's output
+     */
+    COMMAND_INFO_HEADER,
+
+    /**
+     * The name text displayed when displaying information about a Stargate
+     */
+    NAME_PROMPT,
+
+    /**
+     * The destination text displayed when displaying information about a Stargate
+     */
+    DESTINATION_PROMPT,
+
+    /**
+     * The network text displayed when displaying information about a Stargate
+     */
+    NETWORK_PROMPT,
+
+    /**
+     * The owner text displayed when displaying information about a Stargate
+     */
+    OWNER_PROMPT,
+
+    /**
+     * The flags text displayed when displaying information about a Stargate
+     */
+    FLAGS_PROMPT,
+
+    /**
+     * The header of the visualizer's symbol explanation section
+     */
+    VISUALIZER_SYMBOL_EXPLANATION,
+
+    /**
+     * The text used to explain the symbol used for hidden portals
+     */
+    VISUALIZER_HIDDEN,
+
+    /**
+     * The text used to explain the symbol used for non-hidden portals
+     */
+    VISUALIZER_NOT_HIDDEN,
+
+    /**
+     * The text used to explain the symbol used for always open portals
+     */
+    VISUALIZER_ALWAYS_OPEN,
+
+    /**
+     * The text used to explain the symbol used for not always open portals
+     */
+    VISUALIZER_NOT_ALWAYS_OPEN,
+
+    /**
+     * The text used to explain the symbol used for random portals
+     */
+    VISUALIZER_RANDOM,
+
+    /**
+     * The text used to explain the symbol used for non-random portals
+     */
+    VISUALIZER_NOT_RANDOM,
+
+    /**
+     * The text used to explain the symbol used for fixed portals
+     */
+    VISUALIZER_FIXED,
+
+    /**
+     * The header of the visualizer's Stargate list section
+     */
+    VISUALIZER_LIST_HEADER,
 
 }

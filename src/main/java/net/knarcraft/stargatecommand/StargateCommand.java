@@ -4,6 +4,7 @@ import net.TheDgtl.Stargate.api.StargateAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
 import net.knarcraft.stargatecommand.command.CommandStarGateCommand;
 import net.knarcraft.stargatecommand.command.StargateCommandTabCompleter;
+import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.listener.StargateListener;
 import net.knarcraft.stargatecommand.manager.IconManager;
@@ -82,6 +83,7 @@ public class StargateCommand extends JavaPlugin {
      */
     private void loadConfiguration(FileConfiguration fileConfiguration) {
         Translator.loadLanguages(fileConfiguration.getString("language"));
+        StringFormatter.loadStringFormats();
         //Load all icons from config
         for (Icon icon : Icon.values()) {
             String iconString = fileConfiguration.getString(icon.getConfigNode());

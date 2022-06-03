@@ -3,9 +3,9 @@ package net.knarcraft.stargatecommand.command;
 import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.apache.commons.lang.StringUtils;
@@ -65,9 +65,9 @@ public class TabCommandInfo implements TabExecutor {
         Set<PortalFlag> portalFlags = PortalFlag.parseFlags(portal.getAllFlagsString());
         String flags = StringUtils.join(portalFlags, ", ");
 
-        String infoMessage = StringFormatter.replacePlaceholders(Translator.getTranslatedMessage(
-                TranslatableMessage.COMMAND_INFO_FORMAT), new String[]{"{portal}", "{destination}", "{network}",
-                "{owner}", "{flags}"}, new String[]{name, destination, network, ownerName, flags});
+        String infoMessage = StringFormatter.replacePlaceholders(StringFormatter.getStringFormat(
+                StringFormat.COMMAND_INFO_FORMAT), new String[]{"{portal}", "{destination}", "{network}", "{owner}",
+                "{flags}"}, new String[]{name, destination, network, ownerName, flags});
 
         player.sendMessage(StringFormatter.formatInfoMessage(infoMessage));
         return true;

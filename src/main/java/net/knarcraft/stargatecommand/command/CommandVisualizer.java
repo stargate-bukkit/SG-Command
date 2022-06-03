@@ -2,12 +2,11 @@ package net.knarcraft.stargatecommand.command;
 
 import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.RegistryAPI;
-import net.TheDgtl.Stargate.network.portal.FixedPortal;
 import net.TheDgtl.Stargate.network.portal.Portal;
 import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
@@ -55,11 +54,11 @@ public class CommandVisualizer implements CommandExecutor {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Translator.getTranslatedMessage(TranslatableMessage.COMMAND_VISUALIZER_FORMAT));
+
+        stringBuilder.append(StringFormatter.getStringFormat(StringFormat.COMMAND_VISUALIZER_FORMAT));
 
         //Print info about all portals in the network
         for (Portal portal : network.getAllPortals()) {
-            stringBuilder.append("\n");
             StringBuilder iconBuilder = new StringBuilder();
             if (portal.hasFlag(PortalFlag.HIDDEN)) {
                 iconBuilder.append(Icon.HIDDEN.getPlaceholder());
@@ -77,18 +76,15 @@ public class CommandVisualizer implements CommandExecutor {
                 iconBuilder.append(Icon.NOT_RANDOM.getPlaceholder());
             }
             String fixedString = "";
-            //TODO: Look for the fixed flag instead of FixedPortal once it's fixed
-            if (portal instanceof FixedPortal) {
-                fixedString = StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
-                                TranslatableMessage.COMMAND_VISUALIZER_FIXED_FORMAT), "{portal}",
+            if (portal.hasFlag(PortalFlag.FIXED)) {
+                fixedString = StringFormatter.replacePlaceholder(StringFormatter.getStringFormat(
+                                StringFormat.COMMAND_VISUALIZER_FIXED_FORMAT), "{portal}",
                         portal.getDestinationName());
             }
 
-            stringBuilder.append(StringFormatter.replacePlaceholders(
-                    Translator.getTranslatedMessage(TranslatableMessage.COMMAND_VISUALIZER_PORTAL_FORMAT),
-                    new String[]{"{icons}", "{portal}", "{fixed}"}, new String[]{iconBuilder.toString(),
-                            portal.getName(), fixedString}));
-
+            stringBuilder.append(StringFormatter.replacePlaceholders(StringFormatter.getStringFormat(
+                            StringFormat.COMMAND_VISUALIZER_PORTAL_FORMAT), new String[]{"{icons}", "{portal}", "{fixed}"},
+                    new String[]{iconBuilder.toString(), portal.getName(), fixedString}));
         }
 
         commandSender.sendMessage(IconManager.replaceIconsInString(

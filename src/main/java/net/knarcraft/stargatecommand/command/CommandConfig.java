@@ -3,9 +3,9 @@ package net.knarcraft.stargatecommand.command;
 import net.TheDgtl.Stargate.config.ConfigurationAPI;
 import net.TheDgtl.Stargate.config.ConfigurationOption;
 import net.TheDgtl.Stargate.config.OptionDataType;
+import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.formatting.Translator;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
@@ -231,9 +231,9 @@ public class CommandConfig implements CommandExecutor {
     private void printConfigOptionValue(CommandSender sender, ConfigurationOption option) {
         Object value = configurationAPI.getConfigurationOptionValue(option);
         String description = getOptionDescription(option);
-        String currentValue = StringFormatter.replacePlaceholder(Translator.getTranslatedMessage(
-                TranslatableMessage.CONFIG_OPTION_CURRENT_VALUE), "{value}", String.valueOf(value));
-        sender.sendMessage(StringFormatter.formatInfoMessage(description + "\n" + currentValue));
+        String currentValue = StringFormatter.replacePlaceholder(StringFormatter.getStringFormat(
+                StringFormat.CONFIG_OPTION_CURRENT_VALUE_FORMAT), "{value}", String.valueOf(value));
+        sender.sendMessage(StringFormatter.formatInfoMessage(description + currentValue));
     }
 
     /**
@@ -243,11 +243,11 @@ public class CommandConfig implements CommandExecutor {
      */
     private void displayConfigValues(CommandSender sender) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(StringFormatter.getTranslatedInfoMessage(TranslatableMessage.CONFIG_VALUES_HEADER));
+        stringBuilder.append(StringFormatter.getStringFormat(StringFormat.CONFIG_VALUES_HEADER_FORMAT));
 
         for (ConfigurationOption option : ConfigurationOption.values()) {
             if (!bannedConfigOptions.contains(option)) {
-                stringBuilder.append("\n").append(getOptionDescription(option));
+                stringBuilder.append(getOptionDescription(option));
             }
         }
         sender.sendMessage(stringBuilder.toString());
@@ -265,9 +265,9 @@ public class CommandConfig implements CommandExecutor {
         if (option.getDataType() == OptionDataType.STRING_LIST) {
             stringValue = "[" + StringUtils.join((String[]) defaultValue, ",") + "]";
         }
-        return StringFormatter.replacePlaceholders(Translator.getTranslatedMessage(
-                TranslatableMessage.CONFIG_OPTION_DESCRIPTION), new String[]{"{name}", "{description}",
-                "{value}"}, new String[]{option.name(), option.getDescription(), stringValue});
+        return StringFormatter.replacePlaceholders(StringFormatter.getStringFormat(
+                        StringFormat.CONFIG_OPTION_DESCRIPTION_FORMAT), new String[]{"{name}", "{description}", "{value}"},
+                new String[]{option.name(), option.getDescription(), stringValue});
     }
 
 }

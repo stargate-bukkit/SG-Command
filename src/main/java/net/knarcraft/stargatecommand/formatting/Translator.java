@@ -51,6 +51,8 @@ public final class Translator {
         } else if (backupTranslatedMessages != null && backupTranslatedMessages.containsKey(translatableMessage)) {
             translatedMessage = backupTranslatedMessages.get(translatableMessage);
         } else {
+            StargateCommand.getInstance().getLogger().log(Level.WARNING,
+                    "No translation found for translatable message " + translatableMessage.name());
             return "Translated strings not loaded";
         }
         return StringFormatter.translateAllColorCodes(translatedMessage);
