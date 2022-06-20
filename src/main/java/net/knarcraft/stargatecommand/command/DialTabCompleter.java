@@ -9,6 +9,7 @@ import net.TheDgtl.Stargate.network.portal.RealPortal;
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
+import net.knarcraft.stargatecommand.util.NameHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -56,7 +57,7 @@ public class DialTabCompleter implements TabCompleter {
         }
 
         List<String> availableNetworks = new ArrayList<>();
-        Map<Network, List<String>> availablePortals = new HashMap<>();
+        Map<String, List<String>> availablePortals = new HashMap<>();
         RegistryAPI registryAPI = stargateAPI.getRegistry();
         PermissionManager permissionManager = stargateAPI.getPermissionManager(player);
 
@@ -66,15 +67,18 @@ public class DialTabCompleter implements TabCompleter {
         if (args.length > 2) {
             return new ArrayList<>();
         } else if (args.length > 1) {
-            Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, " "), false);
-            if (network != null && availablePortals.containsKey(network)) {
-                return filterMatching(availablePortals.get(network), args[1].replace(spaceReplacement, " "));
-            } else {
-                return new ArrayList<>();
+            Network network = NameHelper.getNetworkFromName(registryAPI, args[0]);
+            if (network != null) {
+                String networkName = NameHelper.getVisualNetworkName(network);
+                if (availablePortals.containsKey(networkName)) {
+                    return filterMatching(availablePortals.get(networkName), args[1].replace(spaceReplacement, " "));
+                }
             }
         } else {
             return filterMatching(availableNetworks, args[0].replace(spaceReplacement, " "));
         }
+        
+        return new ArrayList<>();
     }
 
     /**
@@ -85,24 +89,24 @@ public class DialTabCompleter implements TabCompleter {
      * @param availablePortals  <p>The map to store available portals to</p>
      */
     private void populateNetworksAndPortals(PermissionManager permissionManager, List<String> availableNetworks,
-                                            Map<Network, List<String>> availablePortals) {
+                                            Map<String, List<String>> availablePortals) {
         List<Network> networks = new LinkedList<>(stargateAPI.getRegistry().getNetworkMap().values());
         //Get all available networks and portals
         for (Network network : networks) {
+            String networkName = NameHelper.getVisualNetworkName(network);
             Collection<Portal> portals = network.getAllPortals();
             for (Portal portal : portals) {
                 if (permissionManager.hasAccessPermission((RealPortal) portal)) {
                     //Add an empty list if the network has not been encountered before
-                    if (!availablePortals.containsKey(network)) {
-                        availablePortals.put(network, new LinkedList<>());
+                    if (!availablePortals.containsKey(networkName)) {
+                        availablePortals.put(networkName, new LinkedList<>());
                     }
-                    availablePortals.get(network).add(portal.getName().replace(" ", spaceReplacement));
+                    availablePortals.get(networkName).add(portal.getName().replace(" ", spaceReplacement));
                 }
             }
         }
         //Add only the network names with portals available to the player
-        availablePortals.keySet().forEach((item) -> availableNetworks.add(item.getName().replace(" ",
-                spaceReplacement)));
+        availableNetworks.addAll(availablePortals.keySet());
     }
 
 }

@@ -10,6 +10,7 @@ import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.manager.OverrideManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
+import net.knarcraft.stargatecommand.util.NameHelper;
 import net.knarcraft.stargatecommand.util.PortalFinderHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,11 +58,10 @@ public class CommandDial implements CommandExecutor {
         }
 
         PermissionManager permissionManager = stargateAPI.getPermissionManager(player);
-        String networkName = args[0].replace(spaceReplacement, " ");
         String portalName = args[1].replace(spaceReplacement, " ");
 
         //Validate that the network and portal exists, and that the player can access the portal
-        Network network = registryAPI.getNetwork(networkName, false);
+        Network network = NameHelper.getNetworkFromName(registryAPI, args[0]);
         if (network == null) {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_NETWORK_GIVEN));
             return true;
