@@ -10,9 +10,11 @@ import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
@@ -47,7 +49,18 @@ public class CommandVisualizer implements CommandExecutor {
             return true;
         }
 
-        Network network = registryAPI.getNetwork(args[0].replace(spaceReplacement, " "), false);
+        String networkName = args[0].trim().replace(spaceReplacement, " ");
+
+        //Replace {playerName} with network UUID
+        if (networkName.matches("^\\{.*}$")) {
+            Player player = Bukkit.getPlayer(networkName.substring(1, networkName.length() - 1));
+            if (player != null) {
+                networkName = player.getUniqueId().toString();
+            }
+        }
+
+        Network network = registryAPI.getNetwork(networkName, false);
+
         if (network == null) {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.INVALID_NETWORK_GIVEN));
             return true;

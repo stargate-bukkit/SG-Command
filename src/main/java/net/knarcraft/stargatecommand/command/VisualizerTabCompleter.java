@@ -4,14 +4,17 @@ import net.TheDgtl.Stargate.network.RegistryAPI;
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatching;
 
@@ -42,8 +45,20 @@ public class VisualizerTabCompleter implements TabCompleter {
 
         if (args.length < 2) {
             List<String> networkNames = new ArrayList<>();
-            registryAPI.getNetworkMap().values().forEach(item -> networkNames.add(item.getName().replace(" ",
-                    IconManager.getIconString(Icon.SPACE_REPLACEMENT))));
+            registryAPI.getNetworkMap().values().forEach(network -> {
+                String networkName = network.getName().replace(" ", IconManager.getIconString(
+                        Icon.SPACE_REPLACEMENT));
+                try {
+                    UUID userID = UUID.fromString(network.getName());
+                    Player player = Bukkit.getPlayer(userID);
+                    if (player != null) {
+                        networkName = "{" + player.getName() + "}";
+                    }
+                } catch (IllegalArgumentException exception) {
+                    //Ignored. Not a UUID
+                }
+                networkNames.add(networkName);
+            });
             return filterMatching(networkNames, args[0]);
         } else {
             return new ArrayList<>();
