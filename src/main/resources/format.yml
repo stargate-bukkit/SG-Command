@@ -20,7 +20,7 @@ COMMAND_INFO_FORMAT: |
   |- &6{OWNER_PROMPT}&r: &a{owner}&r
   |- &6{FLAGS_PROMPT}&r: &a{flags}&r
 # The format for displaying a configuration option's description
-CONFIG_OPTION_DESCRIPTION_FORMAT: "\n&6{name}&r - &a{description}&8 (&r{DEFAULT_PROMPT}}: &7{value}&8)"
+CONFIG_OPTION_DESCRIPTION_FORMAT: "\n&6{name}&r - &a{description}&8 (&r{DEFAULT_PROMPT}: &7{value}&8)"
 # The format for displaying a configuration option's current value
 CONFIG_OPTION_CURRENT_VALUE_FORMAT: "\n&a{CURRENT_VALUE_PROMPT}: &6{value}"
 # The format for the header displayed before the list of configuration options
