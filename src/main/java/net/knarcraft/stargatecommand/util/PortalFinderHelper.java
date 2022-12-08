@@ -1,7 +1,7 @@
 package net.knarcraft.stargatecommand.util;
 
-import net.TheDgtl.Stargate.network.RegistryAPI;
-import net.TheDgtl.Stargate.network.portal.Portal;
+import org.sgrewritten.stargate.network.RegistryAPI;
+import org.sgrewritten.stargate.network.portal.Portal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;

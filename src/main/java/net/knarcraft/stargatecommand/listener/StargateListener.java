@@ -1,9 +1,9 @@
 package net.knarcraft.stargatecommand.listener;
 
-import net.TheDgtl.Stargate.event.StargateCloseEvent;
-import net.TheDgtl.Stargate.event.StargateDeactivateEvent;
-import net.TheDgtl.Stargate.event.StargatePortalEvent;
-import net.TheDgtl.Stargate.network.portal.Portal;
+import org.sgrewritten.stargate.event.StargateCloseEvent;
+import org.sgrewritten.stargate.event.StargateDeactivateEvent;
+import org.sgrewritten.stargate.event.StargatePortalEvent;
+import org.sgrewritten.stargate.network.portal.Portal;
 import net.knarcraft.stargatecommand.manager.OverrideManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

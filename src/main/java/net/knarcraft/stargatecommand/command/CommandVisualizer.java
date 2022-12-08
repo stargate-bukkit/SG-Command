@@ -1,9 +1,9 @@
 package net.knarcraft.stargatecommand.command;
 
-import net.TheDgtl.Stargate.network.Network;
-import net.TheDgtl.Stargate.network.RegistryAPI;
-import net.TheDgtl.Stargate.network.portal.Portal;
-import net.TheDgtl.Stargate.network.portal.PortalFlag;
+import org.sgrewritten.stargate.network.Network;
+import org.sgrewritten.stargate.network.RegistryAPI;
+import org.sgrewritten.stargate.network.portal.Portal;
+import org.sgrewritten.stargate.network.portal.PortalFlag;
 import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;

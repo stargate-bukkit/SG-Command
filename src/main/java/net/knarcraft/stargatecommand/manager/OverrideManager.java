@@ -1,6 +1,6 @@
 package net.knarcraft.stargatecommand.manager;
 
-import net.TheDgtl.Stargate.network.portal.Portal;
+import org.sgrewritten.stargate.network.portal.Portal;
 
 import java.util.ArrayList;
 import java.util.List;

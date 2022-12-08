@@ -1,7 +1,7 @@
 package net.knarcraft.stargatecommand.util;
 
-import net.TheDgtl.Stargate.network.Network;
-import net.TheDgtl.Stargate.network.RegistryAPI;
+import org.sgrewritten.stargate.network.Network;
+import org.sgrewritten.stargate.network.RegistryAPI;
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import org.bukkit.Bukkit;

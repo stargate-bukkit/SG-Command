@@ -1,7 +1,7 @@
 package net.knarcraft.stargatecommand.command;
 
-import net.TheDgtl.Stargate.config.ConfigurationOption;
-import net.TheDgtl.Stargate.config.OptionDataType;
+import org.sgrewritten.stargate.config.ConfigurationOption;
+import org.sgrewritten.stargate.config.OptionDataType;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
