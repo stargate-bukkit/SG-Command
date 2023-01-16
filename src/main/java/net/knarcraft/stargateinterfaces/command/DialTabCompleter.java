@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.manager.PermissionManager;
@@ -7,10 +7,11 @@ import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
-import net.knarcraft.stargatecommand.manager.IconManager;
-import net.knarcraft.stargatecommand.property.Icon;
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
-import net.knarcraft.stargatecommand.util.NameHelper;
+import net.knarcraft.stargateinterfaces.manager.IconManager;
+import net.knarcraft.stargateinterfaces.property.Icon;
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
+import net.knarcraft.stargateinterfaces.util.NameHelper;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -18,14 +19,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static net.knarcraft.stargateinterfaces.util.TabCompleterHelper.filterMatching;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatching;
 
 /**
  * A tab completer for the /sgc dial command

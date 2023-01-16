@@ -1,7 +1,7 @@
-package net.knarcraft.stargatecommand.manager;
+package net.knarcraft.stargateinterfaces.manager;
 
-import net.knarcraft.stargatecommand.formatting.StringFormatter;
-import net.knarcraft.stargatecommand.property.Icon;
+import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
+import net.knarcraft.stargateinterfaces.property.Icon;
 
 import java.util.HashMap;
 import java.util.Map;

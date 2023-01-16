@@ -1,7 +1,7 @@
-package net.knarcraft.stargatecommand.formatting;
+package net.knarcraft.stargateinterfaces.formatting;
 
-import net.knarcraft.stargatecommand.StargateCommand;
-import net.knarcraft.stargatecommand.util.FileHelper;
+import net.knarcraft.stargateinterfaces.StargateInterfaces;
+import net.knarcraft.stargateinterfaces.util.FileHelper;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -160,7 +160,7 @@ public final class StringFormatter {
             BufferedReader reader = FileHelper.getBufferedReaderForInternalFile("/" + formatFileName);
             return loadFormats(reader);
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.SEVERE, "Unable to load string formats from " +
+            StargateInterfaces.getInstance().getLogger().log(Level.SEVERE, "Unable to load string formats from " +
                     formatFileName);
             return null;
         }
@@ -172,18 +172,18 @@ public final class StringFormatter {
      * @return <p>The loaded translated strings, or null if no custom language file exists</p>
      */
     public static Map<StringFormat, String> loadCustomStringFormat() {
-        File formatFile = new File(StargateCommand.getInstance().getDataFolder(), formatFileName);
+        File formatFile = new File(StargateInterfaces.getInstance().getDataFolder(), formatFileName);
         if (!formatFile.exists()) {
             return null;
         }
 
         try {
-            StargateCommand.getInstance().getLogger().log(Level.INFO, "Loading custom formats from " +
+            StargateInterfaces.getInstance().getLogger().log(Level.INFO, "Loading custom formats from " +
                     formatFileName);
             return loadFormats(new BufferedReader(new InputStreamReader(new FileInputStream(formatFile),
                     StandardCharsets.UTF_8)));
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.WARNING,
+            StargateInterfaces.getInstance().getLogger().log(Level.WARNING,
                     "Unable to load custom formats from " + formatFileName);
             return null;
         }

@@ -1,7 +1,8 @@
-package net.knarcraft.stargatecommand.formatting;
+package net.knarcraft.stargateinterfaces.formatting;
 
-import net.knarcraft.stargatecommand.StargateCommand;
-import net.knarcraft.stargatecommand.util.FileHelper;
+import net.knarcraft.stargateinterfaces.StargateInterfaces;
+import net.knarcraft.stargateinterfaces.util.FileHelper;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.BufferedReader;
@@ -51,7 +52,7 @@ public final class Translator {
         } else if (backupTranslatedMessages != null && backupTranslatedMessages.containsKey(translatableMessage)) {
             translatedMessage = backupTranslatedMessages.get(translatableMessage);
         } else {
-            StargateCommand.getInstance().getLogger().log(Level.WARNING,
+            StargateInterfaces.getInstance().getLogger().log(Level.WARNING,
                     "No translation found for translatable message " + translatableMessage.name());
             return "Translated strings not loaded";
         }
@@ -70,7 +71,7 @@ public final class Translator {
                     language + ".yml");
             return loadTranslatableMessages(reader);
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.SEVERE,
+            StargateInterfaces.getInstance().getLogger().log(Level.SEVERE,
                     String.format("Unable to load translated messages from %s.yml", language));
             return null;
         }
@@ -83,19 +84,19 @@ public final class Translator {
      * @return <p>The loaded translated strings, or null if no custom language file exists</p>
      */
     public static Map<TranslatableMessage, String> loadCustomTranslatedMessages(String language) {
-        File translationsFolderFile = new File(StargateCommand.getInstance().getDataFolder(), translationsFolder);
+        File translationsFolderFile = new File(StargateInterfaces.getInstance().getDataFolder(), translationsFolder);
         File languageFile = new File(translationsFolderFile, language + ".yml");
         if (!languageFile.exists()) {
             return null;
         }
 
         try {
-            StargateCommand.getInstance().getLogger().log(Level.INFO,
+            StargateInterfaces.getInstance().getLogger().log(Level.INFO,
                     String.format("Loading custom strings from %s.yml", language));
             return loadTranslatableMessages(new BufferedReader(new InputStreamReader(new FileInputStream(languageFile),
                     StandardCharsets.UTF_8)));
         } catch (FileNotFoundException e) {
-            StargateCommand.getInstance().getLogger().log(Level.WARNING,
+            StargateInterfaces.getInstance().getLogger().log(Level.WARNING,
                     String.format("Unable to load custom messages from %s.yml", language));
             return null;
         }

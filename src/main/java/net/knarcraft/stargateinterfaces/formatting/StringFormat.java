@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.formatting;
+package net.knarcraft.stargateinterfaces.formatting;
 
 /**
  * An enum representing the formats of various output messages

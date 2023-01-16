@@ -1,13 +1,15 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.PortalFlag;
-import net.knarcraft.stargatecommand.formatting.StringFormat;
-import net.knarcraft.stargatecommand.formatting.StringFormatter;
-import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
-import net.knarcraft.stargatecommand.util.PortalFinderHelper;
+
+import net.knarcraft.stargateinterfaces.formatting.StringFormat;
+import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
+import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
+import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -17,11 +19,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedErrorMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
 
 /**
  * This tab-command represents the command for getting information about a seen portal

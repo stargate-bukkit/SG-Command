@@ -1,9 +1,9 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
-import net.knarcraft.stargatecommand.formatting.StringFormat;
-import net.knarcraft.stargatecommand.formatting.StringFormatter;
-import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
+import net.knarcraft.stargateinterfaces.formatting.StringFormat;
+import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
+import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
@@ -15,11 +15,11 @@ import org.sgrewritten.stargate.api.config.ConfigurationAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 import org.sgrewritten.stargate.api.config.OptionDataType;
 
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedErrorMessage;
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedInfoMessage;
+
 import java.util.Arrays;
 import java.util.List;
-
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedInfoMessage;
 
 /**
  * This command represents the config command for changing config values

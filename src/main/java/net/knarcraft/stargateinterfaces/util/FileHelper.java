@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.util;
+package net.knarcraft.stargateinterfaces.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

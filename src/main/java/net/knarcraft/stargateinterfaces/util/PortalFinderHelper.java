@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.util;
+package net.knarcraft.stargateinterfaces.util;
 
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;

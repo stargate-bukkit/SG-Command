@@ -1,14 +1,16 @@
-package net.knarcraft.stargatecommand;
+package net.knarcraft.stargateinterfaces;
 
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
-import net.knarcraft.stargatecommand.command.CommandStarGateCommand;
-import net.knarcraft.stargatecommand.command.StargateCommandTabCompleter;
-import net.knarcraft.stargatecommand.formatting.StringFormatter;
-import net.knarcraft.stargatecommand.formatting.Translator;
-import net.knarcraft.stargatecommand.listener.StargateListener;
-import net.knarcraft.stargatecommand.manager.IconManager;
-import net.knarcraft.stargatecommand.property.Icon;
+
+import net.knarcraft.stargateinterfaces.command.CommandStarGateCommand;
+import net.knarcraft.stargateinterfaces.command.StargateCommandTabCompleter;
+import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
+import net.knarcraft.stargateinterfaces.formatting.Translator;
+import net.knarcraft.stargateinterfaces.listener.StargateListener;
+import net.knarcraft.stargateinterfaces.manager.IconManager;
+import net.knarcraft.stargateinterfaces.property.Icon;
+
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -23,9 +25,9 @@ import java.util.List;
  * The main class for the Stargate-Command add-on
  */
 @SuppressWarnings("unused")
-public class StargateCommand extends JavaPlugin {
+public class StargateInterfaces extends JavaPlugin {
 
-    private static StargateCommand instance;
+    private static StargateInterfaces instance;
     private List<ConfigurationOption> bannedConfigOptions;
 
     @Override
@@ -72,7 +74,7 @@ public class StargateCommand extends JavaPlugin {
      *
      * @return <p>An instance of this plugin</p>
      */
-    public static StargateCommand getInstance() {
+    public static StargateInterfaces getInstance() {
         return instance;
     }
 

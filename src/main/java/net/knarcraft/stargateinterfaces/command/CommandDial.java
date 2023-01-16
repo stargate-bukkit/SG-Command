@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.manager.PermissionManager;
@@ -6,21 +6,22 @@ import org.sgrewritten.stargate.api.network.Network;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
-import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.manager.IconManager;
-import net.knarcraft.stargatecommand.manager.OverrideManager;
-import net.knarcraft.stargatecommand.property.Icon;
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
-import net.knarcraft.stargatecommand.util.NameHelper;
-import net.knarcraft.stargatecommand.util.PortalFinderHelper;
+import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
+import net.knarcraft.stargateinterfaces.manager.IconManager;
+import net.knarcraft.stargateinterfaces.manager.OverrideManager;
+import net.knarcraft.stargateinterfaces.property.Icon;
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
+import net.knarcraft.stargateinterfaces.util.NameHelper;
+import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
+
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedErrorMessage;
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedInfoMessage;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedInfoMessage;
 
 /**
  * This command represents the dial command for dialing any available Stargate

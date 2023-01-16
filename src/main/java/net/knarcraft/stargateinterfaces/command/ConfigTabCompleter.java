@@ -1,6 +1,5 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -9,10 +8,12 @@ import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 import org.sgrewritten.stargate.api.config.OptionDataType;
 
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
+
+import static net.knarcraft.stargateinterfaces.util.TabCompleterHelper.filterMatching;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.knarcraft.stargatecommand.util.TabCompleterHelper.filterMatching;
 
 /**
  * This is the completer for stargates config sub-command (/sgc config)

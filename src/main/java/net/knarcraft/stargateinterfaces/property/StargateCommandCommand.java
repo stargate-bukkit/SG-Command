@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.property;
+package net.knarcraft.stargateinterfaces.property;
 
 /**
  * An enum representing the commands of this plugin

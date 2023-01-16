@@ -1,12 +1,15 @@
-package net.knarcraft.stargatecommand.command;
+package net.knarcraft.stargateinterfaces.command;
 
-import net.knarcraft.stargatecommand.formatting.StringFormat;
-import net.knarcraft.stargatecommand.formatting.StringFormatter;
-import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
-import net.knarcraft.stargatecommand.manager.IconManager;
-import net.knarcraft.stargatecommand.property.Icon;
-import net.knarcraft.stargatecommand.property.StargateCommandCommand;
-import net.knarcraft.stargatecommand.util.NameHelper;
+import net.knarcraft.stargateinterfaces.formatting.StringFormat;
+import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
+import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
+import net.knarcraft.stargateinterfaces.manager.IconManager;
+import net.knarcraft.stargateinterfaces.property.Icon;
+import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
+import net.knarcraft.stargateinterfaces.util.NameHelper;
+
+import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedErrorMessage;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,8 +18,6 @@ import org.sgrewritten.stargate.api.network.Network;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.PortalFlag;
-
-import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
 
 /**
  * This command represents the command for visualizing a Stargate network

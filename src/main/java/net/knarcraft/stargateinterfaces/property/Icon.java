@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.property;
+package net.knarcraft.stargateinterfaces.property;
 
 /**
  * A representation of configurable icons used in this plugin

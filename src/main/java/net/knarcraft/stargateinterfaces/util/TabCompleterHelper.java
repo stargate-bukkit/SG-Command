@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.util;
+package net.knarcraft.stargateinterfaces.util;
 
 import java.util.ArrayList;
 import java.util.List;

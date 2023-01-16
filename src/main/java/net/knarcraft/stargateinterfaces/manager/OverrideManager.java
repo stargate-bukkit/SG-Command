@@ -1,4 +1,4 @@
-package net.knarcraft.stargatecommand.manager;
+package net.knarcraft.stargateinterfaces.manager;
 
 import org.sgrewritten.stargate.api.network.portal.Portal;
 

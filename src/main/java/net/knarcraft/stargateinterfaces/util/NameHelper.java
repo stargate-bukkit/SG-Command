@@ -1,9 +1,11 @@
-package net.knarcraft.stargatecommand.util;
+package net.knarcraft.stargateinterfaces.util;
 
 import org.sgrewritten.stargate.api.network.Network;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
-import net.knarcraft.stargatecommand.manager.IconManager;
-import net.knarcraft.stargatecommand.property.Icon;
+
+import net.knarcraft.stargateinterfaces.manager.IconManager;
+import net.knarcraft.stargateinterfaces.property.Icon;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

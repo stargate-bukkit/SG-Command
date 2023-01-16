@@ -1,5 +1,5 @@
 name: StargateCommand
-main: net.knarcraft.stargatecommand.StargateCommand
+main: net.knarcraft.stargateinterfaces.StargateInterfaces
 version: 0.1.0
 description: Command addon for the Stargate plugin for Bukkit
 author: EpicKnarvik97
