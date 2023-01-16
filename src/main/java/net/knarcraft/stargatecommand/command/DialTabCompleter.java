@@ -1,11 +1,12 @@
 package net.knarcraft.stargatecommand.command;
 
 import org.sgrewritten.stargate.api.StargateAPI;
-import org.sgrewritten.stargate.manager.PermissionManager;
-import org.sgrewritten.stargate.network.Network;
-import org.sgrewritten.stargate.network.RegistryAPI;
-import org.sgrewritten.stargate.network.portal.Portal;
-import org.sgrewritten.stargate.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.manager.PermissionManager;
+import org.sgrewritten.stargate.api.network.Network;
+import org.sgrewritten.stargate.api.network.RegistryAPI;
+import org.sgrewritten.stargate.api.network.portal.Portal;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
+
 import net.knarcraft.stargatecommand.manager.IconManager;
 import net.knarcraft.stargatecommand.property.Icon;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;

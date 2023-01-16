@@ -1,6 +1,6 @@
 package net.knarcraft.stargatecommand.command;
 
-import org.sgrewritten.stargate.network.RegistryAPI;
+import org.sgrewritten.stargate.api.network.RegistryAPI;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import net.knarcraft.stargatecommand.util.NameHelper;
 import org.bukkit.command.Command;

@@ -1,9 +1,5 @@
 package net.knarcraft.stargatecommand.command;
 
-import org.sgrewritten.stargate.network.Network;
-import org.sgrewritten.stargate.network.RegistryAPI;
-import org.sgrewritten.stargate.network.portal.Portal;
-import org.sgrewritten.stargate.network.portal.PortalFlag;
 import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
@@ -15,6 +11,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.sgrewritten.stargate.api.network.Network;
+import org.sgrewritten.stargate.api.network.RegistryAPI;
+import org.sgrewritten.stargate.api.network.portal.Portal;
+import org.sgrewritten.stargate.api.network.portal.PortalFlag;
 
 import static net.knarcraft.stargatecommand.formatting.StringFormatter.getTranslatedErrorMessage;
 

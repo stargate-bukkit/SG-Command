@@ -1,7 +1,7 @@
 package net.knarcraft.stargatecommand;
 
 import org.sgrewritten.stargate.api.StargateAPI;
-import org.sgrewritten.stargate.config.ConfigurationOption;
+import org.sgrewritten.stargate.api.config.ConfigurationOption;
 import net.knarcraft.stargatecommand.command.CommandStarGateCommand;
 import net.knarcraft.stargatecommand.command.StargateCommandTabCompleter;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;

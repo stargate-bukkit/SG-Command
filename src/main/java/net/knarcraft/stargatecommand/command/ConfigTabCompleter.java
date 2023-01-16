@@ -1,13 +1,13 @@
 package net.knarcraft.stargatecommand.command;
 
-import org.sgrewritten.stargate.config.ConfigurationOption;
-import org.sgrewritten.stargate.config.OptionDataType;
 import net.knarcraft.stargatecommand.property.StargateCommandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.sgrewritten.stargate.api.config.ConfigurationOption;
+import org.sgrewritten.stargate.api.config.OptionDataType;
 
 import java.util.ArrayList;
 import java.util.List;

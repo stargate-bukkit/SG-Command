@@ -1,8 +1,5 @@
 package net.knarcraft.stargatecommand.command;
 
-import org.sgrewritten.stargate.config.ConfigurationAPI;
-import org.sgrewritten.stargate.config.ConfigurationOption;
-import org.sgrewritten.stargate.config.OptionDataType;
 import net.knarcraft.stargatecommand.formatting.StringFormat;
 import net.knarcraft.stargatecommand.formatting.StringFormatter;
 import net.knarcraft.stargatecommand.formatting.TranslatableMessage;
@@ -14,6 +11,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.sgrewritten.stargate.api.config.ConfigurationAPI;
+import org.sgrewritten.stargate.api.config.ConfigurationOption;
+import org.sgrewritten.stargate.api.config.OptionDataType;
 
 import java.util.Arrays;
 import java.util.List;
