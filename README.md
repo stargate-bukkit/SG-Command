@@ -8,7 +8,7 @@
 > Please visit [our discord](https://discord.gg/mTaHuK6BVa) for all updates and support!
 
 # Description
-StarGate-Mechanics is an official module that adds numerous extra ways to create, use, and modify portals made with [the Stargate plugin](sgrewritten.org/bukkitsource).<br>
+StarGate-Interfaces is an official module that adds numerous extra ways to create, use, and modify portals made with [the Stargate plugin](sgrewritten.org/bukkitsource).<br>
 
 ## Features:
 This is a work in progress: many features are [still being determined](https://github.com/stargate-rewritten/Stargate-Interfaces/issues)
@@ -29,18 +29,18 @@ StarGate-Interfaces consists of two parts (both of which may be toggled in whole
 # Permissions
 ### Nodes
 ```
-sg.mechanics.command.config - Gives access to the `/sgc config` command.
-sg.mechanics.command.dial  - Gives access to the `/sgc dial` command.
-sg.mechanics.command.visualiser  - Gives access to the `/sgc visualiser ` command.
-sg.mechanics.command.info  - Gives access to the `/sgc info` command.
-sg.mechanics.interface.colour - Allows use of a brush on signs.
-sg.mechanics.interface.general - Allows use of a spyglass on signs.
+sg.interfaces.command.config - Gives access to the `/sgc config` command.
+sg.interfaces.command.dial  - Gives access to the `/sgc dial` command.
+sg.interfaces.command.visualiser  - Gives access to the `/sgc visualiser ` command.
+sg.interfaces.command.info  - Gives access to the `/sgc info` command.
+sg.interfaces.interface.colour - Allows use of a brush on signs.
+sg.interfaces.interface.general - Allows use of a spyglass on signs.
 
 ```
 ### Defaults
 *not yet available*
 ```
-sg.mechanics.node -- op
+sg.interfaces.node -- op
 ```
 
 ## Instructions
