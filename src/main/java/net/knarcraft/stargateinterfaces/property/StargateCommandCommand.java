@@ -8,22 +8,22 @@ public enum StargateCommandCommand {
     /**
      * The config command
      */
-    CONFIG("config", "stargate.command.config", false),
+    CONFIG("config", "sg.interfaces.config", false),
 
     /**
      * The dial command
      */
-    DIAL("dial", "stargate.command.dial", true),
+    DIAL("dial", "sg.interfaces.dial", true),
 
     /**
      * The visualizer command
      */
-    VISUALIZER("visualizer", "stargate.command.visualizer", false),
+    VISUALIZER("visualizer", "sg.interfaces.visualizer", false),
 
     /**
      * The info command
      */
-    INFO("info", "stargate.command.info", true);
+    INFO("info", "sg.interfaces.info", true);
 
     private final String name;
     private final String permissionNode;
