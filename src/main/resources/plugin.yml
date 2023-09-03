@@ -1,4 +1,4 @@
-name: StargateCommand
+name: StargateInterfaces
 main: net.knarcraft.stargateinterfaces.StargateInterfaces
 version: 0.1.0
 description: Command addon for the Stargate plugin for Bukkit
@@ -6,9 +6,14 @@ author: EpicKnarvik97
 depend: [ Stargate ]
 api-version: 1.18
 commands:
-  stargatecommand:
+  stargateinterfaces:
     aliases:
       - sgc
+      - sgi
+      - sgcommand
+      - sginterfaces
+      - stargatecommand
+      - stargateinterfaces
     description: The root command for all added commands
     usage: |
       /<command> <config/dial/visualizer/info>
