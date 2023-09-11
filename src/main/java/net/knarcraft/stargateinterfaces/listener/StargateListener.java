@@ -1,8 +1,8 @@
 package net.knarcraft.stargateinterfaces.listener;
 
-import org.sgrewritten.stargate.api.event.StargateCloseEvent;
-import org.sgrewritten.stargate.api.event.StargateDeactivateEvent;
-import org.sgrewritten.stargate.api.event.StargatePortalEvent;
+import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
+import org.sgrewritten.stargate.api.event.portal.StargateDeactivatePortalEvent;
+import org.sgrewritten.stargate.api.event.portal.StargateTeleportPortalEvent;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 
 import net.knarcraft.stargateinterfaces.manager.OverrideManager;
@@ -16,17 +16,17 @@ import org.bukkit.event.Listener;
 public class StargateListener implements Listener {
 
     @EventHandler
-    public void teleportListener(StargatePortalEvent event) {
+    public void teleportListener(StargateTeleportPortalEvent event) {
         removeOverriddenDestination(event.getPortal());
     }
 
     @EventHandler
-    public void deactivateListener(StargateDeactivateEvent event) {
+    public void deactivateListener(StargateDeactivatePortalEvent event) {
         removeOverriddenDestination(event.getPortal());
     }
 
     @EventHandler
-    public void closeListener(StargateCloseEvent event) {
+    public void closeListener(StargateClosePortalEvent event) {
         removeOverriddenDestination(event.getPortal());
     }
 
