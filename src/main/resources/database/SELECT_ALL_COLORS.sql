@@ -1,0 +1,1 @@
+FROM colors SELECT *;

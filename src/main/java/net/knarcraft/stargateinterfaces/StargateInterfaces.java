@@ -57,7 +57,7 @@ public class StargateInterfaces extends JavaPlugin {
                 stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions));
             }
             PluginManager pluginManager = getServer().getPluginManager();
-            pluginManager.registerEvents(new StargateListener(), this);
+            pluginManager.registerEvents(new StargateListener(stargateAPI), this);
         } else {
             throw new IllegalStateException("Unable to hook into Stargate. Make sure the Stargate plugin is installed " +
                     "and enabled.");
