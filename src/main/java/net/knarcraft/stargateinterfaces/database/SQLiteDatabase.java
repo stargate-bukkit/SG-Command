@@ -1,8 +1,6 @@
 package net.knarcraft.stargateinterfaces.database;
 
-import org.sgrewritten.stargate.database.DatabaseDriver;
 import org.sgrewritten.stargate.database.MySqlDatabase;
-import org.sgrewritten.stargate.database.SQLDatabaseAPI;
 
 import java.io.File;
 import java.sql.Connection;
@@ -15,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Represents an SQLite database
  */
-public class SQLiteDatabase implements SQLDatabaseAPI {
+public class SQLiteDatabase {
 
     private String url;
 
@@ -29,7 +27,6 @@ public class SQLiteDatabase implements SQLDatabaseAPI {
         setupSQLITE(databaseFile);
     }
 
-    @Override
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(this.url);
         try (PreparedStatement statement = connection.prepareStatement("PRAGMA foreign_keys = ON;")) {
@@ -59,11 +56,6 @@ public class SQLiteDatabase implements SQLDatabaseAPI {
             Logger.getLogger(MySqlDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         DriverManager.registerDriver(new org.sqlite.JDBC());
-    }
-
-    @Override
-    public DatabaseDriver getDriver() {
-        return DatabaseDriver.SQLITE;
     }
 
 }

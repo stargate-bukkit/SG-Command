@@ -19,21 +19,21 @@ import java.util.List;
 public class DatabaseInterface {
     private final SQLiteDatabase database;
 
-    public DatabaseInterface(SQLiteDatabase database){
+    public DatabaseInterface(SQLiteDatabase database) {
         this.database = database;
     }
 
     public void createTablesIfNotExists() throws SQLException, IOException {
-        try(Connection connection = database.getConnection()){
-            try(PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.CREATE_TABLE_COLORS)){
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.CREATE_TABLE_COLORS)) {
                 preparedStatement.execute();
             }
         }
     }
 
     public void insertColorsCategoryModification(ColorModification colorModification) {
-        try(Connection connection = database.getConnection()){
-            try(PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.CREATE_TABLE_COLORS)){
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.INSERT_INTO_COLORS)) {
                 preparedStatement.setString(1, colorModification.category().name());
                 preparedStatement.setString(2, colorModification.pointerColor().asHexString());
                 preparedStatement.setString(3, colorModification.textColor().asHexString());
@@ -45,12 +45,12 @@ public class DatabaseInterface {
         }
     }
 
-    public List<ColorModification> loadColorsCategoryModification(){
+    public List<ColorModification> loadColorsCategoryModification() {
         List<ColorModification> output = new ArrayList<>();
-        try(Connection connection = database.getConnection()){
-            try(PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.SELECT_ALL_COLORS)){
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.SELECT_ALL_COLORS)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     output.add(parseColorModification(resultSet));
                 }
             }
@@ -69,10 +69,10 @@ public class DatabaseInterface {
                 TextColor.fromHexString(textColorString), ModificationTargetWrapper.createFromString(targetString));
     }
 
-    public void removeColorModification(ColorModification colorModification){
-        try(Connection connection = database.getConnection()){
-            try(PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.DELETE_FROM_COLORS)){
-                preparedStatement.setString(1,colorModification.category().name());
+    public void removeColorModification(ColorModification colorModification) {
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.DELETE_FROM_COLORS)) {
+                preparedStatement.setString(1, colorModification.category().name());
                 preparedStatement.setString(2, colorModification.modificationTargetWrapper().getTargetString());
                 preparedStatement.execute();
             }
@@ -81,8 +81,13 @@ public class DatabaseInterface {
         }
     }
 
-    public PreparedStatement prepareStatement(Connection connection, InterfacesQuery query) throws IOException, SQLException {
-        try(InputStream inputStream = StargateInterfaces.class.getResourceAsStream("/database/" + query.name() + ".sql")){
+    public void updateColorModification(ColorModification colorModification){
+        this.removeColorModification(colorModification);
+        this.insertColorsCategoryModification(colorModification);
+    }
+
+    private PreparedStatement prepareStatement(Connection connection, InterfacesQuery query) throws IOException, SQLException {
+        try (InputStream inputStream = StargateInterfaces.class.getResourceAsStream("/database/" + query.name() + ".sql")) {
             String querryString = FileHelper.readStreamToString(inputStream);
             return connection.prepareStatement(querryString);
         }

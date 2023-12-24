@@ -1,1 +1,1 @@
-FROM colors SELECT *;
+SELECT * FROM colors

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS colors {
+CREATE TABLE IF NOT EXISTS colors (
     category NVARCHAR(8) NOT NULL,
     pointerColor NVARCHAR(8) NOT NULL,
     textColor NVARCHAR(8) NOT NULL,
@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS colors {
         category,
         target
     )
-};
+);

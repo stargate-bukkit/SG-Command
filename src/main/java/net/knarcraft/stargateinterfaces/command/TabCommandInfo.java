@@ -10,7 +10,7 @@ import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
 import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

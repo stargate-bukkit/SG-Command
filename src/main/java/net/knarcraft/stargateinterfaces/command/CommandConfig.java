@@ -5,7 +5,7 @@ import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
 import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
 import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

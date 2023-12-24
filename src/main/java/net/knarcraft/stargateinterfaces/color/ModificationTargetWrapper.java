@@ -20,10 +20,6 @@ public class ModificationTargetWrapper<T> {
         if(possibleMaterial != null){
             return new ModificationTargetWrapper<>(possibleMaterial);
         }
-        GateFormatAPI gateFormat = GateFormatRegistry.getFormat(string);
-        if(gateFormat != null){
-            return new ModificationTargetWrapper<>(gateFormat);
-        }
         return new ModificationTargetWrapper<>(string);
     }
 
@@ -49,9 +45,6 @@ public class ModificationTargetWrapper<T> {
     public String getTargetString(){
         if(target instanceof Enum<?> targetEnum){
             return targetEnum.toString();
-        }
-        if(target instanceof Network networkTarget){
-            return networkTarget.toString();
         }
         if(target instanceof String allTarget){
             return allTarget;
