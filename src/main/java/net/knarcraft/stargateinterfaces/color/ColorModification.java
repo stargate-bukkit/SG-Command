@@ -7,16 +7,17 @@ import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.PositionType;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
-public record ColorModification(ColorModificationCategory category, TextColor pointerColor, TextColor textColor, ModificationTargetWrapper<?> modificationTargetWrapper) {
+public record ColorModification(ColorModificationCategory category, TextColor pointerColor, TextColor textColor,
+                                ModificationTargetWrapper<?> modificationTargetWrapper) {
 
 
-    public boolean appliesTo(RealPortal realPortal){
-        return switch (category){
+    public boolean appliesTo(RealPortal realPortal) {
+        return switch (category) {
             case NETWORK -> modificationTargetWrapper.isOfTarget(realPortal.getNetwork().getName());
             case SIGN -> {
                 GateAPI gateAPI = realPortal.getGate();
-                for(PortalPosition portalPosition : gateAPI.getPortalPositions()){
-                    if(portalPosition.getPositionType() != PositionType.SIGN){
+                for (PortalPosition portalPosition : gateAPI.getPortalPositions()) {
+                    if (portalPosition.getPositionType() != PositionType.SIGN) {
                         continue;
                     }
                     Location signLocation = gateAPI.getLocation(portalPosition.getRelativePositionLocation());
@@ -30,11 +31,11 @@ public record ColorModification(ColorModificationCategory category, TextColor po
     }
 
     @Override
-    public boolean equals(Object other){
-        if(other == this){
+    public boolean equals(Object other) {
+        if (other == this) {
             return true;
         }
-        if(!(other instanceof ColorModification colorModification)){
+        if (!(other instanceof ColorModification colorModification)) {
             return false;
         }
         return colorModification.category.equals(this.category) && colorModification.textColor.equals(this.textColor) &&
@@ -42,7 +43,7 @@ public record ColorModification(ColorModificationCategory category, TextColor po
     }
 
     @Override
-    public int hashCode(){
-        return category.hashCode()*11 + modificationTargetWrapper.getTargetString().hashCode();
+    public int hashCode() {
+        return category.hashCode() * 11 + modificationTargetWrapper.getTargetString().hashCode();
     }
 }
