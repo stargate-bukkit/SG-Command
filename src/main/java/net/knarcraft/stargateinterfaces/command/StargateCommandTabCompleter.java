@@ -3,8 +3,6 @@ package net.knarcraft.stargateinterfaces.command;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -51,13 +49,13 @@ public class StargateCommandTabCompleter implements TabCompleter {
             //Get the actual arguments for the specified sub-command
             String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
 
-            if (args[0].equalsIgnoreCase(StargateCommandCommand.CONFIG.getName())) {
+            if (args[0].equalsIgnoreCase(StargateCommandType.CONFIG.getName())) {
                 return new ConfigTabCompleter(bannedConfigOptions).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.DIAL.getName())) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandType.DIAL.getName())) {
                 return new DialTabCompleter(stargateAPI).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.VISUALIZER.getName())) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandType.VISUALIZER.getName())) {
                 return new VisualizerTabCompleter(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandCommand.INFO.getName())) {
+            } else if (args[0].equalsIgnoreCase(StargateCommandType.INFO.getName())) {
                 return new TabCommandInfo(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
             }
         }
@@ -72,7 +70,7 @@ public class StargateCommandTabCompleter implements TabCompleter {
      */
     private List<String> getAvailableCommands(CommandSender commandSender) {
         List<String> commands = new ArrayList<>();
-        for (StargateCommandCommand command : StargateCommandCommand.values()) {
+        for (StargateCommandType command : StargateCommandType.values()) {
             if ((!command.requiresPlayer() || commandSender instanceof Player) &&
                     commandSender.hasPermission(command.getPermissionNode())) {
                 commands.add(command.getName());

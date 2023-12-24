@@ -2,7 +2,6 @@ package net.knarcraft.stargateinterfaces.command;
 
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.NameHelper;
 
 import org.bukkit.command.Command;
@@ -37,7 +36,7 @@ public class VisualizerTabCompleter implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
         //Don't display any info to non-authorized users
-        if (!commandSender.hasPermission(StargateCommandCommand.VISUALIZER.getPermissionNode())) {
+        if (!commandSender.hasPermission(StargateCommandType.VISUALIZER.getPermissionNode())) {
             return new ArrayList<>();
         }
 

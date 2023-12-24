@@ -2,7 +2,6 @@ package net.knarcraft.stargateinterfaces.command;
 
 import net.knarcraft.stargateinterfaces.manager.IconManager;
 import net.knarcraft.stargateinterfaces.property.Icon;
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.NameHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,7 +47,7 @@ public class DialTabCompleter implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
         //Don't display any info to non-authorized users
-        if (!commandSender.hasPermission(StargateCommandCommand.DIAL.getPermissionNode())) {
+        if (!commandSender.hasPermission(StargateCommandType.DIAL.getPermissionNode())) {
             return new ArrayList<>();
         }
 

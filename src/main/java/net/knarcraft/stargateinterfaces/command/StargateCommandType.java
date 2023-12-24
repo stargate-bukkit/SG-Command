@@ -1,9 +1,9 @@
-package net.knarcraft.stargateinterfaces.property;
+package net.knarcraft.stargateinterfaces.command;
 
 /**
  * An enum representing the commands of this plugin
  */
-public enum StargateCommandCommand {
+public enum StargateCommandType {
 
     /**
      * The config command
@@ -35,7 +35,7 @@ public enum StargateCommandCommand {
      * @param name           <p>The name of the new command</p>
      * @param permissionNode <p>The permission node required for using the command</p>
      */
-    StargateCommandCommand(String name, String permissionNode, boolean requiresPlayer) {
+    StargateCommandType(String name, String permissionNode, boolean requiresPlayer) {
         this.name = name;
         this.permissionNode = permissionNode;
         this.requiresPlayer = requiresPlayer;

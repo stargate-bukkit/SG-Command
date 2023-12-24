@@ -7,7 +7,6 @@ import org.sgrewritten.stargate.api.network.portal.PortalFlag;
 import net.knarcraft.stargateinterfaces.formatting.StringFormat;
 import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
 import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +47,7 @@ public class TabCommandInfo implements TabExecutor {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.COMMAND_PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission(StargateCommandCommand.INFO.getPermissionNode())) {
+        if (!player.hasPermission(StargateCommandType.INFO.getPermissionNode())) {
             player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
             return true;
         }

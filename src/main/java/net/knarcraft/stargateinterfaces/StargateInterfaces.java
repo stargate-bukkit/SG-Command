@@ -3,7 +3,7 @@ package net.knarcraft.stargateinterfaces;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
-import net.knarcraft.stargateinterfaces.command.CommandStarGateCommand;
+import net.knarcraft.stargateinterfaces.command.CommandStargate;
 import net.knarcraft.stargateinterfaces.command.StargateCommandTabCompleter;
 import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
 import net.knarcraft.stargateinterfaces.formatting.Translator;
@@ -53,7 +53,7 @@ public class StargateInterfaces extends JavaPlugin {
             //Register commands
             PluginCommand stargateCommand = this.getCommand("stargateCommand");
             if (stargateCommand != null) {
-                stargateCommand.setExecutor(new CommandStarGateCommand(stargateAPI, bannedConfigOptions));
+                stargateCommand.setExecutor(new CommandStargate(stargateAPI, bannedConfigOptions));
                 stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions));
             }
             PluginManager pluginManager = getServer().getPluginManager();

@@ -5,7 +5,6 @@ import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
 import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
 import net.knarcraft.stargateinterfaces.manager.IconManager;
 import net.knarcraft.stargateinterfaces.property.Icon;
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.NameHelper;
 
 import static net.knarcraft.stargateinterfaces.formatting.StringFormatter.getTranslatedErrorMessage;
@@ -39,7 +38,7 @@ public class CommandVisualizer implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
-        if (!commandSender.hasPermission(StargateCommandCommand.VISUALIZER.getPermissionNode())) {
+        if (!commandSender.hasPermission(StargateCommandType.VISUALIZER.getPermissionNode())) {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
             return true;
         }

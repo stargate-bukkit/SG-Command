@@ -4,7 +4,6 @@ import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
 import net.knarcraft.stargateinterfaces.manager.IconManager;
 import net.knarcraft.stargateinterfaces.manager.OverrideManager;
 import net.knarcraft.stargateinterfaces.property.Icon;
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.knarcraft.stargateinterfaces.util.NameHelper;
 import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
 import org.bukkit.command.Command;
@@ -47,7 +46,7 @@ public class CommandDial implements CommandExecutor {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.COMMAND_PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission(StargateCommandCommand.DIAL.getPermissionNode())) {
+        if (!player.hasPermission(StargateCommandType.DIAL.getPermissionNode())) {
             player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
             return true;
         }

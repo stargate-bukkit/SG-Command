@@ -3,7 +3,6 @@ package net.knarcraft.stargateinterfaces.command;
 import net.knarcraft.stargateinterfaces.formatting.StringFormat;
 import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
 import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -46,7 +45,7 @@ public class CommandConfig implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (commandSender instanceof Player player) {
-            if (!player.hasPermission(StargateCommandCommand.CONFIG.getPermissionNode())) {
+            if (!player.hasPermission(StargateCommandType.CONFIG.getPermissionNode())) {
                 player.sendMessage(getTranslatedErrorMessage(TranslatableMessage.PERMISSION_DENIED));
                 return true;
             }

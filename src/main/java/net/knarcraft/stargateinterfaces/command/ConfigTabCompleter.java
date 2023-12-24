@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 import org.sgrewritten.stargate.api.config.OptionDataType;
 
-import net.knarcraft.stargateinterfaces.property.StargateCommandCommand;
-
 import static net.knarcraft.stargateinterfaces.util.TabCompleterHelper.filterMatching;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class ConfigTabCompleter implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                                       @NotNull String[] args) {
         //Don't display any info to non-authorized users
-        if (!commandSender.hasPermission(StargateCommandCommand.CONFIG.getPermissionNode())) {
+        if (!commandSender.hasPermission(StargateCommandType.CONFIG.getPermissionNode())) {
             return new ArrayList<>();
         }
 
