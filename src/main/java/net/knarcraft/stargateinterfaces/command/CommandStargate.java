@@ -1,5 +1,6 @@
 package net.knarcraft.stargateinterfaces.command;
 
+import net.knarcraft.stargateinterfaces.command.style.CommandStyle;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -34,17 +35,18 @@ public class CommandStargate implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s,
                              @NotNull String[] args) {
         if (args.length > 0) {
-            String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
-            if (args[0].equalsIgnoreCase(StargateCommandType.CONFIG.getName())) {
-                return new CommandConfig(stargateAPI.getConfigurationAPI(), bannedConfigOptions).onCommand(
-                        commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.DIAL.getName())) {
-                return new CommandDial(stargateAPI).onCommand(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.VISUALIZER.getName())) {
-                return new CommandVisualizer(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.INFO.getName())) {
-                return new TabCommandInfo(stargateAPI.getRegistry()).onCommand(commandSender, command, s, subArgs);
-            }
+            String[] subArgs = ArrayUtils.remove(args, 0);
+            try{
+                StargateCommandType commandType = StargateCommandType.fromName(args[0]);
+                CommandExecutor executor = switch (commandType){
+                    case CONFIG -> new CommandConfig(stargateAPI.getConfigurationAPI(), bannedConfigOptions);
+                    case DIAL -> new CommandDial(stargateAPI);
+                    case VISUALIZER -> new CommandVisualizer(stargateAPI.getRegistry());
+                    case INFO -> new TabCommandInfo(stargateAPI.getRegistry());
+                    case STYLE -> new CommandStyle(stargateAPI.getRegistry());
+                };
+                return executor.onCommand(commandSender, command, s, subArgs);
+            } catch (IllegalArgumentException ignored){}
         }
         return false;
     }

@@ -1,5 +1,6 @@
 package net.knarcraft.stargateinterfaces.command;
 
+import net.knarcraft.stargateinterfaces.command.style.StyleTabCompleter;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -47,17 +48,18 @@ public class StargateCommandTabCompleter implements TabCompleter {
             return matchingCommands;
         } else if (args.length > 1) {
             //Get the actual arguments for the specified sub-command
-            String[] subArgs = (String[]) ArrayUtils.remove(args, 0);
-
-            if (args[0].equalsIgnoreCase(StargateCommandType.CONFIG.getName())) {
-                return new ConfigTabCompleter(bannedConfigOptions).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.DIAL.getName())) {
-                return new DialTabCompleter(stargateAPI).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.VISUALIZER.getName())) {
-                return new VisualizerTabCompleter(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
-            } else if (args[0].equalsIgnoreCase(StargateCommandType.INFO.getName())) {
-                return new TabCommandInfo(stargateAPI.getRegistry()).onTabComplete(commandSender, command, s, subArgs);
-            }
+            String[] subArgs = ArrayUtils.remove(args, 0);
+            try{
+                StargateCommandType commandType = StargateCommandType.fromName(args[0]);
+                TabCompleter tabCompleter = switch (commandType){
+                    case CONFIG -> new ConfigTabCompleter(bannedConfigOptions);
+                    case DIAL -> new DialTabCompleter(stargateAPI);
+                    case VISUALIZER -> new VisualizerTabCompleter(stargateAPI.getRegistry());
+                    case INFO -> new TabCommandInfo(stargateAPI.getRegistry());
+                    case STYLE -> new StyleTabCompleter(stargateAPI.getRegistry());
+                };
+                return tabCompleter.onTabComplete(commandSender,command,s,subArgs);
+            } catch (IllegalArgumentException ignored){}
         }
         return new ArrayList<>();
     }

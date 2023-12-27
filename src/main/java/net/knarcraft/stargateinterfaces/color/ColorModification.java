@@ -14,7 +14,7 @@ public record ColorModification(ColorModificationCategory category, TextColor po
     public boolean appliesTo(RealPortal realPortal) {
         return switch (category) {
             case NETWORK -> modificationTargetWrapper.isOfTarget(realPortal.getNetwork().getName());
-            case SIGN -> {
+            case MATERIAL -> {
                 GateAPI gateAPI = realPortal.getGate();
                 for (PortalPosition portalPosition : gateAPI.getPortalPositions()) {
                     if (portalPosition.getPositionType() != PositionType.SIGN) {
@@ -27,6 +27,7 @@ public record ColorModification(ColorModificationCategory category, TextColor po
             }
             case GATE -> modificationTargetWrapper.isOfTarget(realPortal.getGate().getFormat().getFileName());
             case GLOBAL -> true;
+            case PORTAL -> false;
         };
     }
 

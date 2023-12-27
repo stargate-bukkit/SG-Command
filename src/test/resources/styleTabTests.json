@@ -1,0 +1,83 @@
+[
+  {
+    "command": "style ",
+    "expected": [
+      "set",
+      "clear",
+      "quickset"
+    ]
+  },
+  {
+    "command": "style set ",
+    "expected": [
+      "global",
+      "network",
+      "gate",
+      "material",
+      "portal"
+    ]
+  },
+  {
+    "command": "style set global ",
+    "expected": [
+      "pointer",
+      "text",
+      "background",
+      "all",
+      "#000000"
+    ]
+  },
+  {
+    "command": "style set material ",
+    "expected": [
+      "acacia_wall_sign",
+      "birch_wall_sign",
+      "crimson_wall_sign",
+      "dark_oak_wall_sign",
+      "jungle_wall_sign",
+      "warped_wall_sign",
+      "spruce_wall_sign",
+      "oak_wall_sign"
+    ]
+  },
+  {
+    "command": "style set material acacia_wall_sign ",
+    "expected": [
+      "pointer",
+      "text",
+      "background",
+      "all",
+      "#000000"
+    ]
+  },
+  {
+    "command": "style quickset ",
+    "expected": [
+      "network",
+      "gate",
+      "material",
+      "pointer",
+      "portal",
+      "text",
+      "background",
+      "all",
+      "#000000"
+    ]
+  },
+  {
+    "command": "style quickset material ",
+    "expected" : [
+      "pointer",
+      "text",
+      "background",
+      "all",
+      "#000000"
+    ]
+  },
+  {
+    "command": "style quickset pointer ",
+    "expected" : [
+      "#000000"
+    ]
+  }
+]

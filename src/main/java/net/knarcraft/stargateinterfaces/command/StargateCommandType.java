@@ -23,7 +23,9 @@ public enum StargateCommandType {
     /**
      * The info command
      */
-    INFO("info", "sg.interfaces.info", true);
+    INFO("info", "sg.interfaces.info", true),
+
+    STYLE("style", "sg.interfaces.style", false);
 
     private final String name;
     private final String permissionNode;
@@ -66,6 +68,15 @@ public enum StargateCommandType {
      */
     public boolean requiresPlayer() {
         return requiresPlayer;
+    }
+
+    public static StargateCommandType fromName(String name){
+        for(StargateCommandType commandType : StargateCommandType.values()){
+            if(commandType.getName().equalsIgnoreCase(name)){
+                return commandType;
+            }
+        }
+        throw new IllegalArgumentException("No command type exist of name: " + name);
     }
 
 }
