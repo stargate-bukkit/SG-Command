@@ -1,5 +1,35 @@
-# The language used for all text displayed to players
+### Support available at: sgrewritten.org/discord ################################ Version: @version@
+# +-,┌-.¸-┌─┬┬─┐-- . -- ,┬┬-.¸ - ,┌-.¸ --- ô -- ┌─┬┬─┐-·┌┬───┐---- ▄▄▄ - ‚——. -▄--▄-▄--▄-▄-▄▄▄▄▄-+ #
+# | ``=ı¸   ||    /\\    ||__;  |(  __¸   /\\     ||    |├--:      █▄▄▀ (“‡‡”) █▄▄▀ █▄▄▀ █   █   | #
+# | :¸_|;  ,||. ¸/¯¯)\¸ ¸||¯)\¸  \\__|; ¸/¯¯)\¸  ,||.  ,||,,,;     █▄▄█  \__/  █  █ █  █ █   █   | #
+# +--------------------------------------{OFFICIAL MODULE}---------------------------------------+ #
+# |               _____ _   _ _______ ______ _____  ______      _____ ______  _____              | #
+# |              |_   _| \ | |__   __|  ____|  __ \|  ____/\   / ____|  ____|/ ____|             | #
+# |                | | |  \| |  | |  | |__  | |__) | |__ /  \ | |    | |__  | (___               | #
+# |                | | | . ` |  | |  |  __| |  _  /|  __/ /\ \| |    |  __|  \___ \              | #
+# |               _| |_| |\  |  | |  | |____| | \ \| | / ____ \ |____| |____ ____) |             | #
+# |              |_____|_| \_|  |_|  |______|_|  \_\_|/_/    \_\_____|______|_____/              | #
+# |______________________________________________________________________________________________| #
+# |                                 sgrewritten.org/interfaces                                   | #
+# +----------------------------------------------+-----------------------------------------------+ #
+# |    Documentation: sgrewritten.org/infoSGI    |     Bug Reports: sgrewritten.org/bugsSGI      | #
+# +----------------------------------------------+-----------------------------------------------+ #
+####################################################################################################
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                      General Preferences                                     | #
+# +----------------------------------------------------------------------------------------------+ #
+
+# What language will this module use when communicating with your users?
+# Supported languages [en].
+#
+# If SGM isn't yet available in your language, please consider becoming a translator:
+# https://crowdin.com/project/stargate-bukkit
 language: "en-US"
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                       Aesthetic Tweaks                                       | #
+# +----------------------------------------------------------------------------------------------+ #
 icon:
   # The "icon" used to mark a Stargate as hidden when visualizing the network
   hiddenIcon: "⇒"
@@ -17,3 +47,10 @@ icon:
   arrowRightIcon: "->"
   # The "icon" used to replace any spaces in Stargate or network names
   spaceReplacementIcon: "⚊"
+  
+# |                                           [ Debug ]                                          | #
+# |__     These settings are provided to help developers diagnose issues with this plugin.     __| #
+
+# An internal value used by the plugin to determine how old your config is.
+# Please do not change this.
+configVersion: 2

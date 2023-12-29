@@ -1,3 +1,7 @@
+# +----------------------------------------------------------------------------------------------+ #
+# |                                   Advanced Aesthetic Tweaks                                  | #
+# +----------------------------------------------------------------------------------------------+ #
+
 # The format for visualizing a network
 COMMAND_VISUALIZER_FORMAT: |
   {VISUALIZER_SYMBOL_EXPLANATION}:
