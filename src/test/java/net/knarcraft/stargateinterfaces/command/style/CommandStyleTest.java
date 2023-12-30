@@ -5,7 +5,10 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import jakarta.json.JsonObject;
 import net.joshka.junit.json.params.JsonFileSource;
+import net.knarcraft.stargateinterfaces.color.ColorModification;
+import net.knarcraft.stargateinterfaces.color.ColorModificationCategory;
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
+import net.knarcraft.stargateinterfaces.color.ModificationTargetWrapper;
 import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
 import net.knarcraft.stargateinterfaces.database.SQLiteDatabase;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,6 +24,7 @@ import org.sgrewritten.stargate.api.StargateAPI;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 class CommandStyleTest {
 
@@ -29,6 +33,7 @@ class CommandStyleTest {
     private CommandStyle command;
     private SQLiteDatabase database;
     private DatabaseInterface databaseInterface;
+    private final static File DATABASE_FILE = new File("src/test/resources/interfaces.db");
 
     @BeforeEach
     void setUp() throws SQLException, IOException {
@@ -36,15 +41,18 @@ class CommandStyleTest {
         this.commandSender = server.addPlayer("test");
         this.stargate = MockBukkit.load(Stargate.class);
         ColorModificationRegistry registry = new ColorModificationRegistry();
-        this.database = new SQLiteDatabase(new File("interfaces.db"));
+        this.database = new SQLiteDatabase(DATABASE_FILE);
         this.databaseInterface = new DatabaseInterface(database);
         this.databaseInterface.createTablesIfNotExists();
         this.command = new CommandStyle(stargate.getRegistry(), registry, databaseInterface);
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws IOException {
         MockBukkit.unmock();
+        if(DATABASE_FILE.exists() && !DATABASE_FILE.delete()){
+            throw new IOException("Unable to delete database file");
+        }
     }
 
     @ParameterizedTest
@@ -92,23 +100,21 @@ class CommandStyleTest {
     }
 
     @Test
-    void onCommand_1(){
-        String commandString = "style set global pointer #101010";
-        String[] args = ArrayUtils.remove(commandString.split(" "),0);
-        command.onCommand(commandSender,new VersionCommand("test"), "s", args);
-        Assertions.assertNotNull(commandSender.nextMessage());
-        Assertions.assertTrue(databaseInterface.loadColorsCategoryModification().isEmpty());
-    }
-
-    @Test
     void onCommand_setClear(){
         String commandString1 = "style set global pointer #101010";
         String[] args1 = ArrayUtils.remove(commandString1.split(" "),0);
         command.onCommand(commandSender,new VersionCommand("test"), "s", args1);
-        Assertions.assertNotNull(commandSender.nextMessage());
-        Assertions.assertTrue(databaseInterface.loadColorsCategoryModification().isEmpty());
+        Assertions.assertNull(commandSender.nextMessage());
+        List<ColorModification> colorModificationList = databaseInterface.loadColorsCategoryModification();
+        Assertions.assertEquals(1, colorModificationList.size());
+        ColorModification colorModification = colorModificationList.get(0);
+        Assertions.assertNull(commandSender.nextMessage());
+        Assertions.assertEquals(ColorModificationCategory.GLOBAL, colorModification.category());
+        Assertions.assertTrue(new ModificationTargetWrapper<>("all").equals(colorModification.modificationTargetWrapper()));
         String commandString2 = "style clear global";
-        String[] args2 = ArrayUtils.remove(commandString1.split(" "),0);
+        String[] args2 = ArrayUtils.remove(commandString2.split(" "),0);
         command.onCommand(commandSender,new VersionCommand("test"), "s", args2);
+        Assertions.assertNull(commandSender.nextMessage());
+        Assertions.assertTrue(databaseInterface.loadColorsCategoryModification().isEmpty());
     }
 }

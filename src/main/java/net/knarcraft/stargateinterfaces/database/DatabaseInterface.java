@@ -36,10 +36,10 @@ public class DatabaseInterface {
         try (Connection connection = database.getConnection()) {
             try (PreparedStatement preparedStatement = prepareStatement(connection, InterfacesQuery.INSERT_INTO_COLORS)) {
                 preparedStatement.setString(1, colorModification.category().name());
-                preparedStatement.setString(2, colorModification.pointerColor().asHexString());
-                preparedStatement.setString(3, colorModification.textColor().asHexString());
-                preparedStatement.setString(4, colorModification.modificationTargetWrapper().getTargetString());
-                preparedStatement.setString(5, colorModification.backgroundColor().name());
+                preparedStatement.setString(2, colorModification.modificationTargetWrapper().getTargetString());
+                preparedStatement.setString(3, colorModification.pointerColor() == null ? null : colorModification.pointerColor().asHexString());
+                preparedStatement.setString(4, colorModification.textColor() == null ? null :  colorModification.textColor().asHexString());
+                preparedStatement.setString(5, colorModification.backgroundColor() == null ? null : colorModification.backgroundColor().name());
                 preparedStatement.execute();
             }
         } catch (SQLException | IOException e) {
@@ -64,12 +64,15 @@ public class DatabaseInterface {
 
     private ColorModification parseColorModification(ResultSet resultSet) throws SQLException {
         String categoryString = resultSet.getString("category");
+        String targetString = resultSet.getString("target");
         String pointerColorString = resultSet.getString("pointerColor");
         String textColorString = resultSet.getString("textColor");
-        String targetString = resultSet.getString("target");
         String backgroundColorString = resultSet.getString("background");
-        return new ColorModification(ColorModificationCategory.valueOf(categoryString), TextColor.fromHexString(pointerColorString),
-                TextColor.fromHexString(textColorString), ModificationTargetWrapper.createFromString(targetString), DyeColor.valueOf(backgroundColorString.toUpperCase()));
+        return new ColorModification(ColorModificationCategory.valueOf(categoryString),
+                pointerColorString == null ? null : TextColor.fromHexString(pointerColorString),
+                textColorString == null ? null : TextColor.fromHexString(textColorString),
+                targetString == null ? null : ModificationTargetWrapper.createFromString(targetString),
+                backgroundColorString == null ? null : DyeColor.valueOf(backgroundColorString.toUpperCase()));
     }
 
     public void removeColorModification(ColorModification colorModification) {

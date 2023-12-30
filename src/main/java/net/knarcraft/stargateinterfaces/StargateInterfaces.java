@@ -51,7 +51,7 @@ public class StargateInterfaces extends JavaPlugin {
         this.styleCommandRegistry = new StyleCommandRegistry();
         this.colorModificationRegistry = new ColorModificationRegistry();
         try {
-            this.database = new SQLiteDatabase(new File("interfaces.db"));
+            this.database = new SQLiteDatabase(new File(this.getDataFolder(),"interfaces.db"));
             this.databaseInterface = new DatabaseInterface(database);
             this.databaseInterface.createTablesIfNotExists();
         } catch (SQLException | IOException e) {

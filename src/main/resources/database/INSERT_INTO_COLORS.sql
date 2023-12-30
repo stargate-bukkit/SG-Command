@@ -1,4 +1,4 @@
 INSERT INTO colors
-(category, pointerColor, textColor, target, background)
+(category, target, pointerColor, textColor, background)
 VALUES
 (?,?,?,?,?);

@@ -38,14 +38,15 @@ public class CommandStyle implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         try {
-            if(args.length == 0){
+            if(args.length < 2){
                 throw new IllegalArgumentException("");
             }
             StyleArgument argument = StyleArgument.fromName(args[0]);
             switch (argument) {
                 case SET, CLEAR -> {
-                    ColorModificationCategory colorModificationCategory = ColorModificationCategory.valueOf(args[0].toUpperCase());
                     String[] subArgs = ArrayUtils.remove(args,0);
+                    ColorModificationCategory colorModificationCategory = ColorModificationCategory.valueOf(subArgs[0].toUpperCase());
+                    subArgs = ArrayUtils.remove(subArgs, 0);
                     boolean shouldSkippNextArgument = setColorModificationTargetWrapper(colorModificationCategory, subArgs, commandSender);
                     if(shouldSkippNextArgument){
                         subArgs = ArrayUtils.remove(subArgs, 0);
@@ -130,9 +131,6 @@ public class CommandStyle implements CommandExecutor {
     }
 
     private boolean setColorModificationTargetWrapper(ColorModificationCategory colorModificationCategory, String[] args, CommandSender commandSender) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("");
-        }
         boolean hasReadOneArgument = false;
         this.modificationTargetWrapper = switch (colorModificationCategory) {
             case GLOBAL -> new ModificationTargetWrapper<>("all");
