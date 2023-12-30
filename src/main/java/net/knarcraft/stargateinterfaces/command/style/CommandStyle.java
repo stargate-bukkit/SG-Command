@@ -85,7 +85,11 @@ public class CommandStyle implements CommandExecutor {
 
     private void removeColorModification(ColorModificationCategory colorModificationCategory, ModificationTargetWrapper<?> modificationTargetWrapper) {
         ColorModification colorModification = colorModificationRegistry.getColorModification(colorModificationCategory,modificationTargetWrapper);
+        if(colorModification == null){
+            return;
+        }
         colorModificationRegistry.remove(colorModification);
+        databaseInterface.removeColorModification(colorModification);
     }
 
     private void applyColorModification(ColorModificationCategory colorModificationCategory,
@@ -110,6 +114,7 @@ public class CommandStyle implements CommandExecutor {
                 }
                 ColorModification newColorModification = colorModification.createModifiedInstance(colorSelectionType, textColor);
                 colorModificationRegistry.addOrUpdate(newColorModification);
+                databaseInterface.updateColorModification(newColorModification);
             };
             if(subArgs.length == 1){
                 TextColor color = TextColor.fromHexString(subArgs[0]);

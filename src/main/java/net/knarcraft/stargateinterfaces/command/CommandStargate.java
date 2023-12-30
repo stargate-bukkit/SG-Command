@@ -2,6 +2,7 @@ package net.knarcraft.stargateinterfaces.command;
 
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.knarcraft.stargateinterfaces.command.style.CommandStyle;
+import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -21,6 +22,7 @@ public class CommandStargate implements CommandExecutor {
     private final StargateAPI stargateAPI;
     private final List<ConfigurationOption> bannedConfigOptions;
     private final ColorModificationRegistry registry;
+    private final DatabaseInterface databaseInterface;
 
     /**
      * Instantiates a new Stargate-command command
@@ -28,10 +30,12 @@ public class CommandStargate implements CommandExecutor {
      * @param stargateAPI         <p>A reference to the Stargate API</p>
      * @param bannedConfigOptions <p>A list of config options that shouldn't be available</p>
      */
-    public CommandStargate(StargateAPI stargateAPI, List<ConfigurationOption> bannedConfigOptions, ColorModificationRegistry registry) {
+    public CommandStargate(StargateAPI stargateAPI, List<ConfigurationOption> bannedConfigOptions,
+                           ColorModificationRegistry registry, DatabaseInterface databaseInterface) {
         this.stargateAPI = stargateAPI;
         this.bannedConfigOptions = bannedConfigOptions;
         this.registry = registry;
+        this.databaseInterface = databaseInterface;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class CommandStargate implements CommandExecutor {
                     case DIAL -> new CommandDial(stargateAPI);
                     case VISUALIZER -> new CommandVisualizer(stargateAPI.getRegistry());
                     case INFO -> new TabCommandInfo(stargateAPI.getRegistry());
-                    case STYLE -> new CommandStyle(stargateAPI.getRegistry(), registry);
+                    case STYLE -> new CommandStyle(stargateAPI.getRegistry(), registry, databaseInterface);
                 };
                 return executor.onCommand(commandSender, command, s, subArgs);
             } catch (IllegalArgumentException ignored){}

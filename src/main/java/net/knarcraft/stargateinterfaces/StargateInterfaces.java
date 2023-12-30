@@ -2,6 +2,8 @@ package net.knarcraft.stargateinterfaces;
 
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.knarcraft.stargateinterfaces.command.style.StyleCommandRegistry;
+import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
+import net.knarcraft.stargateinterfaces.database.SQLiteDatabase;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -20,6 +22,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +38,8 @@ public class StargateInterfaces extends JavaPlugin {
     private List<ConfigurationOption> bannedConfigOptions;
     private StyleCommandRegistry styleCommandRegistry;
     private ColorModificationRegistry colorModificationRegistry;
+    private DatabaseInterface databaseInterface;
+    private SQLiteDatabase database;
 
     @Override
     public void onEnable() {
@@ -43,6 +50,13 @@ public class StargateInterfaces extends JavaPlugin {
         instance = this;
         this.styleCommandRegistry = new StyleCommandRegistry();
         this.colorModificationRegistry = new ColorModificationRegistry();
+        try {
+            this.database = new SQLiteDatabase(new File("interfaces.db"));
+            this.databaseInterface = new DatabaseInterface(database);
+            this.databaseInterface.createTablesIfNotExists();
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
         FileConfiguration configuration = this.getConfig();
         this.saveDefaultConfig();
         configuration.options().copyDefaults(true);
@@ -58,7 +72,7 @@ public class StargateInterfaces extends JavaPlugin {
             //Register commands
             PluginCommand stargateCommand = this.getCommand("stargateCommand");
             if (stargateCommand != null) {
-                stargateCommand.setExecutor(new CommandStargate(stargateAPI, bannedConfigOptions, colorModificationRegistry));
+                stargateCommand.setExecutor(new CommandStargate(stargateAPI, bannedConfigOptions, colorModificationRegistry, databaseInterface));
                 stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions, styleCommandRegistry));
             }
             PluginManager pluginManager = getServer().getPluginManager();
