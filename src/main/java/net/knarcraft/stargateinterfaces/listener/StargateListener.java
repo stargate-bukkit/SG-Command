@@ -4,8 +4,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import net.knarcraft.stargateinterfaces.StargateInterfaces;
+import net.knarcraft.stargateinterfaces.color.ColorModification;
+import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.block.Sign;
+import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.event.gate.StargateSignFormatGateEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
@@ -30,9 +37,13 @@ import java.util.List;
 public class StargateListener implements Listener {
 
     private final StargateAPI stargateAPI;
+    private final ColorModificationRegistry registry;
+    private final StargateInterfaces plugin;
 
-    public StargateListener(StargateAPI stargateAPI){
+    public StargateListener(StargateAPI stargateAPI, ColorModificationRegistry registry, StargateInterfaces plugin){
         this.stargateAPI = stargateAPI;
+        this.registry = registry;
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -57,35 +68,32 @@ public class StargateListener implements Listener {
         if(portal == null || portal.isDestroyed()){
             return;
         }
-        String metaData = portalPosition.getMetaData(portal);
-        modifySignLineFromMetaData(event.getLines(),metaData);
+        ColorModification colorModification = registry.getColorModificationForPortal(portal);
+        formatLines(colorModification, event.getSign(), event.getLines());
     }
 
-    private void modifySignLineFromMetaData(SignLine[] lines, String metaData) {
-        JsonObject jsonObject = (JsonObject) JsonParser.parseString(metaData);
-        JsonElement jsonElement = jsonObject.get("COLOR_OVERRIDES");
-        if(!(jsonElement instanceof JsonObject colorOverrides)){
-            return;
-        }
-        String pointerColorString = colorOverrides.get("pointer").getAsString();
-        String textColorString = colorOverrides.get("text").getAsString();
-        for(int i = 0; i < 4; i++){
-            SignLine line = lines[i];
-            List<StargateComponent> componentList =  line.getComponents();
-            StargateComponent sgComponent = componentList.get(0);
-            Component component;
-            if(componentList.size() > 1){
-                component = sgComponent.getText().color(TextColor.fromHexString(pointerColorString));
-                sgComponent.setText(component);
-                sgComponent = componentList.get(1);
-                component = sgComponent.getText().color(TextColor.fromHexString(textColorString));
-                sgComponent.setText(component);
-                sgComponent = componentList.get(2);
-                component = sgComponent.getText().color(TextColor.fromHexString(pointerColorString));
+    private void formatLines(ColorModification colorModification, Sign sign, SignLine[] lines) {
+        for(SignLine signLine : lines){
+            List<StargateComponent> stargateComponents = signLine.getComponents();
+            if(stargateComponents.size() == 3){
+                setColor(stargateComponents.get(0),colorModification.pointerColor());
+                setColor(stargateComponents.get(1),colorModification.textColor());
+                setColor(stargateComponents.get(2),colorModification.pointerColor());
             } else {
-                component = sgComponent.getText().color(TextColor.fromHexString(textColorString));
+                for(StargateComponent stargateComponent : stargateComponents){
+                    setColor(stargateComponent,colorModification.textColor());
+                }
             }
-            sgComponent.setText(component);
+        }
+        if(colorModification.backgroundColor() != null){
+            sign.setColor(colorModification.backgroundColor());
+        }
+        Bukkit.getScheduler().runTask(plugin, () -> sign.update());
+    }
+
+    private void setColor(StargateComponent component, @Nullable TextColor color){
+        if(color != null) {
+            component.setText(component.getText().color(color));
         }
     }
 

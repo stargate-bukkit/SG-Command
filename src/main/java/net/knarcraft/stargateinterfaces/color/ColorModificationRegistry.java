@@ -28,10 +28,10 @@ public class ColorModificationRegistry {
     }
 
     public @Nullable ColorModification getColorModificationForPortal(RealPortal portal) {
-        ColorModification output = null;
+        ColorModification output = new ColorModification(ColorModificationCategory.GLOBAL,null,null,new ModificationTargetWrapper<>("all"),null);
         for(ColorModification colorModification : colorModificationList){
             if(colorModification.appliesTo(portal)){
-                output = colorModification;
+                output = output.mergeColors(colorModification);
             }
         }
         return output;

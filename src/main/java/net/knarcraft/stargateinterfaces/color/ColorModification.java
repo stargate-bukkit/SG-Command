@@ -4,6 +4,7 @@ import net.knarcraft.stargateinterfaces.util.ColorHelper;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.checkerframework.checker.units.qual.C;
 import org.sgrewritten.stargate.api.gate.GateAPI;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.PositionType;
@@ -64,5 +65,12 @@ public record ColorModification(ColorModificationCategory category, TextColor po
     @Override
     public int hashCode() {
         return category.hashCode() * 11 + modificationTargetWrapper.getTargetString().hashCode();
+    }
+
+    public ColorModification mergeColors(ColorModification other) {
+        DyeColor backgroundColor = other.backgroundColor == null ? this.backgroundColor : other.backgroundColor;
+        TextColor pointerColor = other.pointerColor == null ? this.pointerColor : other.pointerColor;
+        TextColor textColor = other.textColor == null ? this.textColor : other.textColor;
+        return new ColorModification(this.category,pointerColor,textColor,modificationTargetWrapper,backgroundColor);
     }
 }
