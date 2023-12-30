@@ -15,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class StyleCommandRegistryTest {
 
     private PlayerMock commandSender;
+    private StyleCommandRegistry styleCommandRegistry;
 
     @BeforeEach
     void setUp(){
         ServerMock server = MockBukkit.mock();
         this.commandSender = server.addPlayer("player");
+        this.styleCommandRegistry = new StyleCommandRegistry();
     }
 
     @AfterEach
@@ -29,27 +31,27 @@ class StyleCommandRegistryTest {
     @Test
     void unTrackCommandSender() {
         TextColor color1 = TextColor.fromHexString("#000000");
-        StyleCommandRegistry.trackColorCodes(commandSender,color1);
-        StyleCommandRegistry.unTrackCommandSender(commandSender);
-        Assertions.assertNull(StyleCommandRegistry.getTrackedColors(commandSender));
+        styleCommandRegistry.trackColorCodes(commandSender,color1);
+        styleCommandRegistry.unTrackCommandSender(commandSender);
+        Assertions.assertNull(styleCommandRegistry.getTrackedColors(commandSender));
     }
 
     @Test
     void unTrackAllCommandSenders() {
         TextColor color1 = TextColor.fromHexString("#000000");
-        StyleCommandRegistry.trackColorCodes(commandSender,color1);
-        StyleCommandRegistry.unTrackAllCommandSenders();
-        Assertions.assertNull(StyleCommandRegistry.getTrackedColors(commandSender));
+        styleCommandRegistry.trackColorCodes(commandSender,color1);
+        styleCommandRegistry.unTrackAllCommandSenders();
+        Assertions.assertNull(styleCommandRegistry.getTrackedColors(commandSender));
     }
 
     @Test
     void trackColorCodes_textColorClash() {
         TextColor color1 = TextColor.fromHexString("#000000");
         TextColor color2 = TextColor.fromHexString("#000000");
-        StyleCommandRegistry.trackColorCodes(commandSender,color1);
-        Assertions.assertEquals(1, StyleCommandRegistry.getTrackedColors(commandSender).size());
-        StyleCommandRegistry.trackColorCodes(commandSender,color2);
-        Assertions.assertEquals(1, StyleCommandRegistry.getTrackedColors(commandSender).size());
+        styleCommandRegistry.trackColorCodes(commandSender,color1);
+        Assertions.assertEquals(1, styleCommandRegistry.getTrackedColors(commandSender).size());
+        styleCommandRegistry.trackColorCodes(commandSender,color2);
+        Assertions.assertEquals(1, styleCommandRegistry.getTrackedColors(commandSender).size());
 
     }
 }

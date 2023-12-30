@@ -1,11 +1,13 @@
 package net.knarcraft.stargateinterfaces.util;
 
+import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
 /**
  * A helper class for helping with finding portals in the world
@@ -24,10 +26,10 @@ public final class PortalFinderHelper {
      * @param rayLength    <p>The maximum length of the ray before giving up</p>
      * @return <p>The portal the player is looking at, or null if no portal was found</p>
      */
-    public static Portal findPortalByRaytrace(RegistryAPI registryAPI, LivingEntity livingEntity, int rayLength) {
+    public static @Nullable RealPortal findPortalByRaytrace(RegistryAPI registryAPI, LivingEntity livingEntity, int rayLength) {
         Location entityLocation = livingEntity.getLocation().add(0, livingEntity.getEyeHeight(), 0);
         Vector entityDirection = livingEntity.getLocation().getDirection();
-        Portal foundPortal = null;
+        RealPortal foundPortal = null;
 
         //Follow the ray outwards from the entity until a portal is found
         for (int i = 0; i < rayLength; i++) {

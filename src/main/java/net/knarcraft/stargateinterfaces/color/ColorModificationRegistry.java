@@ -34,4 +34,14 @@ public class ColorModificationRegistry {
         }
         return output;
     }
+
+    public @Nullable ColorModification getColorModification(ColorModificationCategory colorModificationCategory,
+                                                            ModificationTargetWrapper<?> modificationTargetWrapper){
+        for(ColorModification colorModification : colorModificationList){
+            if(colorModification.category() == colorModificationCategory && colorModification.modificationTargetWrapper().equals(modificationTargetWrapper)){
+                return colorModification;
+            }
+        }
+        return null;
+    }
 }

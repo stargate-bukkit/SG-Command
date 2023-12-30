@@ -1,6 +1,8 @@
 package net.knarcraft.stargateinterfaces.color;
 
+import net.knarcraft.stargateinterfaces.util.ColorHelper;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.sgrewritten.stargate.api.gate.GateAPI;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
@@ -8,8 +10,24 @@ import org.sgrewritten.stargate.api.network.portal.PositionType;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
 public record ColorModification(ColorModificationCategory category, TextColor pointerColor, TextColor textColor,
-                                ModificationTargetWrapper<?> modificationTargetWrapper) {
+                                ModificationTargetWrapper<?> modificationTargetWrapper, DyeColor backgroundColor) {
 
+    public ColorModification createModifiedInstance(ColorSelectionType colorSelectionType, TextColor color) {
+        TextColor pointerColor = this.pointerColor;
+        TextColor textColor = this.textColor;
+        DyeColor backgroundColor = this.backgroundColor;
+        switch (colorSelectionType) {
+            case TEXT -> textColor = color;
+            case POINTER -> pointerColor = color;
+            case ALL -> {
+                textColor = color;
+                pointerColor = color;
+                backgroundColor = ColorHelper.getClosestDyeColor(color);
+            }
+            case BACKGROUND -> ColorHelper.getClosestDyeColor(color);
+        }
+        return new ColorModification(this.category, pointerColor, textColor, this.modificationTargetWrapper, backgroundColor);
+    }
 
     public boolean appliesTo(RealPortal realPortal) {
         return switch (category) {

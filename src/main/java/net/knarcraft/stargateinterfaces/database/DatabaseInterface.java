@@ -6,6 +6,7 @@ import net.knarcraft.stargateinterfaces.color.ColorModificationCategory;
 import net.knarcraft.stargateinterfaces.color.ModificationTargetWrapper;
 import net.knarcraft.stargateinterfaces.util.FileHelper;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.DyeColor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,7 @@ public class DatabaseInterface {
                 preparedStatement.setString(2, colorModification.pointerColor().asHexString());
                 preparedStatement.setString(3, colorModification.textColor().asHexString());
                 preparedStatement.setString(4, colorModification.modificationTargetWrapper().getTargetString());
+                preparedStatement.setString(5, colorModification.backgroundColor().name());
                 preparedStatement.execute();
             }
         } catch (SQLException | IOException e) {
@@ -65,8 +67,9 @@ public class DatabaseInterface {
         String pointerColorString = resultSet.getString("pointerColor");
         String textColorString = resultSet.getString("textColor");
         String targetString = resultSet.getString("target");
+        String backgroundColorString = resultSet.getString("background");
         return new ColorModification(ColorModificationCategory.valueOf(categoryString), TextColor.fromHexString(pointerColorString),
-                TextColor.fromHexString(textColorString), ModificationTargetWrapper.createFromString(targetString));
+                TextColor.fromHexString(textColorString), ModificationTargetWrapper.createFromString(targetString), DyeColor.valueOf(backgroundColorString.toUpperCase()));
     }
 
     public void removeColorModification(ColorModification colorModification) {

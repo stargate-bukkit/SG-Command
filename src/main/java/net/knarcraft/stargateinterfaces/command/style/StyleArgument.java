@@ -6,7 +6,8 @@ import java.util.List;
 public enum StyleArgument {
     SET("set"),
     CLEAR("clear"),
-    QUICK_SET("quickset");
+    QUICK_SET("quickset"),
+    QUICK_CLEAR("quickclear");
 
     private final String commandName;
 

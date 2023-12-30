@@ -51,4 +51,17 @@ public class ModificationTargetWrapper<T> {
         }
         throw new UnsupportedOperationException("The type of this target is unsupported");
     }
+
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof ModificationTargetWrapper<?> modificationTargetWrapper) {
+            return target.equals(object);
+        }
+        return  false;
+    }
+
+    @Override
+    public int hashCode(){
+        return target.hashCode();
+    }
 }

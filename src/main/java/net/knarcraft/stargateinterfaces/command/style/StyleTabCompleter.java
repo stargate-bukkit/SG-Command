@@ -20,9 +20,11 @@ import java.util.List;
 
 public class StyleTabCompleter implements TabCompleter {
     private final RegistryAPI registry;
+    private final StyleCommandRegistry commandRegistry;
 
-    public StyleTabCompleter(RegistryAPI registry) {
+    public StyleTabCompleter(RegistryAPI registry, StyleCommandRegistry commandRegistry) {
         this.registry = registry;
+        this.commandRegistry = commandRegistry;
     }
 
     @Override
@@ -34,8 +36,8 @@ public class StyleTabCompleter implements TabCompleter {
                 StyleArgument argument = StyleArgument.fromName(args[0]);
                 String[] subArguments = ArrayUtils.remove(args, 0);
                 return switch (argument) {
-                    case SET, CLEAR -> tabCompleteCategorySelectAndDeselect(subArguments, commandSender, argument);
-                    case QUICK_SET -> tabCompleteQuickSet(subArguments, commandSender);
+                    case SET, CLEAR -> tabCompleteCategorySelectAndDeselect(subArguments, commandSender, argument == StyleArgument.SET);
+                    case QUICK_SET, QUICK_CLEAR -> tabCompleteQuickSet(subArguments, commandSender, argument == StyleArgument.QUICK_SET);
                 };
             } catch (IllegalArgumentException ignored) {
             }
@@ -43,7 +45,7 @@ public class StyleTabCompleter implements TabCompleter {
         return new ArrayList<>();
     }
 
-    private List<String> tabCompleteCategorySelectAndDeselect(@NotNull String[] args, CommandSender commandSender, StyleArgument argument) {
+    private List<String> tabCompleteCategorySelectAndDeselect(@NotNull String[] args, CommandSender commandSender, boolean isInput) {
         if (args.length == 1) {
             return Arrays.stream(ColorModificationCategory.values()).map((colorSelectionType) -> colorSelectionType.name().toLowerCase()).toList();
         }
@@ -53,24 +55,24 @@ public class StyleTabCompleter implements TabCompleter {
                 String[] subArgs = ArrayUtils.remove(args, 0);
                 String[] subSubArgs = ArrayUtils.remove(subArgs, 0);
                 return switch (colorSelectionType) {
-                    case GLOBAL, PORTAL -> tabCompleteColorSelection(subArgs, commandSender);
+                    case GLOBAL, PORTAL -> tabCompleteColorSelection(subArgs, commandSender,isInput);
                     case NETWORK -> {
                         if (args.length == 2) {
                             yield new ArrayList<>(registry.getNetworkMap().keySet());
                         }
-                        yield tabCompleteColorSelection(subSubArgs, commandSender);
+                        yield tabCompleteColorSelection(subSubArgs, commandSender,isInput);
                     }
                     case MATERIAL -> {
                         if (args.length == 2) {
                             yield Tag.WALL_SIGNS.getValues().stream().map((material -> material.name().toLowerCase())).toList();
                         }
-                        yield tabCompleteColorSelection(subSubArgs, commandSender);
+                        yield tabCompleteColorSelection(subSubArgs, commandSender,isInput);
                     }
                     case GATE -> {
                         if(args.length == 2) {
                             yield GateFormatRegistry.getAllGateFormatNames().stream().toList();
                         }
-                        yield tabCompleteColorSelection(subSubArgs, commandSender);
+                        yield tabCompleteColorSelection(subSubArgs, commandSender,isInput);
                     }
                 };
             } catch (IllegalArgumentException e) {
@@ -80,7 +82,7 @@ public class StyleTabCompleter implements TabCompleter {
         return new ArrayList<>();
     }
 
-    private List<String> tabCompleteQuickSet(@NotNull String[] args, CommandSender commandSender) {
+    private List<String> tabCompleteQuickSet(@NotNull String[] args, CommandSender commandSender, boolean isInput) {
         List<String> output = new ArrayList<>();
         if(args.length == 1) {
             List<String> colorModificationCategories = new ArrayList<>(Arrays.stream(ColorModificationCategory.values())
@@ -90,16 +92,16 @@ public class StyleTabCompleter implements TabCompleter {
         if (args.length > 0) {
             try{
                 ColorModificationCategory.valueOf(args[0].toUpperCase());
-                output.addAll(tabCompleteColorSelection(ArrayUtils.remove(args, 0), commandSender));
+                output.addAll(tabCompleteColorSelection(ArrayUtils.remove(args, 0), commandSender,isInput));
             } catch (IllegalArgumentException e){
-                output.addAll(tabCompleteColorSelection(args, commandSender));
+                output.addAll(tabCompleteColorSelection(args, commandSender,isInput));
             }
         }
         return output;
     }
 
     private List<String> tabCompleteHexCode(CommandSender commandSender) {
-        List<TextColor> trackedColors = StyleCommandRegistry.getTrackedColors(commandSender);
+        List<TextColor> trackedColors = commandRegistry.getTrackedColors(commandSender);
         if (trackedColors == null) {
             return new ArrayList<>();
         }
@@ -108,10 +110,12 @@ public class StyleTabCompleter implements TabCompleter {
         return output;
     }
 
-    private List<String> tabCompleteColorSelection(String[] args, CommandSender commandSender) {
+    private List<String> tabCompleteColorSelection(String[] args, CommandSender commandSender, boolean isInput) {
         List<String> output = new ArrayList<>();
         if(args.length > 0 && args.length < 3){
-            output.addAll(tabCompleteHexCode(commandSender));
+            if(isInput) {
+                output.addAll(tabCompleteHexCode(commandSender));
+            }
             try{
                 ColorSelectionType.valueOf(args[0].toUpperCase());
             } catch (IllegalArgumentException e){

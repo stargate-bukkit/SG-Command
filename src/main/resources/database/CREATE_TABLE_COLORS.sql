@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS colors (
     pointerColor NVARCHAR(8) NOT NULL,
     textColor NVARCHAR(8) NOT NULL,
     target NVARCHAR(24) NOT NULL,
+    background NVARCHAR(16) NOT NULL,
     PRIMARY KEY (
         category,
         target

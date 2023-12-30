@@ -1,5 +1,7 @@
 package net.knarcraft.stargateinterfaces;
 
+import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
+import net.knarcraft.stargateinterfaces.command.style.StyleCommandRegistry;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -29,6 +31,8 @@ public class StargateInterfaces extends JavaPlugin {
 
     private static StargateInterfaces instance;
     private List<ConfigurationOption> bannedConfigOptions;
+    private StyleCommandRegistry styleCommandRegistry;
+    private ColorModificationRegistry colorModificationRegistry;
 
     @Override
     public void onEnable() {
@@ -37,7 +41,8 @@ public class StargateInterfaces extends JavaPlugin {
             initializeBannedConfigOptions();
         }
         instance = this;
-
+        this.styleCommandRegistry = new StyleCommandRegistry();
+        this.colorModificationRegistry = new ColorModificationRegistry();
         FileConfiguration configuration = this.getConfig();
         this.saveDefaultConfig();
         configuration.options().copyDefaults(true);
@@ -53,8 +58,8 @@ public class StargateInterfaces extends JavaPlugin {
             //Register commands
             PluginCommand stargateCommand = this.getCommand("stargateCommand");
             if (stargateCommand != null) {
-                stargateCommand.setExecutor(new CommandStargate(stargateAPI, bannedConfigOptions));
-                stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions));
+                stargateCommand.setExecutor(new CommandStargate(stargateAPI, bannedConfigOptions, colorModificationRegistry));
+                stargateCommand.setTabCompleter(new StargateCommandTabCompleter(stargateAPI, bannedConfigOptions, styleCommandRegistry));
             }
             PluginManager pluginManager = getServer().getPluginManager();
             pluginManager.registerEvents(new StargateListener(stargateAPI), this);
@@ -66,7 +71,7 @@ public class StargateInterfaces extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //Currently, nothing needs to be disabled
+
     }
 
     /**

@@ -5,7 +5,6 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
 import net.joshka.junit.json.params.JsonFileSource;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -26,25 +25,27 @@ class StyleTabCompleterTest {
     private PlayerMock commandSender;
     private VersionCommand fakeCommand;
     private StargateAPI stargateAPI;
+    private StyleCommandRegistry styleCommandRegistry;
 
     @BeforeEach
     void setUp() {
         this.server = MockBukkit.mock();
         this.stargateAPI = MockBukkit.load(Stargate.class);
         this.commandSender = server.addPlayer("commandSender");
-        this.styleTabCompleter = new StyleTabCompleter(stargateAPI.getRegistry());
+        this.styleCommandRegistry = new StyleCommandRegistry();
+        this.styleTabCompleter = new StyleTabCompleter(stargateAPI.getRegistry(), styleCommandRegistry);
         this.fakeCommand = new VersionCommand("fake");
-        StyleCommandRegistry.trackColorCodes(commandSender, TextColor.fromHexString("#000000"));
+        styleCommandRegistry.trackColorCodes(commandSender, TextColor.fromHexString("#000000"));
     }
 
     @AfterEach
     void tearDown() {
         MockBukkit.unmock();
-        StyleCommandRegistry.unTrackAllCommandSenders();
+        styleCommandRegistry.unTrackAllCommandSenders();
     }
 
     @ParameterizedTest
-    @JsonFileSource(resources = "/styleTabTests.json")
+    @JsonFileSource(resources = "/styleTests.json")
     void onTabComplete(JsonObject jsonObject) {
         String command = jsonObject.getString("command");
         String[] args = command.split(" ",-1);

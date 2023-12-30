@@ -1,5 +1,6 @@
 package net.knarcraft.stargateinterfaces.command;
 
+import net.knarcraft.stargateinterfaces.command.style.StyleCommandRegistry;
 import net.knarcraft.stargateinterfaces.command.style.StyleTabCompleter;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
@@ -22,6 +23,7 @@ public class StargateCommandTabCompleter implements TabCompleter {
 
     private final StargateAPI stargateAPI;
     private final List<ConfigurationOption> bannedConfigOptions;
+    private final StyleCommandRegistry styleCommandRegistry;
 
     /**
      * Instantiates a new Stargate-command tab completer
@@ -29,9 +31,11 @@ public class StargateCommandTabCompleter implements TabCompleter {
      * @param stargateAPI         <p>A reference to the Stargate API</p>
      * @param bannedConfigOptions <p>A list of config options that shouldn't be available</p>
      */
-    public StargateCommandTabCompleter(StargateAPI stargateAPI, List<ConfigurationOption> bannedConfigOptions) {
+    public StargateCommandTabCompleter(StargateAPI stargateAPI, List<ConfigurationOption> bannedConfigOptions,
+                                       StyleCommandRegistry styleCommandRegistry) {
         this.stargateAPI = stargateAPI;
         this.bannedConfigOptions = bannedConfigOptions;
+        this.styleCommandRegistry = styleCommandRegistry;
     }
 
     @Override
@@ -56,7 +60,7 @@ public class StargateCommandTabCompleter implements TabCompleter {
                     case DIAL -> new DialTabCompleter(stargateAPI);
                     case VISUALIZER -> new VisualizerTabCompleter(stargateAPI.getRegistry());
                     case INFO -> new TabCommandInfo(stargateAPI.getRegistry());
-                    case STYLE -> new StyleTabCompleter(stargateAPI.getRegistry());
+                    case STYLE -> new StyleTabCompleter(stargateAPI.getRegistry(), styleCommandRegistry);
                 };
                 return tabCompleter.onTabComplete(commandSender,command,s,subArgs);
             } catch (IllegalArgumentException ignored){}
