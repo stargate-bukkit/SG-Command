@@ -132,37 +132,41 @@ public class CommandStyle implements CommandExecutor {
 
     private boolean setColorModificationTargetWrapper(ColorModificationCategory colorModificationCategory, String[] args, CommandSender commandSender) {
         boolean hasReadOneArgument = false;
-        this.modificationTargetWrapper = switch (colorModificationCategory) {
-            case GLOBAL -> new ModificationTargetWrapper<>("all");
-            case NETWORK -> {
-                hasReadOneArgument = true;
-                yield new ModificationTargetWrapper<>(args[0]);
-            }
-            case MATERIAL -> {
-                hasReadOneArgument = true;
-                yield new ModificationTargetWrapper<>(Material.valueOf(args[0].toUpperCase()));
-            }
-            case GATE -> {
-                if (GateFormatRegistry.getFormat(args[0]) == null) {
-                    throw new IllegalArgumentException("");
+        try {
+            this.modificationTargetWrapper = switch (colorModificationCategory) {
+                case GLOBAL -> new ModificationTargetWrapper<>("all");
+                case NETWORK -> {
+                    hasReadOneArgument = true;
+                    yield new ModificationTargetWrapper<>(args[0]);
                 }
-                hasReadOneArgument = true;
-                yield new ModificationTargetWrapper<>(args[0]);
-            }
-            case PORTAL -> {
-                if (!(commandSender instanceof LivingEntity commandEntity)) {
-                    throw new IllegalArgumentException("");
+                case MATERIAL -> {
+                    hasReadOneArgument = true;
+                    yield new ModificationTargetWrapper<>(Material.valueOf(args[0].toUpperCase()));
                 }
-                RealPortal portal = PortalFinderHelper.findPortalByRaytrace(registry, commandEntity, 10);
-                if(portal == null){
-                    throw new IllegalArgumentException("");
+                case GATE -> {
+                    if (GateFormatRegistry.getFormat(args[0]) == null) {
+                        throw new IllegalArgumentException("");
+                    }
+                    hasReadOneArgument = true;
+                    yield new ModificationTargetWrapper<>(args[0]);
                 }
-                String portalName = portal.getId();
-                String networkName = portal.getNetwork().getId();
-                String id = portalName + ">" + networkName;
-                yield new ModificationTargetWrapper<>(id);
-            }
-        };
+                case PORTAL -> {
+                    if (!(commandSender instanceof LivingEntity commandEntity)) {
+                        throw new IllegalArgumentException("");
+                    }
+                    RealPortal portal = PortalFinderHelper.findPortalByRaytrace(registry, commandEntity, 10);
+                    if (portal == null) {
+                        throw new IllegalArgumentException("");
+                    }
+                    String portalName = portal.getId();
+                    String networkName = portal.getNetwork().getId();
+                    String id = portalName + ">" + networkName;
+                    yield new ModificationTargetWrapper<>(id);
+                }
+            };
+        } catch (IndexOutOfBoundsException e){
+            throw new IllegalArgumentException("");
+        }
         return hasReadOneArgument;
     }
 }

@@ -12,6 +12,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.block.Sign;
+import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.event.gate.StargateSignFormatGateEvent;
@@ -61,7 +62,7 @@ public class StargateListener implements Listener {
         removeOverriddenDestination(event.getPortal());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void lineFormatListener(StargateSignFormatGateEvent event){
         PortalPosition portalPosition = event.getPortalPosition();
         RealPortal portal = stargateAPI.getRegistry().getPortalFromPortalPosition(portalPosition);

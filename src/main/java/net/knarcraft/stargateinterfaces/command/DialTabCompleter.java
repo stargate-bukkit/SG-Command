@@ -15,10 +15,12 @@ import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import org.sgrewritten.stargate.api.permission.PermissionManager;
+import org.sgrewritten.stargate.network.StorageType;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -89,9 +91,10 @@ public class DialTabCompleter implements TabCompleter {
      */
     private void populateNetworksAndPortals(PermissionManager permissionManager, List<String> availableNetworks,
                                             Map<String, List<String>> availablePortals) {
-        List<Network> networks = new LinkedList<>(stargateAPI.getRegistry().getNetworkMap().values());
+        Iterator<Network> networkIterator = stargateAPI.getRegistry().getNetworkRegistry(StorageType.LOCAL).iterator();
         //Get all available networks and portals
-        for (Network network : networks) {
+        while (networkIterator.hasNext()) {
+            Network network = networkIterator.next();
             String networkName = NameHelper.getVisualNetworkName(network);
             Collection<Portal> portals = network.getAllPortals();
             for (Portal portal : portals) {

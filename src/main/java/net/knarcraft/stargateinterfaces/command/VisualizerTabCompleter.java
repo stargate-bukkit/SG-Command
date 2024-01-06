@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.sgrewritten.stargate.network.StorageType;
 
 import static net.knarcraft.stargateinterfaces.util.TabCompleterHelper.filterMatching;
 
@@ -42,7 +43,7 @@ public class VisualizerTabCompleter implements TabCompleter {
 
         if (args.length < 2) {
             List<String> networkNames = new ArrayList<>();
-            registryAPI.getNetworkMap().values().forEach(network -> networkNames.add(NameHelper.getVisualNetworkName(network)));
+            registryAPI.getNetworkRegistry(StorageType.LOCAL).stream().forEach(network -> networkNames.add(NameHelper.getVisualNetworkName(network)));
             return filterMatching(networkNames, args[0]);
         } else {
             return new ArrayList<>();

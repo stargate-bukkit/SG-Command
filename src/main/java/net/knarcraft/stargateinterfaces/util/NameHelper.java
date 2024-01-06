@@ -8,6 +8,7 @@ import net.knarcraft.stargateinterfaces.property.Icon;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.sgrewritten.stargate.network.StorageType;
 
 import java.util.UUID;
 
@@ -59,7 +60,7 @@ public final class NameHelper {
             }
         }
 
-        return registryAPI.getNetwork(networkName, false);
+        return registryAPI.getNetwork(networkName, StorageType.LOCAL);
     }
 
 }

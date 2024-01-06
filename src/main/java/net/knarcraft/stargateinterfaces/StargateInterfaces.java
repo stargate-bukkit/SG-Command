@@ -48,6 +48,9 @@ public class StargateInterfaces extends JavaPlugin {
             initializeBannedConfigOptions();
         }
         instance = this;
+        if(!this.getDataFolder().exists() && !this.getDataFolder().mkdirs()){
+            throw new RuntimeException("Unable to create folder: " + this.getDataFolder());
+        }
         this.styleCommandRegistry = new StyleCommandRegistry();
         this.colorModificationRegistry = new ColorModificationRegistry();
         try {

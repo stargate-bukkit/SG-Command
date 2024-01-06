@@ -11,7 +11,9 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.gate.GateFormatRegistry;
+import org.sgrewritten.stargate.api.network.Network;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
+import org.sgrewritten.stargate.network.StorageType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +60,7 @@ public class StyleTabCompleter implements TabCompleter {
                     case GLOBAL, PORTAL -> tabCompleteColorSelection(subArgs, commandSender,isInput);
                     case NETWORK -> {
                         if (args.length == 2) {
-                            yield new ArrayList<>(registry.getNetworkMap().keySet());
+                            yield registry.getNetworkRegistry(StorageType.LOCAL).stream().map(Network::getName).toList();
                         }
                         yield tabCompleteColorSelection(subSubArgs, commandSender,isInput);
                     }
