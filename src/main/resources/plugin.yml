@@ -1,9 +1,10 @@
 name: StargateInterfaces
 main: net.knarcraft.stargateinterfaces.StargateInterfaces
-version: 0.1.0
-description: Command addon for the Stargate plugin for Bukkit
-author: EpicKnarvik97
+version: 0.2.0
+description: A UI expansion module for the Stargate Rewitten Bukkit Plugin.
+author: EpicKnarvik97, Thorinwasher
 depend: [ Stargate ]
+softdepend: [ StargateCustomizations ]
 api-version: 1.18
 commands:
   stargateinterfaces:
@@ -16,21 +17,40 @@ commands:
       - stargateinterfaces
     description: The root command for all added commands
     usage: |
-      /<command> <config/dial/visualizer/info>
+      /<command> <config/dial/visualizer/info/style>
       /<command> config <config option> <new value>
       /<command> dial <network name> <portal name>
       /<command> visualizer <network name>
       /<command> info
+      /<command> style <set/reset/quickset/quickreset> (args)
+      /<command> style set <gate/global/material/network/portal> <name/ID/facing> <all/background/pointer/text> [hex/dyecolor]
+      /<command> style reset <gate/global/material/network/portal> <name/ID/facing> <all/background/pointer/text>
+      /<command> style quickset [gate/global/material/portal] [all/background/pointer/text]
+      /<command> style quickreset [gate/global/material/portal] [all/background/pointer/text]
 permissions:
-  stargate.command.config:
-    description: Allows the use of /sgc config
-    default: false
-  stargate.command.dial:
-    description: Allows the use of /sgc dial
-    default: op
-  stargate.command.visualizer:
-    description: Allows the use of /sgc visualizer
-    default: op
-  stargate.command.info:
-    description: Allows the use of /sgc info
-    default: op
+  sg.interfaces:
+    children:
+      sg.interfaces.config:
+        description: Allows the use of /sgi config
+        default: false
+      sg.interfaces.dial:
+        description: Allows the use of /sgi dial
+        default: op
+      sg.interfaces.visualizer:
+        description: Allows the use of /sgi visualizer
+        default: op
+      sg.interfaces.info:
+        description: Allows the use of /sgi info
+        default: true
+      sg.interfaces.style:
+        description: Allows the use of /sgi style
+        default: op
+        children:
+          sg.interfaces.style.set:
+            description: Allows the use of /sgi style set
+          sg.interfaces.style.reset:
+            description: Allows the use of /sgi style reset
+          sg.interfaces.style.quickset:
+            description: Allows the use of /sgi style quickset
+          sg.interfaces.style.quickreset:
+            description: Allows the use of /sgi style quickreset

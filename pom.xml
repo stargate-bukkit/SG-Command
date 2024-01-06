@@ -4,7 +4,30 @@
 
     <groupId>net.knarcraft</groupId>
     <artifactId>StargateInterfaces</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
+    <name>Stargate Interfaces</name>
+    <description>A UI expansion module for the Stargate Rewitten Bukkit Plugin.</description>
+    <url>https://sgrewitten.org/interfaces</url>
+    <organization>
+        <name>Stargate Rewitten</name>
+        <url>https://sgrewitten.org</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>Thorin</id>
+            <url>thorinwasher.dev</url>
+        </developer>
+        <developer>
+            <id>Knarvik</id>
+            <url>knarcraft.net</url>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>The contributors of the SGR Project</name>
+            <url>https://sgrewitten.org/credits</url>
+        </contributor>
+    </contributors>
 
     <licenses>
         <license>
