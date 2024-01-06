@@ -1,4 +1,4 @@
-> [!CAUTION]<br>**This is an ALPHA build designed for preliminary testing.**<br>Although minimally tested, this build is not yet recommended for production instances!<br>If you do choose to use this build, please remember to make backups.
+> [!CAUTION]<br>**This is an ALPHA build designed for preliminary testing.**<br>Although minimally tested, this build is not yet recommended for production instances! If you do choose to use this build, please remember to make backups.
 
 # Stargate Interfaces
 

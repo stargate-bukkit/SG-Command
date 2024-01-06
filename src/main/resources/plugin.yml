@@ -1,6 +1,6 @@
 name: StargateInterfaces
 main: net.knarcraft.stargateinterfaces.StargateInterfaces
-version: 0.2.0
+version: ${project.version}
 description: A UI expansion module for the Stargate Rewitten Bukkit Plugin.
 author: EpicKnarvik97, Thorinwasher
 depend: [ Stargate ]
