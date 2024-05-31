@@ -66,3 +66,4 @@ nbactions.xml
 .history/
 *.vsix
 stargate.iml
+StargateInterfaces.iml

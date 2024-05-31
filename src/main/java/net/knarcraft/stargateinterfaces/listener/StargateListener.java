@@ -15,7 +15,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.StargateAPI;
-import org.sgrewritten.stargate.api.event.gate.StargateSignFormatGateEvent;
+import org.sgrewritten.stargate.api.event.portal.StargateSignFormatPortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateDeactivatePortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateTeleportPortalEvent;
@@ -27,8 +27,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
-import org.sgrewritten.stargate.api.network.portal.format.SignLine;
-import org.sgrewritten.stargate.api.network.portal.format.StargateComponent;
+import org.sgrewritten.stargate.api.network.portal.formatting.SignLine;
+import org.sgrewritten.stargate.api.network.portal.formatting.StargateComponent;
 
 import java.util.List;
 
@@ -63,9 +63,9 @@ public class StargateListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
-    public void lineFormatListener(StargateSignFormatGateEvent event){
+    public void lineFormatListener(StargateSignFormatPortalEvent event){
         PortalPosition portalPosition = event.getPortalPosition();
-        RealPortal portal = stargateAPI.getRegistry().getPortalFromPortalPosition(portalPosition);
+        RealPortal portal = portalPosition.getPortal();
         if(portal == null || portal.isDestroyed()){
             return;
         }

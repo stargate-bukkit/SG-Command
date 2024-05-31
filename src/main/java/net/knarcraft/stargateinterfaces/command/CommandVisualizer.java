@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.sgrewritten.stargate.api.network.Network;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.PortalFlag;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 
 /**
  * This command represents the command for visualizing a Stargate network
@@ -79,10 +80,10 @@ public class CommandVisualizer implements CommandExecutor {
                 iconBuilder.append(Icon.NOT_RANDOM.getPlaceholder());
             }
             String fixedString = "";
-            if (portal.hasFlag(PortalFlag.FIXED)) {
+            if (portal.hasFlag(PortalFlag.FIXED) && portal instanceof RealPortal realPortal) {
                 fixedString = StringFormatter.replacePlaceholder(StringFormatter.getStringFormat(
                                 StringFormat.COMMAND_VISUALIZER_FIXED_FORMAT), "{portal}",
-                        portal.getDestinationName());
+                        realPortal.getBehavior().getDestinationName());
             }
 
             stringBuilder.append(StringFormatter.replacePlaceholders(StringFormatter.getStringFormat(

@@ -2,7 +2,8 @@ package net.knarcraft.stargateinterfaces.command;
 
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.PortalFlag;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 
 import net.knarcraft.stargateinterfaces.formatting.StringFormat;
 import net.knarcraft.stargateinterfaces.formatting.StringFormatter;
@@ -52,7 +53,7 @@ public class TabCommandInfo implements TabExecutor {
             return true;
         }
 
-        Portal portal = PortalFinderHelper.findPortalByRaytrace(registryAPI, player, 15);
+        RealPortal portal = PortalFinderHelper.findPortalByRaytrace(registryAPI, player, 15);
         if (portal == null) {
             commandSender.sendMessage(getTranslatedErrorMessage(TranslatableMessage.NO_PORTAL_IN_SIGHT));
             return true;
@@ -60,7 +61,7 @@ public class TabCommandInfo implements TabExecutor {
 
         Player owner = Bukkit.getPlayer(portal.getOwnerUUID());
         String name = portal.getName();
-        String destination = portal.getDestinationName() == null ? "" : portal.getDestinationName();
+        String destination = portal.getBehavior().getDestinationName() == null ? "" : portal.getBehavior().getDestinationName();
         String network = portal.getNetwork().getName();
         String ownerName = owner != null ? owner.getName() : portal.getOwnerUUID().toString();
         Set<PortalFlag> portalFlags = PortalFlag.parseFlags(portal.getAllFlagsString());
