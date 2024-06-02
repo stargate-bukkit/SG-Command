@@ -38,7 +38,10 @@
       "jungle_wall_sign",
       "warped_wall_sign",
       "spruce_wall_sign",
-      "oak_wall_sign"
+      "oak_wall_sign",
+      "mangrove_wall_sign",
+      "cherry_wall_sign",
+      "bamboo_wall_sign"
     ]
   },
   {
