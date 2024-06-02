@@ -4,6 +4,8 @@ import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.knarcraft.stargateinterfaces.command.style.StyleCommandRegistry;
 import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
 import net.knarcraft.stargateinterfaces.database.SQLiteDatabase;
+import net.knarcraft.stargateinterfaces.util.ExceptionHelper;
+import org.bukkit.Bukkit;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.config.ConfigurationOption;
 
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * The main class for the Stargate-Command add-on
@@ -43,6 +46,11 @@ public class StargateInterfaces extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if(!ExceptionHelper.doesNotThrow(() -> Class.forName("com.destroystokyo.paper.util.VersionFetcher"))){
+            getLogger().log(Level.SEVERE, "Currently incompatible with non paper servers");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
         //Initialize the list of banned configuration options
         if (bannedConfigOptions == null) {
             initializeBannedConfigOptions();
