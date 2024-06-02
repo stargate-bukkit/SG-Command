@@ -1,6 +1,5 @@
 package net.knarcraft.stargateinterfaces;
 
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.knarcraft.stargateinterfaces.command.style.StyleCommandRegistry;
 import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
@@ -28,7 +27,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.plugin.Plugin;
 
 /**
  * The main class for the Stargate-Command add-on
@@ -42,8 +40,7 @@ public class StargateInterfaces extends JavaPlugin {
     private ColorModificationRegistry colorModificationRegistry;
     private DatabaseInterface databaseInterface;
     private SQLiteDatabase database;
-    private final LifecycleEventManager<Plugin> lifecycleEventManager = this.getLifecycleManager();
-    
+
     @Override
     public void onEnable() {
         //Initialize the list of banned configuration options
