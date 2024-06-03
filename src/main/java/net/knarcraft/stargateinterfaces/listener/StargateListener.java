@@ -1,30 +1,21 @@
 package net.knarcraft.stargateinterfaces.listener;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import net.knarcraft.stargateinterfaces.StargateInterfaces;
 import net.knarcraft.stargateinterfaces.color.ColorModification;
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
-import net.kyori.adventure.text.Component;
+import net.knarcraft.stargateinterfaces.manager.OverrideManager;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.block.Sign;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.StargateAPI;
-import org.sgrewritten.stargate.api.event.portal.StargateSignFormatPortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateDeactivatePortalEvent;
+import org.sgrewritten.stargate.api.event.portal.StargateSignFormatPortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateTeleportPortalEvent;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-
-import net.knarcraft.stargateinterfaces.manager.OverrideManager;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import org.sgrewritten.stargate.api.network.portal.formatting.SignLine;
@@ -41,7 +32,7 @@ public class StargateListener implements Listener {
     private final ColorModificationRegistry registry;
     private final StargateInterfaces plugin;
 
-    public StargateListener(StargateAPI stargateAPI, ColorModificationRegistry registry, StargateInterfaces plugin){
+    public StargateListener(StargateAPI stargateAPI, ColorModificationRegistry registry, StargateInterfaces plugin) {
         this.stargateAPI = stargateAPI;
         this.registry = registry;
         this.plugin = plugin;
@@ -63,10 +54,10 @@ public class StargateListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
-    public void lineFormatListener(StargateSignFormatPortalEvent event){
+    public void lineFormatListener(StargateSignFormatPortalEvent event) {
         PortalPosition portalPosition = event.getPortalPosition();
         RealPortal portal = portalPosition.getPortal();
-        if(portal == null || portal.isDestroyed()){
+        if (portal == null || portal.isDestroyed()) {
             return;
         }
         ColorModification colorModification = registry.getColorModificationForPortal(portal);
@@ -74,26 +65,26 @@ public class StargateListener implements Listener {
     }
 
     private void formatLines(ColorModification colorModification, Sign sign, SignLine[] lines) {
-        for(SignLine signLine : lines){
+        for (SignLine signLine : lines) {
             List<StargateComponent> stargateComponents = signLine.getComponents();
-            if(stargateComponents.size() == 3){
-                setColor(stargateComponents.get(0),colorModification.pointerColor());
-                setColor(stargateComponents.get(1),colorModification.textColor());
-                setColor(stargateComponents.get(2),colorModification.pointerColor());
+            if (stargateComponents.size() == 3) {
+                setColor(stargateComponents.get(0), colorModification.pointerColor());
+                setColor(stargateComponents.get(1), colorModification.textColor());
+                setColor(stargateComponents.get(2), colorModification.pointerColor());
             } else {
-                for(StargateComponent stargateComponent : stargateComponents){
-                    setColor(stargateComponent,colorModification.textColor());
+                for (StargateComponent stargateComponent : stargateComponents) {
+                    setColor(stargateComponent, colorModification.textColor());
                 }
             }
         }
-        if(colorModification.backgroundColor() != null){
-            sign.setColor(colorModification.backgroundColor());
+        if (colorModification.backgroundColor() == null) {
+            return;
         }
-        Bukkit.getScheduler().runTask(plugin, () -> sign.update());
+        sign.setColor(colorModification.backgroundColor());
     }
 
-    private void setColor(StargateComponent component, @Nullable TextColor color){
-        if(color != null) {
+    private void setColor(StargateComponent component, @Nullable TextColor color) {
+        if (color != null) {
             component.setText(component.getText().color(color));
         }
     }
