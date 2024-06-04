@@ -1,11 +1,7 @@
 package net.knarcraft.stargateinterfaces.command.style;
 
 import dev.thorinwasher.utils.colorbukkit.ColorBukkitAPI;
-import net.knarcraft.stargateinterfaces.color.ColorModification;
-import net.knarcraft.stargateinterfaces.color.ColorModificationCategory;
-import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
-import net.knarcraft.stargateinterfaces.color.ColorSelectionType;
-import net.knarcraft.stargateinterfaces.color.ModificationTargetWrapper;
+import net.knarcraft.stargateinterfaces.color.*;
 import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
 import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
 import net.kyori.adventure.text.format.TextColor;
@@ -38,40 +34,44 @@ public class CommandStyle implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         try {
-            if(args.length < 2){
+            if (args.length < 2) {
                 throw new IllegalArgumentException("");
             }
             StyleArgument argument = StyleArgument.fromName(args[0]);
             switch (argument) {
                 case SET, CLEAR -> {
-                    String[] subArgs = ArrayUtils.remove(args,0);
+                    String[] subArgs = ArrayUtils.remove(args, 0);
                     ColorModificationCategory colorModificationCategory = ColorModificationCategory.valueOf(subArgs[0].toUpperCase());
                     subArgs = ArrayUtils.remove(subArgs, 0);
-                    boolean shouldSkippNextArgument = setColorModificationTargetWrapper(colorModificationCategory, subArgs, commandSender);
-                    if(shouldSkippNextArgument){
+                    boolean shouldSkippNextArgument = setColorModificationTargetWrapper(colorModificationCategory, subArgs[0], commandSender);
+                    if (shouldSkippNextArgument) {
                         subArgs = ArrayUtils.remove(subArgs, 0);
                     }
-                    if(argument == StyleArgument.SET){
+                    if (argument == StyleArgument.SET) {
                         applyColorModification(colorModificationCategory, this.modificationTargetWrapper, subArgs, commandSender);
                     } else {
                         removeColorModification(colorModificationCategory, this.modificationTargetWrapper);
                     }
                 }
                 case QUICK_SET, QUICK_CLEAR -> {
+                    if (!(commandSender instanceof Player player)) {
+                        throw new IllegalArgumentException("Only players can use this command!");
+                    }
+
                     ColorModificationCategory colorModificationCategory;
-                    String[] subArgs;
+                    String[] subArgs = ArrayUtils.remove(args, 0);
                     try {
-                        colorModificationCategory = ColorModificationCategory.valueOf(args[0].toUpperCase());
-                        subArgs = ArrayUtils.remove(args, 0);
+                        colorModificationCategory = ColorModificationCategory.valueOf(args[1].toUpperCase());
+                        subArgs = ArrayUtils.remove(subArgs, 0);
                     } catch (IllegalArgumentException e) {
                         colorModificationCategory = ColorModificationCategory.PORTAL;
-                        subArgs = args;
                     }
-                    boolean shouldSkippNextArgument = setColorModificationTargetWrapper(colorModificationCategory, subArgs, commandSender);
-                    if (shouldSkippNextArgument) {
-                        subArgs = ArrayUtils.remove(subArgs, 0);
+                    RealPortal portal = PortalFinderHelper.findPortalByRaytrace(registry, player, 5);
+                    if (portal == null) {
+                        throw new IllegalArgumentException("You need to look at a portal to use this command!");
                     }
-                    if(argument == StyleArgument.QUICK_SET){
+                    setColorModificationTargetWrapper(colorModificationCategory, portal);
+                    if (argument == StyleArgument.QUICK_SET) {
                         applyColorModification(colorModificationCategory, this.modificationTargetWrapper, subArgs, commandSender);
                     } else {
                         removeColorModification(colorModificationCategory, this.modificationTargetWrapper);
@@ -84,9 +84,25 @@ public class CommandStyle implements CommandExecutor {
         return true;
     }
 
+    private void setColorModificationTargetWrapper(ColorModificationCategory colorModificationCategory, RealPortal portal) {
+        try {
+            this.modificationTargetWrapper = switch (colorModificationCategory) {
+                case GLOBAL -> new ModificationTargetWrapper<>("all");
+                case NETWORK -> new ModificationTargetWrapper<>(portal.getNetwork().getId());
+                case MATERIAL -> {
+                    throw new IllegalArgumentException("Not implemented");
+                }
+                case GATE -> new ModificationTargetWrapper<>(portal.getGate().getFormat().getFileName());
+                case PORTAL ->  new ModificationTargetWrapper<>(ColorUtils.convertIdToString(portal.getGlobalId()));
+            };
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("");
+        }
+    }
+
     private void removeColorModification(ColorModificationCategory colorModificationCategory, ModificationTargetWrapper<?> modificationTargetWrapper) {
-        ColorModification colorModification = colorModificationRegistry.getColorModification(colorModificationCategory,modificationTargetWrapper);
-        if(colorModification == null){
+        ColorModification colorModification = colorModificationRegistry.getColorModification(colorModificationCategory, modificationTargetWrapper);
+        if (colorModification == null) {
             return;
         }
         colorModificationRegistry.remove(colorModification);
@@ -94,8 +110,8 @@ public class CommandStyle implements CommandExecutor {
     }
 
     private void applyColorModification(ColorModificationCategory colorModificationCategory,
-                                                   ModificationTargetWrapper<?> modificationTargetWrapper, String[] args,
-                                                   CommandSender commandSender) {
+                                        ModificationTargetWrapper<?> modificationTargetWrapper, String[] args,
+                                        CommandSender commandSender) {
         if (args.length > 0) {
             final ColorSelectionType colorSelectionType;
             ColorSelectionType colorSelectionType1;
@@ -109,46 +125,46 @@ public class CommandStyle implements CommandExecutor {
             }
             colorSelectionType = colorSelectionType1;
             Consumer<TextColor> textColorConsumer = (textColor) -> {
-                ColorModification colorModification = colorModificationRegistry.getColorModification(colorModificationCategory,modificationTargetWrapper);
-                if (colorModification == null){
-                    colorModification = new ColorModification(colorModificationCategory,null,null,modificationTargetWrapper,null);
+                ColorModification colorModification = colorModificationRegistry.getColorModification(colorModificationCategory, modificationTargetWrapper);
+                if (colorModification == null) {
+                    colorModification = new ColorModification(colorModificationCategory, null, null, modificationTargetWrapper, null);
                 }
                 ColorModification newColorModification = colorModification.createModifiedInstance(colorSelectionType, textColor);
                 colorModificationRegistry.addOrUpdate(newColorModification);
                 databaseInterface.updateColorModification(newColorModification);
             };
-            if(subArgs.length == 1){
+            if (subArgs.length == 1) {
                 TextColor color = TextColor.fromHexString(subArgs[0]);
                 textColorConsumer.accept(color);
-            } else if (subArgs.length == 0 && commandSender instanceof Player player ) {
+            } else if (subArgs.length == 0 && commandSender instanceof Player player) {
                 try {
                     ColorBukkitAPI.getColor(player, textColorConsumer);
-                } catch (NoClassDefFoundError e){
+                } catch (NoClassDefFoundError e) {
                     throw new IllegalArgumentException("");
                 }
             }
         }
     }
 
-    private boolean setColorModificationTargetWrapper(ColorModificationCategory colorModificationCategory, String[] args, CommandSender commandSender) {
+    private boolean setColorModificationTargetWrapper(ColorModificationCategory colorModificationCategory, String arg, CommandSender commandSender) {
         boolean hasReadOneArgument = false;
         try {
             this.modificationTargetWrapper = switch (colorModificationCategory) {
                 case GLOBAL -> new ModificationTargetWrapper<>("all");
                 case NETWORK -> {
                     hasReadOneArgument = true;
-                    yield new ModificationTargetWrapper<>(args[0]);
+                    yield new ModificationTargetWrapper<>(arg);
                 }
                 case MATERIAL -> {
                     hasReadOneArgument = true;
-                    yield new ModificationTargetWrapper<>(Material.valueOf(args[0].toUpperCase()));
+                    yield new ModificationTargetWrapper<>(Material.valueOf(arg.toUpperCase()));
                 }
                 case GATE -> {
-                    if (GateFormatRegistry.getFormat(args[0]) == null) {
+                    if (GateFormatRegistry.getFormat(arg) == null) {
                         throw new IllegalArgumentException("");
                     }
                     hasReadOneArgument = true;
-                    yield new ModificationTargetWrapper<>(args[0]);
+                    yield new ModificationTargetWrapper<>(arg);
                 }
                 case PORTAL -> {
                     if (!(commandSender instanceof LivingEntity commandEntity)) {
@@ -158,13 +174,10 @@ public class CommandStyle implements CommandExecutor {
                     if (portal == null) {
                         throw new IllegalArgumentException("");
                     }
-                    String portalName = portal.getId();
-                    String networkName = portal.getNetwork().getId();
-                    String id = portalName + ">" + networkName;
-                    yield new ModificationTargetWrapper<>(id);
+                    yield new ModificationTargetWrapper<>(ColorUtils.convertIdToString(portal.getGlobalId()));
                 }
             };
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("");
         }
         return hasReadOneArgument;

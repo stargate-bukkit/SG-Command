@@ -30,9 +30,6 @@ public class ModificationTargetWrapper<T> {
     }
 
     public boolean isOfTarget(Object other) {
-        if (target instanceof String aString) {
-            return aString.equals("all");
-        }
         return target.equals(other);
     }
 

@@ -4,11 +4,12 @@ import net.knarcraft.stargateinterfaces.util.ColorHelper;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
-import org.checkerframework.checker.units.qual.C;
 import org.sgrewritten.stargate.api.gate.GateAPI;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.PositionType;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+
+import java.util.Objects;
 
 public record ColorModification(ColorModificationCategory category, TextColor pointerColor, TextColor textColor,
                                 ModificationTargetWrapper<?> modificationTargetWrapper, DyeColor backgroundColor) {
@@ -46,7 +47,7 @@ public record ColorModification(ColorModificationCategory category, TextColor po
             }
             case GATE -> modificationTargetWrapper.isOfTarget(realPortal.getGate().getFormat().getFileName());
             case GLOBAL -> true;
-            case PORTAL -> false;
+            case PORTAL -> modificationTargetWrapper.isOfTarget(ColorUtils.convertIdToString(realPortal.getGlobalId()));
         };
     }
 
@@ -58,8 +59,8 @@ public record ColorModification(ColorModificationCategory category, TextColor po
         if (!(other instanceof ColorModification colorModification)) {
             return false;
         }
-        return colorModification.category.equals(this.category) && colorModification.textColor.equals(this.textColor) &&
-                colorModification.pointerColor.equals(this.pointerColor) && colorModification.modificationTargetWrapper.getTargetString().equals(this.modificationTargetWrapper.getTargetString());
+        return Objects.equals(colorModification.category, this.category) && Objects.equals(colorModification.textColor, this.textColor) &&
+                Objects.equals(colorModification.pointerColor, this.pointerColor) && Objects.equals(colorModification.modificationTargetWrapper.getTargetString(), this.modificationTargetWrapper.getTargetString());
     }
 
     @Override
@@ -71,6 +72,6 @@ public record ColorModification(ColorModificationCategory category, TextColor po
         DyeColor backgroundColor = other.backgroundColor == null ? this.backgroundColor : other.backgroundColor;
         TextColor pointerColor = other.pointerColor == null ? this.pointerColor : other.pointerColor;
         TextColor textColor = other.textColor == null ? this.textColor : other.textColor;
-        return new ColorModification(this.category,pointerColor,textColor,modificationTargetWrapper,backgroundColor);
+        return new ColorModification(this.category, pointerColor, textColor, modificationTargetWrapper, backgroundColor);
     }
 }
