@@ -3,6 +3,7 @@ package net.knarcraft.stargateinterfaces.command.style;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import net.joshka.junit.json.params.JsonFileSource;
 import net.knarcraft.stargateinterfaces.color.ColorModification;
@@ -56,11 +57,15 @@ class CommandStyleTest {
     }
 
     @ParameterizedTest
-    @JsonFileSource(resources = "/styleTests.json")
+    @JsonFileSource(resources = "/styleTabCompletionTests.json")
     void onCommand(JsonObject jsonObject) {
         String commandString = jsonObject.getString("command");
         String[] args = ArrayUtils.remove(commandString.split(" "),0);
-        command.onCommand(commandSender,new VersionCommand("test"), "s", args);
+        JsonArray jsonArray = jsonObject.getJsonArray("expected");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            String value = jsonArray.getString(i);
+            Assertions.assertTrue(command.onCommand(commandSender, new VersionCommand("Test"), "s", ArrayUtils.add(args, value)));
+        }
     }
 
     @Test

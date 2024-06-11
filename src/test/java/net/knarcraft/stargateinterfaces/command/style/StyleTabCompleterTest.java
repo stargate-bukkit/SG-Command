@@ -45,7 +45,7 @@ class StyleTabCompleterTest {
     }
 
     @ParameterizedTest
-    @JsonFileSource(resources = "/styleTests.json")
+    @JsonFileSource(resources = "/styleTabCompletionTests.json")
     void onTabComplete(JsonObject jsonObject) {
         String command = jsonObject.getString("command");
         String[] args = command.split(" ",-1);
