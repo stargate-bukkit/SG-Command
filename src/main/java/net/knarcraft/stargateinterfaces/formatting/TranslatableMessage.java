@@ -175,4 +175,9 @@ public enum TranslatableMessage {
      */
     VISUALIZER_LIST_HEADER,
 
+    /**
+     * The message to send whenever the color is invalid
+     */
+    INVALID_COLOR,
+
 }

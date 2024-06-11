@@ -3,7 +3,10 @@ package net.knarcraft.stargateinterfaces.command.style;
 import dev.thorinwasher.utils.colorbukkit.ColorBukkitAPI;
 import net.knarcraft.stargateinterfaces.color.*;
 import net.knarcraft.stargateinterfaces.database.DatabaseInterface;
+import net.knarcraft.stargateinterfaces.formatting.TranslatableMessage;
+import net.knarcraft.stargateinterfaces.formatting.Translator;
 import net.knarcraft.stargateinterfaces.util.PortalFinderHelper;
+import net.knarcraft.stargateinterfaces.util.TextColorReader;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
@@ -17,6 +20,7 @@ import org.sgrewritten.stargate.api.gate.GateFormatRegistry;
 import org.sgrewritten.stargate.api.network.RegistryAPI;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CommandStyle implements CommandExecutor {
@@ -134,8 +138,9 @@ public class CommandStyle implements CommandExecutor {
                 databaseInterface.updateColorModification(newColorModification);
             };
             if (subArgs.length == 1) {
-                TextColor color = TextColor.fromHexString(subArgs[0]);
-                textColorConsumer.accept(color);
+                final String colorString = subArgs[0];
+                Optional<TextColor> textColorOptional = TextColorReader.parseTextColor(colorString);
+                textColorOptional.ifPresentOrElse(textColorConsumer, () -> sendInvalidColorMessage(commandSender, colorString));
             } else if (subArgs.length == 0 && commandSender instanceof Player player) {
                 try {
                     ColorBukkitAPI.getColor(player, textColorConsumer);
@@ -181,5 +186,9 @@ public class CommandStyle implements CommandExecutor {
             throw new IllegalArgumentException("");
         }
         return hasReadOneArgument;
+    }
+
+    private void sendInvalidColorMessage(CommandSender commandSender, String colorString){
+        commandSender.sendMessage(Translator.getTranslatedMessage(TranslatableMessage.INVALID_COLOR).replace("%colorString%", colorString));
     }
 }
