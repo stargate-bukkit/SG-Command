@@ -32,4 +32,4 @@ VISUALIZER_RANDOM: "random destination"
 VISUALIZER_NOT_RANDOM: "non-random destination"
 VISUALIZER_FIXED: "fixed Stargate going to the specified Stargate"
 VISUALIZER_LIST_HEADER: "All Stargates in network"
-INVALID_COLOR: "Invalid color string '%colorString%"'
+INVALID_COLOR: "Invalid color string '%colorString%"
