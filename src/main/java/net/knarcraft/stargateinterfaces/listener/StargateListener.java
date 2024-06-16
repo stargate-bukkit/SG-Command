@@ -4,6 +4,7 @@ import net.knarcraft.stargateinterfaces.StargateInterfaces;
 import net.knarcraft.stargateinterfaces.color.ColorModification;
 import net.knarcraft.stargateinterfaces.color.ColorModificationRegistry;
 import net.knarcraft.stargateinterfaces.manager.OverrideManager;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import org.sgrewritten.stargate.api.StargateAPI;
+import org.sgrewritten.stargate.api.container.Holder;
 import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateDeactivatePortalEvent;
 import org.sgrewritten.stargate.api.event.portal.StargateSignFormatPortalEvent;
@@ -18,6 +20,7 @@ import org.sgrewritten.stargate.api.event.portal.StargateTeleportPortalEvent;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.PortalPosition;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.network.portal.formatting.AdventureStargateComponent;
 import org.sgrewritten.stargate.api.network.portal.formatting.SignLine;
 import org.sgrewritten.stargate.api.network.portal.formatting.StargateComponent;
 
@@ -66,13 +69,13 @@ public class StargateListener implements Listener {
 
     private void formatLines(ColorModification colorModification, Sign sign, SignLine[] lines) {
         for (SignLine signLine : lines) {
-            List<StargateComponent> stargateComponents = signLine.getComponents();
+            List<Holder<StargateComponent>> stargateComponents = signLine.getComponents();
             if (stargateComponents.size() == 3) {
                 setColor(stargateComponents.get(0), colorModification.pointerColor());
                 setColor(stargateComponents.get(1), colorModification.textColor());
                 setColor(stargateComponents.get(2), colorModification.pointerColor());
             } else {
-                for (StargateComponent stargateComponent : stargateComponents) {
+                for (Holder<StargateComponent> stargateComponent : stargateComponents) {
                     setColor(stargateComponent, colorModification.textColor());
                 }
             }
@@ -83,9 +86,9 @@ public class StargateListener implements Listener {
         sign.setColor(colorModification.backgroundColor());
     }
 
-    private void setColor(StargateComponent component, @Nullable TextColor color) {
+    private void setColor(Holder<StargateComponent> component, @Nullable TextColor color) {
         if (color != null) {
-            component.setText(component.getText().color(color));
+            component.value = new AdventureStargateComponent(Component.text(component.value.plainText()).color(color));
         }
     }
 
