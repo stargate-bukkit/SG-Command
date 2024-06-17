@@ -6,10 +6,10 @@
     <artifactId>StargateInterfaces</artifactId>
     <version>0.2.0-ALPHA</version>
     <name>Stargate Interfaces</name>
-    <description>A UI expansion module for the Stargate Rewitten Bukkit Plugin.</description>
+    <description>A UI expansion module for the Stargate Rewritten Bukkit Plugin.</description>
     <url>https://sgrewitten.org/interfaces</url>
     <organization>
-        <name>Stargate Rewitten</name>
+        <name>Stargate Rewritten</name>
         <url>https://sgrewitten.org</url>
     </organization>
     <developers>
