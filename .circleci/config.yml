@@ -1,0 +1,95 @@
+version: 2.1
+jobs:
+  build-and-test:
+    docker:
+      - image: debian:12.4
+
+      - image: cimg/mariadb:11.2.1
+        environment:
+          MARIADB_ROOT_PASSWORD: password
+          MARIADB_DATABASE: Stargate
+          MARIADB_PASSWORD: password
+
+    environment:
+      TEST_REPORTS: /tmp/test-reports
+
+    working_directory: ~/my-project/stargate/interfaces
+
+    steps:
+      - checkout
+
+      - run:
+          name: Debug and Environment
+          command: |
+            echo 127.0.0.1 devhost | tee -a /etc/hosts
+            mkdir -p ~/my-projects/stargate/interfaces
+            cd ~/my-projects/stargate/interfaces
+
+      - run:
+          name: Install Stuff
+          command: |
+            cd ~/my-projects/stargate/interfaces
+            apt-get update && apt-get install -y mariadb-client
+            apt-get install -y git
+            apt-get install -y maven
+            apt install -y jq
+            apt install -y wget
+            apt install -y curl
+
+      - run:
+          name: Clone Repository
+          command: |
+            cd ~/my-projects/stargate/interfaces
+            git clone https://github.com/stargate-rewritten/Stargate-Interfaces.git
+            cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
+            git checkout main
+
+      - restore_cache:
+          keys:
+            - maven-data
+
+      - run:
+          name: Populate Secrets File
+          command: |
+            cd ~/my-projects/stargate/interfaces
+            touch ~/my-projects/stargate/interfaces/Stargate-Interfaces/src/test/resources/mysql_credentials.secret
+            echo MYSQL_DB_PASSWORD=password >> ~/my-projects/stargate/interfaces/Stargate-Interfaces/src/test/resources/mysql_credentials.secret
+            echo MYSQL_DB_USER=root >> ~/my-projects/stargate/interfaces/Stargate-Interfaces/src/test/resources/mysql_credentials.secret
+
+      - run:
+          name: Attempt to Build
+          command: |
+            cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
+            core_url="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts | jq '.[0].url' | tr -d '"')"
+            core_version="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts | jq '.[0].path' | tr -d '"' | cut -d - -f 2)"
+            wget "$core_url" -O ~/my-projects/stargate/interfaces/Stargate-Interfaces/Stargate-"$core_version"-PIPELINE.jar
+            cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
+            mvn org.apache.maven.plugins:maven-install-plugin:3.1.2:install-file -Dfile=Stargate-"$core_version"-PIPELINE.jar
+            mvn install
+
+      - save_cache:
+          key: maven-data
+          paths:
+            - ~/my-projects/stargate/interfaces/Stargate-Interfaces/target
+
+      - run:
+          name: Move valid files
+          command: |
+            cd ~/my-projects/stargate/interfaces/Stargate-Interfaces/target
+            mkdir ~/my-projects/stargate/interfaces/Stargate-Interfaces/target/export
+            cd ~/my-projects/stargate/interfaces/Stargate-Interfaces/target
+            mv StargateInterfaces-*.jar export
+
+      - store_artifacts:
+          path: ~/my-projects/stargate/interfaces/Stargate-Interfaces/target/export
+          destination: build
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              ignore:
+                - develop
+                - /feature-.*/
