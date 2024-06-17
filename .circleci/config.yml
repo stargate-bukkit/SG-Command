@@ -42,7 +42,7 @@ jobs:
             cd ~/my-projects/stargate/interfaces
             git clone https://github.com/stargate-rewritten/Stargate-Interfaces.git
             cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
-            git checkout main
+            git checkout master
 
       - restore_cache:
           keys:
@@ -60,8 +60,8 @@ jobs:
           name: Attempt to Build
           command: |
             cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
-            core_url="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts | jq '.[0].url' | tr -d '"')"
-            core_version="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts | jq '.[0].path' | tr -d '"' | cut -d - -f 2)"
+            core_url="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts?circle-token=${CIRCLE_TOKEN} | jq '.[0].url' | tr -d '"')"
+            core_version="$(curl -H 'accept: application/json' https://circleci.com/api/v1.1/project/github/stargate-rewritten/Stargate-Bukkit/latest/artifacts?circle-token=${CIRCLE_TOKEN} | jq '.[0].path' | tr -d '"' | cut -d - -f 2)"
             wget "$core_url" -O ~/my-projects/stargate/interfaces/Stargate-Interfaces/Stargate-"$core_version"-PIPELINE.jar
             cd ~/my-projects/stargate/interfaces/Stargate-Interfaces
             mvn org.apache.maven.plugins:maven-install-plugin:3.1.2:install-file -Dfile=Stargate-"$core_version"-PIPELINE.jar
