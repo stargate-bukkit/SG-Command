@@ -23,7 +23,7 @@ jobs:
           name: Install Stuff
           command: |
             cd ~/my-projects/stargate/interfaces
-            apt-get update && apt-get install -y mariadb-client
+            apt-get update
             apt-get install -y git
             apt install -y jq
             apt install -y wget
