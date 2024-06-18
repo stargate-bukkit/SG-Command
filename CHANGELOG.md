@@ -22,7 +22,7 @@
 
 #### [Version 0.1.0]
 
-- Project revival: adoption by [Stargate Rewritten](https://sgrewitten.org)
+- Project revival: adoption by [Stargate Rewritten](https://sgrewritten.org)
 - Changed permission node to `sg.interfaces.{}`
 - Documentation moved to [here](https://sgrewitten.org/infosgi).
 - Updated to use the new SGR [API](https://sgrewitten.org/api).
@@ -39,7 +39,7 @@
 
 #### [Version 0.0.2]
 
- - Fix an issue with dialing on a specific network
+ - Fix an issue with dialling on a specific network
  - Change permission checks to use Stargate, this allows proper permission debugging
 
 #### [Version 0.0.1]
