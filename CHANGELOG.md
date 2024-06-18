@@ -24,8 +24,8 @@
 
 - Project revival: adoption by [Stargate Rewritten](https://sgrewritten.org)
 - Changed permission node to `sg.interfaces.{}`
-- Documentation moved to [here](https://sgrewitten.org/infosgi).
-- Updated to use the new SGR [API](https://sgrewitten.org/api).
+- Documentation moved to [here](https://sgrewritten.org/infosgi).
+- Updated to use the new SGR [API](https://sgrewritten.org/api).
 - Now requires at least Stargate v1.0.0.15
 
 #### [Version 0.0.4]
