@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.github.Thorinwasher</groupId>
             <artifactId>ColorBukkit</artifactId>
-            <version>-SNAPSHOT</version>
+            <version>main-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
