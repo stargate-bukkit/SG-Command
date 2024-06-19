@@ -1,5 +1,14 @@
 # Changes
 
+#### [Version 0.2.1]
+
+- Updated to the latest version of the Stargate API
+- Bumped minimum version to Paper 1.20
+- Fixed some problems involving sign disabling.
+- Fixed several problems involving dysfunctional behaviour within the style command.
+- Fixed some message substitution issues.
+- Added to the main CI pipeline.
+
 #### [Version 0.2.0]
 
 - Packaged the below 1.X changes for release.

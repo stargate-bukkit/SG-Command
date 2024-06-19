@@ -4,7 +4,7 @@
 
     <groupId>net.knarcraft</groupId>
     <artifactId>StargateInterfaces</artifactId>
-    <version>0.2.0-ALPHA</version>
+    <version>0.2.1-ALPHA</version>
     <name>Stargate Interfaces</name>
     <description>A UI expansion module for the Stargate Rewritten Bukkit Plugin.</description>
     <url>https://sgrewritten.org/interfaces</url>
